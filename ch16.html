@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Multiple objectives, AHP, and TOPSIS · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html" aria-current=page>16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>16. Multiple objectives, AHP, and TOPSIS</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=9Z8NRNi2arU">Lecture 39</a>, <a href="https://www.youtube.com/watch?v=K-z594lV9Ws">Lecture 40</a> · Original expanded exposition · 3,386 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Separate dominance from preference</li><li>Choose among scalarization, goals, lexicographic and epsilon constraints</li><li>Derive consistent AHP priorities and diagnose inconsistency</li><li>Implement TOPSIS with explicit directions, normalization and sensitivity</li></ul>
+<p><strong>Prerequisites:</strong> Vector inequalities, convexity, eigenvectors, linear programming, and Euclidean distance.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch16.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-dominance-removes-some-choices-without-resolving-every-tradeoff-0503-1857">1. Dominance removes some choices without resolving every tradeoff 05:03 · 18:57</a></li><li><a href="#2-weighted-sums-certify-efficiency-but-can-miss-efficient-choices-3739">2. Weighted sums certify efficiency but can miss efficient choices 37:39</a></li><li><a href="#3-goals-priority-orders-and-thresholds-express-different-preferences-3225-4204">3. Goals, priority orders, and thresholds express different preferences 32:25 · 42:04</a></li><li><a href="#4-ahp-converts-pairwise-judgments-into-priorities-0647">4. AHP converts pairwise judgments into priorities 06:47</a></li><li><a href="#5-consistency-is-an-internal-diagnostic-not-a-truth-test-2654">5. Consistency is an internal diagnostic, not a truth test 26:54</a></li><li><a href="#6-topsis-ranks-by-two-explicit-reference-distances-3752">6. TOPSIS ranks by two explicit reference distances 37:52</a></li><li><a href="#7-a-complete-ranking-includes-its-sensitivity-4313">7. A complete ranking includes its sensitivity 43:13</a></li><li><a href="#six-worked-problems">Six worked problems</a></li><li><a href="#sources-and-evidence">Sources and evidence</a></li></ul></div>
+<article>
+<p>A faster machine may cost more, consume more power and be harder to service. There is no scalar optimum until someone specifies which tradeoffs are acceptable. Optimization can identify technically inferior choices and compute consequences of a preference rule. It cannot derive the decision maker's values from a table of specifications alone.</p>
+<p>Let $X$ be a feasible decision set and let $f(x)=(f_1(x),\ldots,f_k(x))$ collect $k$ objective values. We will use minimization notation; a benefit to maximize can be negated. The <strong>decision space</strong> contains the choices $x$. The <strong>criterion space</strong> contains their performance vectors $f(x)$. Several distinct designs can map to the same performance vector, and the image of a convex decision set need not itself be convex for nonlinear objectives.</p>
+<p>The first half of the chapter studies how to choose a scalar decision rule. The second treats a finite list of alternatives through pairwise judgments and measured attributes. Our examples are original small constructions with all numbers recomputed in the lab. The lecture's distinction between multiobjective design and finite-alternative multiattribute selection is useful organizationally, but multiple objectives can also occur in a finite or integer decision set.</p>
+<h2 id="1-dominance-removes-some-choices-without-resolving-every-tradeoff-0503-1857">1. Dominance removes some choices without resolving every tradeoff <a href="https://www.youtube.com/watch?v=9Z8NRNi2arU&amp;t=303s">05:03</a> · <a href="https://www.youtube.com/watch?v=9Z8NRNi2arU&amp;t=1137s">18:57</a></h2>
+<p>A feasible $y$ <strong>dominates</strong> $x$ in minimization if $f_j(y)\le f_j(x)$ for every objective and strict inequality holds for at least one. A <strong>Pareto optimal</strong> or efficient decision is not dominated by another feasible decision. Its performance vector is nondominated. These statements compare the listed objectives only; an omitted requirement can reverse a practical judgment.</p>
+<p>Consider four performance vectors:</p>
+<p>$$A=(0,2),\quad B=(1,1.2),\quad C=(2,0),\quad D=(2,2).$$</p>
+<p>Both coordinates are costs to minimize, on already chosen dimensionless scales. D is dominated by A, B and C. None of A, B and C dominates another: improving one coordinate requires worsening the other. They need not be equally desirable. A decision maker who strongly values the first coordinate prefers A; one who strongly values the second may prefer C. Pareto efficiency removes an objection, not the need for a preference.</p>
+<p>The <strong>ideal vector</strong> collects the separate best achievable coordinate values: $z_j^*=\inf_{x\in X}f_j(x)$, assuming finite infima. Here it is $(0,0)$, which is unavailable among the alternatives. In another problem one design could attain every coordinate minimum, so ideal does not mean inherently infeasible. The familiar tradeoff curve is also not universal: a Pareto set can be finite, disconnected or a higher-dimensional surface.</p>
+<p>For the lecture's two-objective box model, maximize $f_1=x_1+x_2$ and $f_2=x_2-x_1$ on $0\le x_1,x_2\le3$. Any point with $x_2&lt;3$ can increase $x_2$ and improve both objectives, so it is dominated. On $x_2=3$, increasing $x_1$ improves $f_1$ but worsens $f_2$. Thus the entire top edge is efficient. Its criterion image is the segment $f_1+f_2=6$, with $f_1\in[3,6]$. The unattainable ideal vector is $(6,3)$ in this maximization example.</p>
+<h2 id="2-weighted-sums-certify-efficiency-but-can-miss-efficient-choices-3739">2. Weighted sums certify efficiency but can miss efficient choices <a href="https://www.youtube.com/watch?v=9Z8NRNi2arU&amp;t=2259s">37:39</a></h2>
+<p>Choose strictly positive weights $w_j$ and minimize $\sum_jw_jf_j(x)$ over $X$. Every global minimizer is Pareto optimal. If it were dominated by $y$, multiplying the component inequalities by positive weights and adding would give a strictly smaller weighted objective at $y$, contradicting minimality. If some weights are zero, an ignored objective can worsen without affecting the sum; efficiency of every minimizer no longer follows.</p>
+<p>The proof assumes global minimization of the scalarized problem. A local minimum of a nonconvex weighted objective need not be globally Pareto efficient. Convexity of the objectives and feasible set can make the scalar problem globally tractable, but efficiency is still a statement relative to the chosen model.</p>
+<p>Weighted sums recover <strong>supported</strong> efficient points, where a weighted objective hyperplane supports the achievable performance set. They may miss other efficient points in nonconvex or finite sets. In our example, use weights $(w,1-w)$ for $0&lt;w&lt;1$. The scalar costs are $2-2w$ at A, $1.2-.2w$ at B, and $2w$ at C.</p>
+<p>For B to beat A requires $1.2-.2w\le2-2w$, hence $w\le4/9$. For B to beat C requires $1.2-.2w\le2w$, hence $w\ge6/11$. These intervals do not overlap. B is Pareto efficient but never minimizes any strictly positive weighted sum. The geometric scalarization boundary is developed in <a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf">Boyd and Vandenberghe, §4.7</a>; the finite counterexample and inequalities here are independently constructed.</p>
+<p>Weights also encode scale. Adding dollars to hours directly makes a tradeoff depend on units. If an objective is rescaled by a positive factor, its compensating weight must be inversely rescaled to preserve the same ordering. Normalization chooses a scale; it does not discover an objectively correct weight. A utility transformation can encode nonlinear preferences, but additive utility assumes a particular separable preference structure that should be elicited or justified.</p>
+<h2 id="3-goals-priority-orders-and-thresholds-express-different-preferences-3225-4204">3. Goals, priority orders, and thresholds express different preferences <a href="https://www.youtube.com/watch?v=9Z8NRNi2arU&amp;t=1945s">32:25</a> · <a href="https://www.youtube.com/watch?v=9Z8NRNi2arU&amp;t=2524s">42:04</a></h2>
+<p>A <strong>global criterion</strong> method minimizes distance from the ideal vector, for example</p>
+<p>$$\left[\sum_{j=1}^k\left|
+\frac{f_j(x)-z_j^*}{s_j}\right|^p\right]^{1/p},
+\qquad p\ge1,\quad s_j&gt;0.$$</p>
+<p>The scales $s_j$ must be specified and nonzero. Dividing by an ideal value that is zero is invalid, and negative ideal values make a casually normalized expression difficult to interpret. A distance rule still embodies preferences through scales and the exponent $p$. Calling it a method without explicit user weights does not make it preference-free.</p>
+<p>With affine objectives and a convex feasible set, squared Euclidean distance to a fixed ideal is a convex quadratic objective. For arbitrary nonlinear objectives, simply setting $p=2$ does not make the composed objective convex. This qualification prevents a useful special case from being overgeneralized.</p>
+<p><strong>Lexicographic optimization</strong> supplies an ordered priority list. First minimize $f_1$ and record its optimum $v_1$. Then minimize $f_2$ subject to $f_1=v_1$, and continue with all earlier optimal values fixed. No finite compensation in a lower-priority objective is allowed to worsen a higher-priority objective. This differs from a large weighted sum, whose finite weight can still permit a tradeoff.</p>
+<p>Exact equalities can be numerically fragile. An approximate lexicographic rule can permit $f_1\le v_1+\tau_1$ with a stated tolerance. That tolerance has substantive meaning: it defines an allowed sacrifice. Priorities tied at the same level need an additional rule, such as a weighted aggregate within that level, rather than an arbitrary ordering silently introduced by software.</p>
+<p><strong>Goal programming</strong> specifies aspiration values $b_j$ and nonnegative deviation variables $d_j^-,d_j^+$. Write</p>
+<p>$$f_j(x)+d_j^- -d_j^+=b_j.$$</p>
+<p>Underachievement is $d_j^-$ and overachievement is $d_j^+$. If a cost should remain below a target, penalize $d_j^+$; if a benefit should exceed a target, penalize $d_j^-$. A goal is flexible when violations are charged rather than forbidden. It is different from a hard constraint, which excludes every violating decision regardless of compensation elsewhere.</p>
+<p>When both deviations receive positive penalties, no optimum needs both to be positive: reduce them by their common minimum, preserve the equation, and improve the objective. Thus the product constraint $d_j^-d_j^+=0$ is unnecessary in that common linear formulation. Adding it would create avoidable nonlinearity. If one side is unpenalized, a no-simultaneous-deviation representative can still be chosen, but the objective alone may not force every numerical solution to use it.</p>
+<p>The <strong>epsilon-constraint method</strong> minimizes one objective while bounding the others: minimize $f_1(x)$ subject to $f_j(x)\le\epsilon_j$ for $j&gt;1$. Thresholds can recover unsupported choices. In our finite set, imposing $f_2\le1.2$ excludes A and D, leaves B and C, and minimizing $f_1$ selects B. If ties remain, refine among them to ensure full efficiency rather than accepting an arbitrarily dominated tie.</p>
+<p>The recording also describes preference elicitation before, after or during computation, and sketches interactive and fuzzy approaches. These are information-design choices. A fuzzy satisfaction grade represents a specified preference or membership construction; it is not automatically an empirically calibrated probability. An interactive method should retain which preference change caused each solution change, so the final decision can be explained.</p>
+<h2 id="4-ahp-converts-pairwise-judgments-into-priorities-0647">4. AHP converts pairwise judgments into priorities <a href="https://www.youtube.com/watch?v=K-z594lV9Ws&amp;t=407s">06:47</a></h2>
+<p>The <strong>analytic hierarchy process</strong>, or AHP, organizes a goal, criteria or subcriteria, and alternatives. Pairwise comparisons describe relative preference under one criterion. Let $A=(a_{ij})$ be a positive reciprocal comparison matrix: $a_{ij}&gt;0$, $a_{ji}=1/a_{ij}$, and $a_{ii}=1$. The entries are judgments, not necessarily ratios of directly measured physical quantities.</p>
+<p>If a true positive priority vector $w$ generated all comparisons exactly, $a_{ij}=w_i/w_j$. Then the judgments obey multiplicative consistency, $a_{ij}a_{jk}=a_{ik}$. Conversely, fixing a reference item and using these consistent ratios reconstructs weights up to a common scale. Normalize by $\sum_iw_i=1$ to remove that scale ambiguity.</p>
+<p>For priorities proportional to $(4,2,1)$,</p>
+<p>$$A=\begin{bmatrix}1&amp;2&amp;4\\1/2&amp;1&amp;2\\1/4&amp;1/2&amp;1\end{bmatrix},
+\qquad w=(4/7,2/7,1/7)^\top.$$</p>
+<p>Multiplication gives $(Aw)_i=\sum_j(w_i/w_j)w_j=nw_i$, so $Aw=nw$. Thus a consistent comparison matrix has principal eigenvalue $n$ and priority eigenvector $w$. For inconsistent positive reciprocal data, the eigenvector AHP rule selects the positive principal eigenvector, normalized to sum to one. Existence and positivity are supplied by the Perron–Frobenius theorem for a strictly positive matrix. <a href="https://www.sciencedirect.com/science/article/pii/S0377221702002278">Saaty's primary discussion</a> motivates this priority representation.</p>
+<p>The lecture computes an inexpensive approximation: normalize each matrix column by its column sum, then average each row. This equals the exact priorities for a consistent ratio matrix. In general it is an approximation to, rather than identically, the principal eigenvector.</p>
+<p>For the reciprocal matrix</p>
+<p>$$A=\begin{bmatrix}1&amp;3&amp;2\\1/3&amp;1&amp;1/5\\1/2&amp;5&amp;1\end{bmatrix},$$</p>
+<p>the row-average rule gives approximately $(.501263,.118476,.380261)$. The principal eigenvector gives $(.507603,.113269,.379129)$. Both sum to one, and both rank the alternatives in the same order in this case, but their numerical values differ. A program should name the priority rule it actually implements and avoid reporting an approximate calculation as an exact eigensolve.</p>
+<h2 id="5-consistency-is-an-internal-diagnostic-not-a-truth-test-2654">5. Consistency is an internal diagnostic, not a truth test <a href="https://www.youtube.com/watch?v=K-z594lV9Ws&amp;t=1614s">26:54</a></h2>
+<p>For the positive eigenvector $w$ of a reciprocal matrix, write $t_{ij}=a_{ij}w_j/w_i$. Its reciprocal partner is $t_{ji}=1/t_{ij}$. Summing $\sum_jt_{ij}=\lambda_{\max}$ over all rows gives</p>
+<p>$$n\lambda_{\max}=n+\sum_{i&lt;j}(t_{ij}+1/t_{ij})\ge n^2,$$</p>
+<p>since every positive $t$ satisfies $t+1/t\ge2$. Hence $\lambda_{\max}\ge n$, with equality when the comparisons match the eigenvector ratios. The <strong>consistency index</strong> is $CI=(\lambda_{\max}-n)/(n-1)$ for $n&gt;1$.</p>
+<p>A <strong>consistency ratio</strong> divides CI by a random-index reference $RI_n$, estimated under a specified random-comparison generation convention. The lecture uses a small-ratio rule of thumb to flag judgments for reconsideration. The particular table and threshold are conventions, not a theorem that the resulting judgments are true. Different random-index conventions should not be mixed silently, and the size-one or size-two zero-reference cases need explicit treatment.</p>
+<p>Our inconsistent matrix has $\lambda_{\max}\approx3.163235$, hence $CI\approx.0816173$. A report should identify the RI convention before turning that into a CR value. These calculations inspect mutual coherence of judgments. A perfectly consistent matrix can encode systematically wrong beliefs or preferences irrelevant to the real task. Conversely, an inconsistent matrix may reveal unresolved tradeoffs worth discussing rather than something to “repair” until a desired winner appears.</p>
+<p>If criterion weights are $u_j\ge0$ with $\sum_ju_j=1$, and local alternative priorities under criterion $j$ are $w_i^{(j)}$, the additive synthesis score is $S_i=\sum_ju_jw_i^{(j)}$. This rule assumes the selected hierarchical combination describes the decision maker's preferences. Closely overlapping criteria can double-count the same concern. Rebuilding the hierarchy is then more principled than merely retuning weights.</p>
+<h2 id="6-topsis-ranks-by-two-explicit-reference-distances-3752">6. TOPSIS ranks by two explicit reference distances <a href="https://www.youtube.com/watch?v=K-z594lV9Ws&amp;t=2272s">37:52</a></h2>
+<p>The <strong>technique for order preference by similarity to an ideal solution</strong>, TOPSIS, starts from an alternatives-by-criteria performance matrix rather than requiring pairwise comparisons of every alternative. Let $a_{ij}$ be performance of alternative $i$ on criterion $j$, and choose criterion weights $w_j\ge0$ summing to one. Label each criterion as a benefit to maximize or a cost to minimize.</p>
+<p>For the vector-normalized version, define</p>
+<p>$$r_{ij}=\frac{a_{ij}}{\sqrt{\sum_{h=1}^m a_{hj}^2}},
+\qquad v_{ij}=w_jr_{ij}.$$</p>
+<p>The normalization is by a column's Euclidean norm. A zero-norm column must be removed or handled as a constant uninformative criterion; division by zero is not a valid normalized score. Multiplying an entire column by a positive unit-conversion factor leaves this normalization unchanged. Adding a constant to a column does not generally cancel, so normalization is not invariant to arbitrary choices of origin.</p>
+<p>For a benefit criterion, define the ideal coordinate $v_j^+=\max_iv_{ij}$ and anti-ideal coordinate $v_j^-=\min_iv_{ij}$. Reverse these for a cost criterion. The reference vectors combine separate best and worst coordinates and need not coincide with a real alternative. A uniformly best alternative can coincide with the ideal; impossibility is not built into the definition.</p>
+<p>Compute distances</p>
+<p>$$D_i^+=\sqrt{\sum_j(v_{ij}-v_j^+)^2},\qquad
+D_i^-=\sqrt{\sum_j(v_{ij}-v_j^-)^2},$$</p>
+<p>and relative closeness $C_i=D_i^-/(D_i^++D_i^-)$. Larger $C_i$ ranks higher. If the alternative equals the ideal and the anti-ideal differs, its score is one; at the anti-ideal it is zero. If every effective criterion coincides for all alternatives, both distances vanish and the formula is undefined. The correct result is an unresolved tie, not a division-by-zero-derived winner.</p>
+<p>The use of Euclidean distance is a preference rule. Because weights multiply coordinates before squaring, squared distances contain $w_j^2$ factors. This is different from a convention that puts weights directly in a sum of squared deviations. State the formula before comparing “the same weights” across implementations.</p>
+<p>The two-reference-point interpretation is consistent with the <a href="https://www.sciencedirect.com/science/article/abs/pii/0377221794902828">primary TOPSIS extension by Lai, Liu and Hwang</a>. The exact formulas above and numerical checks below define the version used here; no universal optimality claim is attached to the resulting ranking.</p>
+<h2 id="7-a-complete-ranking-includes-its-sensitivity-4313">7. A complete ranking includes its sensitivity <a href="https://www.youtube.com/watch?v=K-z594lV9Ws&amp;t=2593s">43:13</a></h2>
+<p>Consider three instrument choices with price and life:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Alternative</th>
+<th style="text-align: right;">Price, monetary units</th>
+<th style="text-align: right;">Life, years</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr>
+<td>B</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td>C</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table></div>
+<p>Price is a cost criterion; life is a benefit criterion. These are original illustrative data. With weights $(.5,.5)$, vector-normalized TOPSIS gives closeness scores approximately $(.475993,.564057,.524007)$. Thus B ranks first, C second and A third. With weights $(.8,.2)$, the scores become approximately $(.185066,.743996,.814934)$, so C ranks first.</p>
+<p>This is an expected response to changed preferences. It is more informative to report the change than to present the original ranking as objective fact. If two scores are close, perturb the inputs and weights within plausible ranges and examine how often their order changes. If the performance estimates themselves are uncertain, preserve that uncertainty separately from the decision maker's subjective weights.</p>
+<p>Adding or removing alternatives can also change column normalization and the ideal/anti-ideal references. Thus rankings of surviving alternatives can depend on the comparison set. Record the full alternative set with the calculation and rerun the analysis when it changes. If a decision requires a ranking independent of which other options happen to be listed, use externally fixed scales and preference functions or another explicitly justified rule.</p>
+<p>The <a href="labs/ch16.py">laboratory</a> implements Pareto screening, eigenvector AHP, the row-average comparison and vector-normalized TOPSIS. It rejects invalid matrix shapes, AHP orders below two where the stated consistency-index formula is undefined, nonreciprocal AHP data, nonfinite values, invalid weights, zero-norm criteria and undefined coincident-reference rankings. It verifies invariance to positive price-unit scaling and a change of winner under a stated weight change. The code performs no file or network operations. Its outputs are consequences of the specified decision rule and data, not evidence that a purchaser should prefer a particular real instrument.</p>
+<h2 id="six-worked-problems">Six worked problems</h2>
+<h3 id="exercise-1-screen-alternatives">Exercise 1 — Screen alternatives</h3>
+<p>Find the nondominated vectors in $\{(0,2),(1,1.2),(2,0),(2,2)\}$ for minimization.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The last vector is no better than any of the first three and is strictly worse in at least one coordinate, so discard it. The first three each trade one coordinate against another. No pair has both coordinates weakly smaller with one strict improvement. Thus all three remain nondominated. This screening does not declare them equally preferred.</p>
+</details>
+<h3 id="exercise-2-recover-an-unsupported-point">Exercise 2 — Recover an unsupported point</h3>
+<p>Show that B is never selected by a positive weighted sum, but can be selected by an epsilon constraint.</p>
+<details>
+<summary>Worked solution</summary>
+<p>With weights $(w,1-w)$, B beating A requires $w\le4/9$, and B beating C requires $w\ge6/11$. No $w$ satisfies both. Yet minimizing the first coordinate subject to second coordinate at most 1.2 leaves B and C; B has first coordinate one rather than two, so it is uniquely selected. The nonconvex finite set explains the weighted-sum limitation.</p>
+</details>
+<h3 id="exercise-3-avoid-a-spurious-nonlinear-constraint">Exercise 3 — Avoid a spurious nonlinear constraint</h3>
+<p>Why can $d^-d^+=0$ be omitted from a goal-programming model when both deviation coefficients in the minimized objective are strictly positive?</p>
+<details>
+<summary>Worked solution</summary>
+<p>If both deviations are positive, set $\eta=\min(d^-,d^+)&gt;0$ and replace them by $d^--\eta,d^+-\eta$. Their difference is unchanged, so the goal equation remains satisfied. Both variables remain nonnegative and the positive weighted sum strictly decreases. Therefore no optimum has simultaneous positive deviations. The complementarity follows at optimum without imposing a nonlinear product equation.</p>
+</details>
+<h3 id="exercise-4-verify-ahp-priorities">Exercise 4 — Verify AHP priorities</h3>
+<p>For $a_{ij}=w_i/w_j$ with $w$ proportional to $(4,2,1)$, calculate normalized priorities and principal eigenvalue.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The priorities sum to seven before normalization, giving $(4/7,2/7,1/7)$. In row $i$, each term $a_{ij}w_j$ equals $w_i$, and there are three terms. Thus $Aw=3w$. The positive eigenvector corresponds to principal eigenvalue three. CI is $(3-3)/(3-1)=0$. This proves exact internal ratio consistency, not empirical validity of the judgments.</p>
+</details>
+<h3 id="exercise-5-check-a-topsis-limit">Exercise 5 — Check a TOPSIS limit</h3>
+<p>What should happen if all alternatives have identical values on every positively weighted criterion?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The ideal and anti-ideal coincide with every alternative on the effective coordinates. Both distances are zero, so relative closeness is $0/0$ and undefined. Return a tie or an explicit diagnostic. Assigning one because a row is “at the ideal” would ignore that it is simultaneously at the anti-ideal and create an arbitrary preference from no distinction in the data.</p>
+</details>
+<h3 id="exercise-6-explain-a-unit-change">Exercise 6 — Explain a unit change</h3>
+<p>Prove that multiplying a TOPSIS criterion column by a positive constant preserves vector-normalized values, and explain why a translation does not.</p>
+<details>
+<summary>Worked solution</summary>
+<p>For factor $c&gt;0$, the numerator becomes $ca_{ij}$ and the denominator becomes $\sqrt{\sum_hc^2a_{hj}^2}=c\sqrt{\sum_ha_{hj}^2}$, so $c$ cancels. After adding a constant $b$, the denominator is $\sqrt{\sum_h(a_{hj}+b)^2}$; it is not generally a common multiple of the old denominator that cancels each shifted numerator. A choice of origin can therefore alter the ranking even when a simple unit conversion cannot.</p>
+</details>
+<h2 id="sources-and-evidence">Sources and evidence</h2>
+<p>Lectures 39–40 supply dominance, ideals, preference-information categories, global criteria, utility/weighted sums, lexicographic goals, epsilon constraints, AHP and TOPSIS. The finite unsupported-point example, eigenvalue inequality and sensitivity experiment are original teaching additions. The notes distinguish exact eigenvector AHP from the lecture's row-average approximation and avoid copying the inconsistent closing TOPSIS selection sentence. VIKOR, PROMETHEE, fuzzy and group-decision methods are mentioned in the recording but not developed there; they are not presented here as completed additional courses.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch16.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Pareto screening, AHP consistency, and TOPSIS sensitivity.&quot;&quot;&quot;
+import json
+
+import numpy as np
+
+
+def pareto_min(points):
+    points = np.asarray(points, float)
+    if points.ndim != 2 or not np.isfinite(points).all():
+        raise ValueError(&#x27;Use a finite alternatives-by-objectives matrix&#x27;)
+    return [i for i, point in enumerate(points)
+            if not any(np.all(other &lt;= point) and np.any(other &lt; point)
+                       for other in points)]
+
+
+def ahp(matrix):
+    matrix = np.asarray(matrix, float)
+    if (matrix.ndim != 2 or matrix.shape[0] != matrix.shape[1]
+            or matrix.shape[0] &lt; 2):
+        raise ValueError(&#x27;Use a square comparison matrix of order at least two&#x27;)
+    if not np.isfinite(matrix).all() or np.any(matrix &lt;= 0):
+        raise ValueError(&#x27;Comparisons must be finite and positive&#x27;)
+    if not np.allclose(matrix * matrix.T, 1):
+        raise ValueError(&#x27;Comparisons must be reciprocal&#x27;)
+    eigenvalues, eigenvectors = np.linalg.eig(matrix)
+    index = np.argmax(eigenvalues.real)
+    weights = eigenvectors[:, index].real
+    weights /= weights.sum()
+    eigenvalue = float(eigenvalues[index].real)
+    ci = (eigenvalue - len(matrix)) / (len(matrix) - 1)
+    return weights, eigenvalue, ci
+
+
+def topsis(matrix, weights, benefit):
+    matrix = np.asarray(matrix, float)
+    weights = np.asarray(weights, float)
+    benefit = np.asarray(benefit, bool)
+    if matrix.ndim != 2 or min(matrix.shape) == 0:
+        raise ValueError(&#x27;Use a nonempty decision matrix&#x27;)
+    if weights.shape != (matrix.shape[1],) or benefit.shape != weights.shape:
+        raise ValueError(&#x27;One weight and direction per criterion required&#x27;)
+    if not np.isfinite(matrix).all() or not np.isfinite(weights).all():
+        raise ValueError(&#x27;All values must be finite&#x27;)
+    if np.any(weights &lt; 0) or not np.isclose(weights.sum(), 1):
+        raise ValueError(&#x27;Nonnegative weights must sum to one&#x27;)
+    norms = np.linalg.norm(matrix, axis=0)
+    if np.any(norms == 0):
+        raise ValueError(&#x27;Remove zero-norm criteria&#x27;)
+    weighted = matrix / norms * weights
+    ideal = np.where(benefit, weighted.max(0), weighted.min(0))
+    anti = np.where(benefit, weighted.min(0), weighted.max(0))
+    positive = np.linalg.norm(weighted - ideal, axis=1)
+    negative = np.linalg.norm(weighted - anti, axis=1)
+    if np.any(positive + negative == 0):
+        raise ValueError(&#x27;All effective criteria coincide; ranking undefined&#x27;)
+    return negative / (positive + negative)
+
+
+def main():
+    points = [[0., 2.], [1., 1.2], [2., 0.], [2., 2.]]
+    assert pareto_min(points) == [0, 1, 2]
+    for weight in np.linspace(.001, .999, 999):
+        scores = np.asarray(points) @ [weight, 1 - weight]
+        assert int(np.argmin(scores)) != 1
+    consistent = np.array([[1., 2., 4.], [.5, 1., 2.], [.25, .5, 1.]])
+    weights, eigenvalue, ci = ahp(consistent)
+    assert np.allclose(weights, [4 / 7, 2 / 7, 1 / 7])
+    assert np.isclose(eigenvalue, 3) and abs(ci) &lt; 1e-12
+    try:
+        ahp([[1.]])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError(&#x27;Order-one consistency index must be rejected&#x27;)
+    inconsistent = np.array([[1., 3., 2.], [1 / 3, 1., 1 / 5],
+                             [.5, 5., 1.]])
+    priorities, largest, inconsistency = ahp(inconsistent)
+    row_approx = (inconsistent / inconsistent.sum(axis=0)).mean(axis=1)
+    matrix = [[17., 12.], [10., 8.], [8., 6.]]
+    equal = topsis(matrix, [.5, .5], [False, True])
+    cost_heavy = topsis(matrix, [.8, .2], [False, True])
+    assert np.allclose(equal, topsis(np.asarray(matrix) * [1000., 1.],
+                                    [.5, .5], [False, True]))
+    assert np.argmax(equal) != np.argmax(cost_heavy)
+    print(json.dumps(dict(ahp_weights=weights.tolist(),
+                          inconsistent_priorities=priorities.tolist(),
+                          row_average_approximation=row_approx.tolist(),
+                          largest_eigenvalue=largest,
+                          consistency_index=inconsistency,
+                          topsis_equal_weights=equal.tolist(),
+                          topsis_cost_heavy=cost_heavy.tolist())))
+
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch15.html">← Dynamic programming: state, recursion, and resource allocation</a><a href="study-guide.html">Study guide →</a></div></main></div></body></html>

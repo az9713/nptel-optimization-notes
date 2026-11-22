@@ -1,0 +1,81 @@
+{
+  "chapter": 8,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 21,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.9,
+        2934.529
+      ],
+      "transcript_sha256": "ee2f2b60da8b22ccac8222c0859648e53ae1634fcb1fb3a9354576b2f55fc756",
+      "topics": [
+        {
+          "start": 835,
+          "topic": "Local and global extrema"
+        },
+        {
+          "start": 1223,
+          "topic": "First derivative necessity"
+        },
+        {
+          "start": 1575,
+          "topic": "Higher derivative sufficiency"
+        },
+        {
+          "start": 1867,
+          "topic": "Polynomial examples"
+        },
+        {
+          "start": 2191,
+          "topic": "Nonsmooth and boundary limitations"
+        }
+      ]
+    },
+    {
+      "lecture": 22,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        18.88,
+        3524.749
+      ],
+      "transcript_sha256": "16f26e75703547b137683a945791a9346dc438c0b70735ddfc964dd238f070fe",
+      "topics": [
+        {
+          "start": 130,
+          "topic": "Multivariable stationarity"
+        },
+        {
+          "start": 762,
+          "topic": "Hessian sufficient tests"
+        },
+        {
+          "start": 1486,
+          "topic": "Quadratic form definiteness"
+        },
+        {
+          "start": 1817,
+          "topic": "Principal minors and eigenvalues"
+        },
+        {
+          "start": 2113,
+          "topic": "Worked stationary points"
+        },
+        {
+          "start": 2560,
+          "topic": "Convexity and globality"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Interior differentiability hypotheses are explicit",
+    "Inflections need not be stationary",
+    "Semidefinite stationary Hessians are inconclusive",
+    "Semidefinite tests require all principal minors rather than only leading minors",
+    "Strict convexity need not imply positive-definite Hessian or existence"
+  ],
+  "visual_audit": "not performed by chapter author",
+  "audio_audit": "not performed"
+}

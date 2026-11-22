@@ -1,0 +1,1184 @@
+{
+  "title": "Mathematics - Optimization",
+  "playlist_url": "https://www.youtube.com/playlist?list=PLbMVogVj5nJT8iTaUR8FoWBuJy0vs-Z3C",
+  "inventory_retrieved_at": "2026-11-22T03:06:55.378525+00:00",
+  "coverage": {
+    "identity": "full",
+    "textual": "full",
+    "visual": "not-performed",
+    "audio": "not-performed"
+  },
+  "recordings": [
+    {
+      "lecture": 1,
+      "playlist_position": 1,
+      "video_id": "4s3Ks-yNufc",
+      "title": "Mod-01 Lec-01 Optimization - Introduction",
+      "duration_seconds": 3659,
+      "url": "https://www.youtube.com/watch?v=4s3Ks-yNufc",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:40.406227+00:00",
+      "transcript_sha256": "f3b911615b1de0e082e55bd3512a1f78677a3e17bf32f91b35ec9a36a84b26ee",
+      "segment_count": 389,
+      "last_caption_end": 3651.359,
+      "first_caption_start": 16.9
+    },
+    {
+      "lecture": 2,
+      "playlist_position": 2,
+      "video_id": "ACpUG4EjU00",
+      "title": "Mod-01 Lec-02 Formulation of LPP",
+      "duration_seconds": 3540,
+      "url": "https://www.youtube.com/watch?v=ACpUG4EjU00",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:40.415040+00:00",
+      "transcript_sha256": "4b5f11d5bf1a1631d355c0aca49aa8261ab9a5874a1e81627dba83d2976be207",
+      "segment_count": 435,
+      "last_caption_end": 3529.36,
+      "first_caption_start": 15.62
+    },
+    {
+      "lecture": 3,
+      "playlist_position": 3,
+      "video_id": "_jUS7JPZQ0Q",
+      "title": "Mod-01 Lec-03 Geometry of LPP and Graphical Solution of LPP",
+      "duration_seconds": 3463,
+      "url": "https://www.youtube.com/watch?v=_jUS7JPZQ0Q",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:40.471066+00:00",
+      "transcript_sha256": "2eebe37435d5e747a272626c3408c3982e8f551ae7c1823d700b2eb21f2bf12f",
+      "segment_count": 398,
+      "last_caption_end": 3450.059,
+      "first_caption_start": 17.9
+    },
+    {
+      "lecture": 4,
+      "playlist_position": 4,
+      "video_id": "RcPhmPhjMbc",
+      "title": "Mod-01 Lec-04 Solution of LPP : Simplex Method",
+      "duration_seconds": 3678,
+      "url": "https://www.youtube.com/watch?v=RcPhmPhjMbc",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:41.728053+00:00",
+      "transcript_sha256": "94e2fa80265c2a766550741fa92819d226dc390056df80c1293cfb06c2f3384f",
+      "segment_count": 425,
+      "last_caption_end": 3666.12,
+      "first_caption_start": 17.78
+    },
+    {
+      "lecture": 5,
+      "playlist_position": 5,
+      "video_id": "DUFcNysR-w8",
+      "title": "Mod-01 Lec-05 Big - M Method",
+      "duration_seconds": 3505,
+      "url": "https://www.youtube.com/watch?v=DUFcNysR-w8",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:41.536097+00:00",
+      "transcript_sha256": "964b2338801344209207c1a33bb613166a4de1adbd5999bdc6cdc82fbc0ffeae",
+      "segment_count": 424,
+      "last_caption_end": 3491.919,
+      "first_caption_start": 17.44
+    },
+    {
+      "lecture": 6,
+      "playlist_position": 6,
+      "video_id": "OUduOnhO94k",
+      "title": "Mod-01 Lec-06 Two - Phase Method",
+      "duration_seconds": 3402,
+      "url": "https://www.youtube.com/watch?v=OUduOnhO94k",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:41.723618+00:00",
+      "transcript_sha256": "02975a0a90e848661a01dcb0245661a5b2fc0ccc86b1c956288057006c12c9b4",
+      "segment_count": 402,
+      "last_caption_end": 3388.38,
+      "first_caption_start": 17.3
+    },
+    {
+      "lecture": 7,
+      "playlist_position": 7,
+      "video_id": "kt2TNZ_AIlI",
+      "title": "Mod-01 Lec-07 Special Cases in Simple Applications",
+      "duration_seconds": 3412,
+      "url": "https://www.youtube.com/watch?v=kt2TNZ_AIlI",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:42.555274+00:00",
+      "transcript_sha256": "dc97a9a4a374bab6c73f8024145c1ff71a4d8b7bbcf95a17283630b08f2ce0fd",
+      "segment_count": 416,
+      "last_caption_end": 3401.09,
+      "first_caption_start": 17.6
+    },
+    {
+      "lecture": 8,
+      "playlist_position": 8,
+      "video_id": "KhSZmFpBkSw",
+      "title": "Mod-01 Lec-08 Introduction to Duality Theory",
+      "duration_seconds": 3576,
+      "url": "https://www.youtube.com/watch?v=KhSZmFpBkSw",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:42.801535+00:00",
+      "transcript_sha256": "73c325135cdc5fe3920377be99a5319f0228ce2d29aa06785b649fa9cb651387",
+      "segment_count": 418,
+      "last_caption_end": 3566.689,
+      "first_caption_start": 18.72
+    },
+    {
+      "lecture": 9,
+      "playlist_position": 9,
+      "video_id": "vpPJYJwWkNU",
+      "title": "Mod-01 Lec-09 Dual Simplex Method",
+      "duration_seconds": 3513,
+      "url": "https://www.youtube.com/watch?v=vpPJYJwWkNU",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:42.937893+00:00",
+      "transcript_sha256": "8f872ddcebc373876ea0f7e917ef68201654b0efa295ae69db3040224a8a3f2c",
+      "segment_count": 433,
+      "last_caption_end": 3499.98,
+      "first_caption_start": 17.21
+    },
+    {
+      "lecture": 10,
+      "playlist_position": 10,
+      "video_id": "Hsov7aoMbGU",
+      "title": "Mod-01 Lec-10 Post Optimaility Analysis",
+      "duration_seconds": 3518,
+      "url": "https://www.youtube.com/watch?v=Hsov7aoMbGU",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:43.795092+00:00",
+      "transcript_sha256": "245eb8293720f83925008e4d33203a2228dd7d648ab867abdab7b3123d680792",
+      "segment_count": 405,
+      "last_caption_end": 3502.129,
+      "first_caption_start": 17.6
+    },
+    {
+      "lecture": 11,
+      "playlist_position": 11,
+      "video_id": "gxLQ7Q26SkE",
+      "title": "Mod-01 Lec-11 Integer Programming - I",
+      "duration_seconds": 3588,
+      "url": "https://www.youtube.com/watch?v=gxLQ7Q26SkE",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:43.924079+00:00",
+      "transcript_sha256": "ed2c268aa2630407cd235c20a551bdfcbe80b64c35fcb3a28c13e0fe7b720218",
+      "segment_count": 461,
+      "last_caption_end": 3574.58,
+      "first_caption_start": 16.62
+    },
+    {
+      "lecture": 12,
+      "playlist_position": 12,
+      "video_id": "hv73gBIeMpg",
+      "title": "Mod-01 Lec-12 Integer Programming - II",
+      "duration_seconds": 3466,
+      "url": "https://www.youtube.com/watch?v=hv73gBIeMpg",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:44.252533+00:00",
+      "transcript_sha256": "56c31de273c1f8ebce32fa7feec39db69118f99a5ea6b06acd0cd2e32c10b74e",
+      "segment_count": 462,
+      "last_caption_end": 3453.42,
+      "first_caption_start": 17.51
+    },
+    {
+      "lecture": 13,
+      "playlist_position": 13,
+      "video_id": "bibRfOvjoFs",
+      "title": "Mod-01 Lec-13 Introduction to Transportation Problems",
+      "duration_seconds": 3474,
+      "url": "https://www.youtube.com/watch?v=bibRfOvjoFs",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:44.911440+00:00",
+      "transcript_sha256": "289870379eb3fcbe091ac3cca7afa2d3917d3d2c1e01cb5cc73cd11dde0eebde",
+      "segment_count": 460,
+      "last_caption_end": 3461.809,
+      "first_caption_start": 18.84
+    },
+    {
+      "lecture": 14,
+      "playlist_position": 14,
+      "video_id": "A_IZqdKlb9g",
+      "title": "Mod-01 Lec-14 Solving Various types of Transportation Problems",
+      "duration_seconds": 3458,
+      "url": "https://www.youtube.com/watch?v=A_IZqdKlb9g",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:44.969945+00:00",
+      "transcript_sha256": "193f2f4dd80510279829455e915a72f32ade3e9f572107e2145f326605028fba",
+      "segment_count": 449,
+      "last_caption_end": 3451.229,
+      "first_caption_start": 17.08
+    },
+    {
+      "lecture": 15,
+      "playlist_position": 15,
+      "video_id": "FqY7wzi77aM",
+      "title": "Mod-01 Lec-15 Assignment Problems",
+      "duration_seconds": 3511,
+      "url": "https://www.youtube.com/watch?v=FqY7wzi77aM",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:45.335928+00:00",
+      "transcript_sha256": "98d674544fb6a0377a97916380b9b79500d6646cc67c70131695b9940883447e",
+      "segment_count": 472,
+      "last_caption_end": 3498.26,
+      "first_caption_start": 19.04
+    },
+    {
+      "lecture": 16,
+      "playlist_position": 16,
+      "video_id": "n6UsG6fkCas",
+      "title": "Mod-01 Lec-16 Project Management",
+      "duration_seconds": 3326,
+      "url": "https://www.youtube.com/watch?v=n6UsG6fkCas",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:46.332427+00:00",
+      "transcript_sha256": "c1bcfd477f04c2a763a8b3f5f150b9ec8ea0e1f146bf8b680e658606816327ef",
+      "segment_count": 485,
+      "last_caption_end": 3316.78,
+      "first_caption_start": 17.16
+    },
+    {
+      "lecture": 17,
+      "playlist_position": 17,
+      "video_id": "OyZt4AAJp88",
+      "title": "Mod-01 Lec-17 Critical Path Analysis",
+      "duration_seconds": 3382,
+      "url": "https://www.youtube.com/watch?v=OyZt4AAJp88",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:46.106739+00:00",
+      "transcript_sha256": "4a5aae84494194f5310f1fd59525502c96ef9125165f9c41c4d3378b6137c97e",
+      "segment_count": 472,
+      "last_caption_end": 3372.239,
+      "first_caption_start": 16.69
+    },
+    {
+      "lecture": 18,
+      "playlist_position": 18,
+      "video_id": "2AOhCWhwOKo",
+      "title": "Mod-01 Lec-18 PERT",
+      "duration_seconds": 3553,
+      "url": "https://www.youtube.com/watch?v=2AOhCWhwOKo",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:46.495371+00:00",
+      "transcript_sha256": "3b2c3dcef4cfff97dda67e26c73756c4c4117cebf3e1b3dfd8829b136b287c0f",
+      "segment_count": 505,
+      "last_caption_end": 3540.939,
+      "first_caption_start": 18.41
+    },
+    {
+      "lecture": 19,
+      "playlist_position": 19,
+      "video_id": "WSvTm49Ige0",
+      "title": "Mod-01 Lec-19 Shortest Path Algorithm",
+      "duration_seconds": 3701,
+      "url": "https://www.youtube.com/watch?v=WSvTm49Ige0",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:47.299474+00:00",
+      "transcript_sha256": "60adae14f9af9b92bfe4c3c26809bba3ba66165cf264643ea318f86cc5e3ddbe",
+      "segment_count": 541,
+      "last_caption_end": 3689.35,
+      "first_caption_start": 15.38
+    },
+    {
+      "lecture": 20,
+      "playlist_position": 20,
+      "video_id": "UXXvqJhJLHw",
+      "title": "Mod-01 Lec-20 Travelling Salesman Problem",
+      "duration_seconds": 3757,
+      "url": "https://www.youtube.com/watch?v=UXXvqJhJLHw",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:47.636848+00:00",
+      "transcript_sha256": "73705113e3b754d099a68c17ffcdc8b48cec610401aba6b268c08b2e6951c0d8",
+      "segment_count": 494,
+      "last_caption_end": 3748.16,
+      "first_caption_start": 17.35
+    },
+    {
+      "lecture": 21,
+      "playlist_position": 21,
+      "video_id": "eo2tOPV3AoE",
+      "title": "Mod-01 Lec-21 Classical optimization techniques : Single variable optimization",
+      "duration_seconds": 2943,
+      "url": "https://www.youtube.com/watch?v=eo2tOPV3AoE",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:47.598519+00:00",
+      "transcript_sha256": "ee2f2b60da8b22ccac8222c0859648e53ae1634fcb1fb3a9354576b2f55fc756",
+      "segment_count": 461,
+      "last_caption_end": 2934.529,
+      "first_caption_start": 17.9
+    },
+    {
+      "lecture": 22,
+      "playlist_position": 22,
+      "video_id": "qzXPaWl-BzM",
+      "title": "Mod-01 Lec-22 Unconstarined multivariable optimization",
+      "duration_seconds": 3535,
+      "url": "https://www.youtube.com/watch?v=qzXPaWl-BzM",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:48.472391+00:00",
+      "transcript_sha256": "16f26e75703547b137683a945791a9346dc438c0b70735ddfc964dd238f070fe",
+      "segment_count": 558,
+      "last_caption_end": 3524.749,
+      "first_caption_start": 18.88
+    },
+    {
+      "lecture": 23,
+      "playlist_position": 23,
+      "video_id": "LdBXuN7Tbs4",
+      "title": "Mod-01 Lec-23 Nonlinear programming with equality constraint",
+      "duration_seconds": 3841,
+      "url": "https://www.youtube.com/watch?v=LdBXuN7Tbs4",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:48.950011+00:00",
+      "transcript_sha256": "4256e5a38b0e96831cc76227bd4b38090ebcb7428f664b54fbb323e5cd4b3418",
+      "segment_count": 585,
+      "last_caption_end": 3830.67,
+      "first_caption_start": 19.02
+    },
+    {
+      "lecture": 24,
+      "playlist_position": 24,
+      "video_id": "_Lt3zNdnE0k",
+      "title": "Mod-01 Lec-24 Nonlinear programming KKT conditions",
+      "duration_seconds": 3804,
+      "url": "https://www.youtube.com/watch?v=_Lt3zNdnE0k",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:48.861356+00:00",
+      "transcript_sha256": "73622ff5609cb1c5638a1e8f0d0ad62986edee95a191a6b1ed38b2176937962c",
+      "segment_count": 436,
+      "last_caption_end": 3791.17,
+      "first_caption_start": 19.09
+    },
+    {
+      "lecture": 25,
+      "playlist_position": 25,
+      "video_id": "-x6eWf-x9SE",
+      "title": "Mod-01 Lec-25 Numerical optimization : Region elimination techniques",
+      "duration_seconds": 3284,
+      "url": "https://www.youtube.com/watch?v=-x6eWf-x9SE",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:49.670792+00:00",
+      "transcript_sha256": "4365802579a314fd860d378652cc0d772977d6262c055ff16a62339ccdcc9811",
+      "segment_count": 392,
+      "last_caption_end": 3275.4,
+      "first_caption_start": 19.22
+    },
+    {
+      "lecture": 26,
+      "playlist_position": 26,
+      "video_id": "0-rEdv41l28",
+      "title": "Mod-01 Lec-26 Numerical optimization : Region elimination techniques (Contd.)",
+      "duration_seconds": 3421,
+      "url": "https://www.youtube.com/watch?v=0-rEdv41l28",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:50.016745+00:00",
+      "transcript_sha256": "f96d7c181f8f7b221c3c24891c9531fbeac19762e89a9971b6ed6922a18b79cb",
+      "segment_count": 371,
+      "last_caption_end": 3413.51,
+      "first_caption_start": 17.93
+    },
+    {
+      "lecture": 27,
+      "playlist_position": 27,
+      "video_id": "OgQ4j5Xw8t0",
+      "title": "Mod-01 Lec-27 Fibonacci Method",
+      "duration_seconds": 3414,
+      "url": "https://www.youtube.com/watch?v=OgQ4j5Xw8t0",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:49.970527+00:00",
+      "transcript_sha256": "340cc6af8ae8c09273459c68b204edd01e8092a0b3e614db0709a1cdee7f9934",
+      "segment_count": 395,
+      "last_caption_end": 3401.539,
+      "first_caption_start": 18.039
+    },
+    {
+      "lecture": 28,
+      "playlist_position": 28,
+      "video_id": "C_kVLY3DM20",
+      "title": "Mod-01 Lec-28 Golden Section Methods",
+      "duration_seconds": 3173,
+      "url": "https://www.youtube.com/watch?v=C_kVLY3DM20",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:50.928948+00:00",
+      "transcript_sha256": "362956f57c6588a634394184f762facea7d2ba9066eaefd8d48d0fc242c646ab",
+      "segment_count": 381,
+      "last_caption_end": 3158.02,
+      "first_caption_start": 18.119
+    },
+    {
+      "lecture": 29,
+      "playlist_position": 29,
+      "video_id": "_Fg4vGx1oi8",
+      "title": "Mod-01 Lec-29 Interpolation Methods",
+      "duration_seconds": 2941,
+      "url": "https://www.youtube.com/watch?v=_Fg4vGx1oi8",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:51.258087+00:00",
+      "transcript_sha256": "4391624ab834ca1e6094794da0da335095e363027f55c6106226dae94fe485c5",
+      "segment_count": 357,
+      "last_caption_end": 2927.36,
+      "first_caption_start": 17.289
+    },
+    {
+      "lecture": 30,
+      "playlist_position": 30,
+      "video_id": "dPQKltPBLfc",
+      "title": "Mod-01 Lec-30 Unconstarined optimization techniques : Direct search method",
+      "duration_seconds": 3576,
+      "url": "https://www.youtube.com/watch?v=dPQKltPBLfc",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:51.186480+00:00",
+      "transcript_sha256": "f5dff272f524512ffe7ce1aeeea8c7e31cec4306117f8978935f94b74f949ab5",
+      "segment_count": 420,
+      "last_caption_end": 3561.53,
+      "first_caption_start": 17.66
+    },
+    {
+      "lecture": 31,
+      "playlist_position": 31,
+      "video_id": "7KxlpQIbKUw",
+      "title": "Mod-01 Lec-31 Unconstarined optimization techniques : Indirect search method",
+      "duration_seconds": 3216,
+      "url": "https://www.youtube.com/watch?v=7KxlpQIbKUw",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:52.105532+00:00",
+      "transcript_sha256": "5a18775f08012ab2fb438327fb18221ce96c8b1eb5c2c624a33c495331d70732",
+      "segment_count": 360,
+      "last_caption_end": 3201.049,
+      "first_caption_start": 20.02
+    },
+    {
+      "lecture": 32,
+      "playlist_position": 32,
+      "video_id": "jJMInZfIuLs",
+      "title": "Mod-01 Lec-32 Nonlinear programming : constrained optimization techniques",
+      "duration_seconds": 3599,
+      "url": "https://www.youtube.com/watch?v=jJMInZfIuLs",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:52.263362+00:00",
+      "transcript_sha256": "5e075d8c28132aa18aaa9386a8ef861606708728a2ab9d4aac1cd83869e933b2",
+      "segment_count": 458,
+      "last_caption_end": 3583.88,
+      "first_caption_start": 17.9
+    },
+    {
+      "lecture": 33,
+      "playlist_position": 33,
+      "video_id": "nYN6FRV6sCM",
+      "title": "Mod-01 Lec-33 Interior and Exterior penulty Function Method",
+      "duration_seconds": 3212,
+      "url": "https://www.youtube.com/watch?v=nYN6FRV6sCM",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:52.427137+00:00",
+      "transcript_sha256": "7a75f320f9886cae600cef2c146a34997d40cd608a41628607f5a02ab8d02d92",
+      "segment_count": 380,
+      "last_caption_end": 3201.22,
+      "first_caption_start": 17.869
+    },
+    {
+      "lecture": 34,
+      "playlist_position": 34,
+      "video_id": "XRsTbvKvCuc",
+      "title": "Mod-01 Lec-34 Separable Programming Problem",
+      "duration_seconds": 3577,
+      "url": "https://www.youtube.com/watch?v=XRsTbvKvCuc",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:53.256544+00:00",
+      "transcript_sha256": "ce9f2bd12f06a5a17f074b08eff74f5649bc4e0abf6f502720fdda3e676dc338",
+      "segment_count": 387,
+      "last_caption_end": 3562.98,
+      "first_caption_start": 17.97
+    },
+    {
+      "lecture": 35,
+      "playlist_position": 36,
+      "video_id": "mt7tbgl-nfY",
+      "title": "Mod-01 Lec-35 Introduction to Geometric Programming",
+      "duration_seconds": 3063,
+      "url": "https://www.youtube.com/watch?v=mt7tbgl-nfY",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:53.512290+00:00",
+      "transcript_sha256": "cf3b86def65ef03e3c75a56236b1babd1bf811a5f4ebcf953175ce50538d07e1",
+      "segment_count": 380,
+      "last_caption_end": 3047.64,
+      "first_caption_start": 19.06
+    },
+    {
+      "lecture": 36,
+      "playlist_position": 37,
+      "video_id": "q3m_ECTUTtY",
+      "title": "Mod-01 Lec-36 Constrained Geometric Programming Problem",
+      "duration_seconds": 2967,
+      "url": "https://www.youtube.com/watch?v=q3m_ECTUTtY",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:54.294667+00:00",
+      "transcript_sha256": "751283a74619be065da747e0119ffd0ac2c142229bbed2d0c073a545c67676ef",
+      "segment_count": 360,
+      "last_caption_end": 2956.41,
+      "first_caption_start": 19.27
+    },
+    {
+      "lecture": 37,
+      "playlist_position": 38,
+      "video_id": "dND9IsjL1lo",
+      "title": "Mod-01 Lec-37 Dynamic Programming Problem",
+      "duration_seconds": 3801,
+      "url": "https://www.youtube.com/watch?v=dND9IsjL1lo",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:54.545566+00:00",
+      "transcript_sha256": "ebc593991ae7ffed2286729502c8f94d55928855d703c4242dc0e3669613806d",
+      "segment_count": 476,
+      "last_caption_end": 3791.97,
+      "first_caption_start": 18.57
+    },
+    {
+      "lecture": 38,
+      "playlist_position": 39,
+      "video_id": "oSQofaxaWck",
+      "title": "Mod-01 Lec-38 Dynamic Programming Problem (Contd.)",
+      "duration_seconds": 3601,
+      "url": "https://www.youtube.com/watch?v=oSQofaxaWck",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:54.696717+00:00",
+      "transcript_sha256": "45ca3c2e6f9bf4e3aa07b072e65a73264d06ab3831b1427f47f89f04d6c4987c",
+      "segment_count": 432,
+      "last_caption_end": 3590.89,
+      "first_caption_start": 17.69
+    },
+    {
+      "lecture": 39,
+      "playlist_position": 40,
+      "video_id": "9Z8NRNi2arU",
+      "title": "Mod-01 Lec-39 Multi Objective Decision Making",
+      "duration_seconds": 3344,
+      "url": "https://www.youtube.com/watch?v=9Z8NRNi2arU",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:55.372003+00:00",
+      "transcript_sha256": "b721703cbcf31affd62d4e810251d084059373e3e33bcf2c1a1831989d0ccc2c",
+      "segment_count": 434,
+      "last_caption_end": 3334.19,
+      "first_caption_start": 17.24
+    },
+    {
+      "lecture": 40,
+      "playlist_position": 35,
+      "video_id": "K-z594lV9Ws",
+      "title": "Mod-01 Lec-40 Multi attribute decision making",
+      "duration_seconds": 3459,
+      "url": "https://www.youtube.com/watch?v=K-z594lV9Ws",
+      "status": "acquired",
+      "language": "en",
+      "is_generated": false,
+      "retrieved_at": "2026-11-22T03:06:53.418482+00:00",
+      "transcript_sha256": "591b0f48ec01c3e6f3819e2d2fb4d8a5d7c309562ce922f18d86874ee7f34b39",
+      "segment_count": 369,
+      "last_caption_end": 3453.41,
+      "first_caption_start": 21.56
+    }
+  ],
+  "sources": [
+    {
+      "id": "playlist",
+      "input": "https://www.youtube.com/playlist?list=PLbMVogVj5nJT8iTaUR8FoWBuJy0vs-Z3C",
+      "status": "enumerated",
+      "coverage": {
+        "identity": "full",
+        "textual": "metadata-only"
+      }
+    },
+    {
+      "id": "lecture-01",
+      "input": "https://www.youtube.com/watch?v=4s3Ks-yNufc",
+      "status": "acquired",
+      "recording_lecture": 1,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-02",
+      "input": "https://www.youtube.com/watch?v=ACpUG4EjU00",
+      "status": "acquired",
+      "recording_lecture": 2,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-03",
+      "input": "https://www.youtube.com/watch?v=_jUS7JPZQ0Q",
+      "status": "acquired",
+      "recording_lecture": 3,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-04",
+      "input": "https://www.youtube.com/watch?v=RcPhmPhjMbc",
+      "status": "acquired",
+      "recording_lecture": 4,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-05",
+      "input": "https://www.youtube.com/watch?v=DUFcNysR-w8",
+      "status": "acquired",
+      "recording_lecture": 5,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-06",
+      "input": "https://www.youtube.com/watch?v=OUduOnhO94k",
+      "status": "acquired",
+      "recording_lecture": 6,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-07",
+      "input": "https://www.youtube.com/watch?v=kt2TNZ_AIlI",
+      "status": "acquired",
+      "recording_lecture": 7,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-08",
+      "input": "https://www.youtube.com/watch?v=KhSZmFpBkSw",
+      "status": "acquired",
+      "recording_lecture": 8,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-09",
+      "input": "https://www.youtube.com/watch?v=vpPJYJwWkNU",
+      "status": "acquired",
+      "recording_lecture": 9,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-10",
+      "input": "https://www.youtube.com/watch?v=Hsov7aoMbGU",
+      "status": "acquired",
+      "recording_lecture": 10,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-11",
+      "input": "https://www.youtube.com/watch?v=gxLQ7Q26SkE",
+      "status": "acquired",
+      "recording_lecture": 11,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-12",
+      "input": "https://www.youtube.com/watch?v=hv73gBIeMpg",
+      "status": "acquired",
+      "recording_lecture": 12,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-13",
+      "input": "https://www.youtube.com/watch?v=bibRfOvjoFs",
+      "status": "acquired",
+      "recording_lecture": 13,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-14",
+      "input": "https://www.youtube.com/watch?v=A_IZqdKlb9g",
+      "status": "acquired",
+      "recording_lecture": 14,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-15",
+      "input": "https://www.youtube.com/watch?v=FqY7wzi77aM",
+      "status": "acquired",
+      "recording_lecture": 15,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-16",
+      "input": "https://www.youtube.com/watch?v=n6UsG6fkCas",
+      "status": "acquired",
+      "recording_lecture": 16,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-17",
+      "input": "https://www.youtube.com/watch?v=OyZt4AAJp88",
+      "status": "acquired",
+      "recording_lecture": 17,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-18",
+      "input": "https://www.youtube.com/watch?v=2AOhCWhwOKo",
+      "status": "acquired",
+      "recording_lecture": 18,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-19",
+      "input": "https://www.youtube.com/watch?v=WSvTm49Ige0",
+      "status": "acquired",
+      "recording_lecture": 19,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-20",
+      "input": "https://www.youtube.com/watch?v=UXXvqJhJLHw",
+      "status": "acquired",
+      "recording_lecture": 20,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-21",
+      "input": "https://www.youtube.com/watch?v=eo2tOPV3AoE",
+      "status": "acquired",
+      "recording_lecture": 21,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-22",
+      "input": "https://www.youtube.com/watch?v=qzXPaWl-BzM",
+      "status": "acquired",
+      "recording_lecture": 22,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-23",
+      "input": "https://www.youtube.com/watch?v=LdBXuN7Tbs4",
+      "status": "acquired",
+      "recording_lecture": 23,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-24",
+      "input": "https://www.youtube.com/watch?v=_Lt3zNdnE0k",
+      "status": "acquired",
+      "recording_lecture": 24,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-25",
+      "input": "https://www.youtube.com/watch?v=-x6eWf-x9SE",
+      "status": "acquired",
+      "recording_lecture": 25,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-26",
+      "input": "https://www.youtube.com/watch?v=0-rEdv41l28",
+      "status": "acquired",
+      "recording_lecture": 26,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-27",
+      "input": "https://www.youtube.com/watch?v=OgQ4j5Xw8t0",
+      "status": "acquired",
+      "recording_lecture": 27,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-28",
+      "input": "https://www.youtube.com/watch?v=C_kVLY3DM20",
+      "status": "acquired",
+      "recording_lecture": 28,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-29",
+      "input": "https://www.youtube.com/watch?v=_Fg4vGx1oi8",
+      "status": "acquired",
+      "recording_lecture": 29,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-30",
+      "input": "https://www.youtube.com/watch?v=dPQKltPBLfc",
+      "status": "acquired",
+      "recording_lecture": 30,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-31",
+      "input": "https://www.youtube.com/watch?v=7KxlpQIbKUw",
+      "status": "acquired",
+      "recording_lecture": 31,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-32",
+      "input": "https://www.youtube.com/watch?v=jJMInZfIuLs",
+      "status": "acquired",
+      "recording_lecture": 32,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-33",
+      "input": "https://www.youtube.com/watch?v=nYN6FRV6sCM",
+      "status": "acquired",
+      "recording_lecture": 33,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-34",
+      "input": "https://www.youtube.com/watch?v=XRsTbvKvCuc",
+      "status": "acquired",
+      "recording_lecture": 34,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-35",
+      "input": "https://www.youtube.com/watch?v=mt7tbgl-nfY",
+      "status": "acquired",
+      "recording_lecture": 35,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-36",
+      "input": "https://www.youtube.com/watch?v=q3m_ECTUTtY",
+      "status": "acquired",
+      "recording_lecture": 36,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-37",
+      "input": "https://www.youtube.com/watch?v=dND9IsjL1lo",
+      "status": "acquired",
+      "recording_lecture": 37,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-38",
+      "input": "https://www.youtube.com/watch?v=oSQofaxaWck",
+      "status": "acquired",
+      "recording_lecture": 38,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-39",
+      "input": "https://www.youtube.com/watch?v=9Z8NRNi2arU",
+      "status": "acquired",
+      "recording_lecture": 39,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    },
+    {
+      "id": "lecture-40",
+      "input": "https://www.youtube.com/watch?v=K-z594lV9Ws",
+      "status": "acquired",
+      "recording_lecture": 40,
+      "coverage": {
+        "identity": "full",
+        "textual": "full",
+        "visual": "not-performed",
+        "audio": "not-performed"
+      },
+      "coverage_scope": "Complete available English caption track; not a visual or audio transcription"
+    }
+  ]
+}

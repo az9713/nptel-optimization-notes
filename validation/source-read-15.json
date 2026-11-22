@@ -1,0 +1,121 @@
+{
+  "chapter": 15,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 37,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        18.57,
+        3791.97
+      ],
+      "transcript_sha256": "ebc593991ae7ffed2286729502c8f94d55928855d703c4242dc0e3669613806d",
+      "topics": [
+        {
+          "start": 18,
+          "topic": "Multistage decomposition"
+        },
+        {
+          "start": 455,
+          "topic": "Knapsack example"
+        },
+        {
+          "start": 983,
+          "topic": "Shelter subproblem"
+        },
+        {
+          "start": 1197,
+          "topic": "Water and shelter"
+        },
+        {
+          "start": 1720,
+          "topic": "Food stage"
+        },
+        {
+          "start": 2007,
+          "topic": "Reconstruction"
+        },
+        {
+          "start": 2121,
+          "topic": "Stage-state-action terminology"
+        },
+        {
+          "start": 2449,
+          "topic": "State transformation"
+        },
+        {
+          "start": 2781,
+          "topic": "Principle of optimality"
+        },
+        {
+          "start": 3000,
+          "topic": "Shortest-path recursion"
+        },
+        {
+          "start": 3737,
+          "topic": "Practice and future topics"
+        }
+      ]
+    },
+    {
+      "lecture": 38,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.69,
+        3590.89
+      ],
+      "transcript_sha256": "45ca3c2e6f9bf4e3aa07b072e65a73264d06ab3831b1427f47f89f04d6c4987c",
+      "topics": [
+        {
+          "start": 17,
+          "topic": "State and recursion review"
+        },
+        {
+          "start": 551,
+          "topic": "Continuous allocation"
+        },
+        {
+          "start": 1026,
+          "topic": "Product objective with additive constraint"
+        },
+        {
+          "start": 1605,
+          "topic": "General modeling steps"
+        },
+        {
+          "start": 1806,
+          "topic": "Research-team probabilities"
+        },
+        {
+          "start": 2033,
+          "topic": "Independence and multiplicative model"
+        },
+        {
+          "start": 2377,
+          "topic": "Final allocation and traceback"
+        },
+        {
+          "start": 2672,
+          "topic": "Additive separable returns"
+        },
+        {
+          "start": 3012,
+          "topic": "Quadratic allocation"
+        },
+        {
+          "start": 3422,
+          "topic": "Further model sketch"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "State must preserve future action sets and costs",
+    "Conditional value retained for each state, not only one best node per stage",
+    "At-most capacity distinguished from exact filling",
+    "Multiplication of team failure probabilities requires conditional independence",
+    "Final board-only practice models not reconstructed"
+  ],
+  "visual_audit": "not performed by chapter author; any root visual checks recorded separately",
+  "audio_audit": "not performed"
+}

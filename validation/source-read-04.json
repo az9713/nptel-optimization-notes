@@ -1,0 +1,93 @@
+{
+  "chapter": 4,
+  "method": "Sequential English caption reading",
+  "lectures": [
+    {
+      "lecture": 11,
+      "coverage_seconds": [
+        16.62,
+        3574.58
+      ],
+      "topics": [
+        {
+          "start": 16.62,
+          "topic": "Pure and mixed integer restrictions"
+        },
+        {
+          "start": 264.36,
+          "topic": "Gomory cutting-plane motivation"
+        },
+        {
+          "start": 552.99,
+          "topic": "Fractional row derivation"
+        },
+        {
+          "start": 988.25,
+          "topic": "Cut selection and reoptimization"
+        },
+        {
+          "start": 1235.01,
+          "topic": "Pure integer tableaux"
+        },
+        {
+          "start": 2736.17,
+          "topic": "Shirt production model"
+        }
+      ],
+      "repairs": [
+        "LP feasibility differs from integer feasibility",
+        "Fractional part uses floor, including negative coefficients",
+        "Unscaled cut slack need not be integer"
+      ],
+      "transcript_sha256": "ed2c268aa2630407cd235c20a551bdfcbe80b64c35fcb3a28c13e0fe7b720218"
+    },
+    {
+      "lecture": 12,
+      "coverage_seconds": [
+        17.51,
+        3453.42
+      ],
+      "topics": [
+        {
+          "start": 53.72,
+          "topic": "Branch disjunction"
+        },
+        {
+          "start": 377.2,
+          "topic": "Node processing and branching outline"
+        },
+        {
+          "start": 823.39,
+          "topic": "Graphical branch-and-bound example"
+        },
+        {
+          "start": 1811.72,
+          "topic": "Unsafe sibling-discard suggestion corrected"
+        },
+        {
+          "start": 1934.5,
+          "topic": "Inherited node bounds must persist; source shorthand repaired"
+        },
+        {
+          "start": 2547.18,
+          "topic": "Mixed-integer cutting plane"
+        },
+        {
+          "start": 2870.15,
+          "topic": "Mixed numerical example"
+        }
+      ],
+      "repairs": [
+        "Never discard a node merely because its LP bound is smaller than a sibling's fractional bound",
+        "Prune against actual incumbent, infeasibility, or integer completion",
+        "Retain all ancestor branch bounds",
+        "Only designated integer variables must be integral",
+        "A split cut derivation replaces unqualified mixed-cut shorthand"
+      ],
+      "transcript_sha256": "56c31de273c1f8ebce32fa7feec39db69118f99a5ea6b06acd0cd2e32c10b74e"
+    }
+  ],
+  "audio_audit": "not performed",
+  "visual_audit": "not performed",
+  "coverage_convention": "First caption start through final caption end; full sequential textual reading, not audiovisual verification"
+}

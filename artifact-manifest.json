@@ -1,0 +1,559 @@
+{
+  "artifacts": [
+    {
+      "path": "ch01.html",
+      "purpose": "Expanded study chapter: Modeling decisions and the geometry of linear programming",
+      "source_dependencies": [
+        "lecture-01",
+        "lecture-02",
+        "lecture-03"
+      ]
+    },
+    {
+      "path": "labs/ch01.py",
+      "purpose": "Executable mathematical checks for Modeling decisions and the geometry of linear programming",
+      "source_dependencies": [
+        "lecture-01",
+        "lecture-02",
+        "lecture-03"
+      ]
+    },
+    {
+      "path": "ch02.html",
+      "purpose": "Expanded study chapter: Simplex, artificial variables, and exceptional cases",
+      "source_dependencies": [
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07"
+      ]
+    },
+    {
+      "path": "labs/ch02.py",
+      "purpose": "Executable mathematical checks for Simplex, artificial variables, and exceptional cases",
+      "source_dependencies": [
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07"
+      ]
+    },
+    {
+      "path": "ch03.html",
+      "purpose": "Expanded study chapter: Dual certificates, dual simplex, and sensitivity",
+      "source_dependencies": [
+        "lecture-08",
+        "lecture-09",
+        "lecture-10"
+      ]
+    },
+    {
+      "path": "labs/ch03.py",
+      "purpose": "Executable mathematical checks for Dual certificates, dual simplex, and sensitivity",
+      "source_dependencies": [
+        "lecture-08",
+        "lecture-09",
+        "lecture-10"
+      ]
+    },
+    {
+      "path": "ch04.html",
+      "purpose": "Expanded study chapter: Integer programming: valid cuts and complete search",
+      "source_dependencies": [
+        "lecture-11",
+        "lecture-12"
+      ]
+    },
+    {
+      "path": "labs/ch04.py",
+      "purpose": "Executable mathematical checks for Integer programming: valid cuts and complete search",
+      "source_dependencies": [
+        "lecture-11",
+        "lecture-12"
+      ]
+    },
+    {
+      "path": "ch05.html",
+      "purpose": "Expanded study chapter: Transportation, network bases, and assignment",
+      "source_dependencies": [
+        "lecture-13",
+        "lecture-14",
+        "lecture-15"
+      ]
+    },
+    {
+      "path": "labs/ch05.py",
+      "purpose": "Executable mathematical checks for Transportation, network bases, and assignment",
+      "source_dependencies": [
+        "lecture-13",
+        "lecture-14",
+        "lecture-15"
+      ]
+    },
+    {
+      "path": "ch06.html",
+      "purpose": "Expanded study chapter: Project networks, critical paths, and uncertain deadlines",
+      "source_dependencies": [
+        "lecture-16",
+        "lecture-17",
+        "lecture-18"
+      ]
+    },
+    {
+      "path": "labs/ch06.py",
+      "purpose": "Executable mathematical checks for Project networks, critical paths, and uncertain deadlines",
+      "source_dependencies": [
+        "lecture-16",
+        "lecture-17",
+        "lecture-18"
+      ]
+    },
+    {
+      "path": "ch07.html",
+      "purpose": "Expanded study chapter: Shortest paths and tours: local certificates and global connectivity",
+      "source_dependencies": [
+        "lecture-19",
+        "lecture-20"
+      ]
+    },
+    {
+      "path": "labs/ch07.py",
+      "purpose": "Executable mathematical checks for Shortest paths and tours: local certificates and global connectivity",
+      "source_dependencies": [
+        "lecture-19",
+        "lecture-20"
+      ]
+    },
+    {
+      "path": "ch08.html",
+      "purpose": "Expanded study chapter: Stationary points, curvature, and global optimality",
+      "source_dependencies": [
+        "lecture-21",
+        "lecture-22"
+      ]
+    },
+    {
+      "path": "labs/ch08.py",
+      "purpose": "Executable mathematical checks for Stationary points, curvature, and global optimality",
+      "source_dependencies": [
+        "lecture-21",
+        "lecture-22"
+      ]
+    },
+    {
+      "path": "ch09.html",
+      "purpose": "Expanded study chapter: Equality constraints, KKT conditions, and sensitivity",
+      "source_dependencies": [
+        "lecture-23",
+        "lecture-24"
+      ]
+    },
+    {
+      "path": "labs/ch09.py",
+      "purpose": "Executable mathematical checks for Equality constraints, KKT conditions, and sensitivity",
+      "source_dependencies": [
+        "lecture-23",
+        "lecture-24"
+      ]
+    },
+    {
+      "path": "ch10.html",
+      "purpose": "Expanded study chapter: Interval elimination, Fibonacci search, and golden sections",
+      "source_dependencies": [
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28"
+      ]
+    },
+    {
+      "path": "labs/ch10.py",
+      "purpose": "Executable mathematical checks for Interval elimination, Fibonacci search, and golden sections",
+      "source_dependencies": [
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28"
+      ]
+    },
+    {
+      "path": "ch11.html",
+      "purpose": "Expanded study chapter: Interpolation, direct search, and gradient descent",
+      "source_dependencies": [
+        "lecture-29",
+        "lecture-30",
+        "lecture-31"
+      ]
+    },
+    {
+      "path": "labs/ch11.py",
+      "purpose": "Executable mathematical checks for Interpolation, direct search, and gradient descent",
+      "source_dependencies": [
+        "lecture-29",
+        "lecture-30",
+        "lecture-31"
+      ]
+    },
+    {
+      "path": "ch12.html",
+      "purpose": "Expanded study chapter: Feasible directions, cutting planes, and penalty paths",
+      "source_dependencies": [
+        "lecture-32",
+        "lecture-33"
+      ]
+    },
+    {
+      "path": "labs/ch12.py",
+      "purpose": "Executable mathematical checks for Feasible directions, cutting planes, and penalty paths",
+      "source_dependencies": [
+        "lecture-32",
+        "lecture-33"
+      ]
+    },
+    {
+      "path": "ch13.html",
+      "purpose": "Expanded study chapter: Separable programming and controlled linear approximations",
+      "source_dependencies": [
+        "lecture-34"
+      ]
+    },
+    {
+      "path": "labs/ch13.py",
+      "purpose": "Executable mathematical checks for Separable programming and controlled linear approximations",
+      "source_dependencies": [
+        "lecture-34"
+      ]
+    },
+    {
+      "path": "ch14.html",
+      "purpose": "Expanded study chapter: Geometric programming: positive models and dual certificates",
+      "source_dependencies": [
+        "lecture-35",
+        "lecture-36"
+      ]
+    },
+    {
+      "path": "labs/ch14.py",
+      "purpose": "Executable mathematical checks for Geometric programming: positive models and dual certificates",
+      "source_dependencies": [
+        "lecture-35",
+        "lecture-36"
+      ]
+    },
+    {
+      "path": "ch15.html",
+      "purpose": "Expanded study chapter: Dynamic programming: state, recursion, and resource allocation",
+      "source_dependencies": [
+        "lecture-37",
+        "lecture-38"
+      ]
+    },
+    {
+      "path": "labs/ch15.py",
+      "purpose": "Executable mathematical checks for Dynamic programming: state, recursion, and resource allocation",
+      "source_dependencies": [
+        "lecture-37",
+        "lecture-38"
+      ]
+    },
+    {
+      "path": "ch16.html",
+      "purpose": "Expanded study chapter: Multiple objectives, AHP, and TOPSIS",
+      "source_dependencies": [
+        "lecture-39",
+        "lecture-40"
+      ]
+    },
+    {
+      "path": "labs/ch16.py",
+      "purpose": "Executable mathematical checks for Multiple objectives, AHP, and TOPSIS",
+      "source_dependencies": [
+        "lecture-39",
+        "lecture-40"
+      ]
+    },
+    {
+      "path": "index.html",
+      "purpose": "Book orientation and searchable chapter navigation",
+      "source_dependencies": [
+        "playlist",
+        "lecture-01",
+        "lecture-02",
+        "lecture-03",
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07",
+        "lecture-08",
+        "lecture-09",
+        "lecture-10",
+        "lecture-11",
+        "lecture-12",
+        "lecture-13",
+        "lecture-14",
+        "lecture-15",
+        "lecture-16",
+        "lecture-17",
+        "lecture-18",
+        "lecture-19",
+        "lecture-20",
+        "lecture-21",
+        "lecture-22",
+        "lecture-23",
+        "lecture-24",
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28",
+        "lecture-29",
+        "lecture-30",
+        "lecture-31",
+        "lecture-32",
+        "lecture-33",
+        "lecture-34",
+        "lecture-35",
+        "lecture-36",
+        "lecture-37",
+        "lecture-38",
+        "lecture-39",
+        "lecture-40"
+      ]
+    },
+    {
+      "path": "source-map.html",
+      "purpose": "Recording identity, upload-order and chapter-coverage map",
+      "source_dependencies": [
+        "playlist",
+        "lecture-01",
+        "lecture-02",
+        "lecture-03",
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07",
+        "lecture-08",
+        "lecture-09",
+        "lecture-10",
+        "lecture-11",
+        "lecture-12",
+        "lecture-13",
+        "lecture-14",
+        "lecture-15",
+        "lecture-16",
+        "lecture-17",
+        "lecture-18",
+        "lecture-19",
+        "lecture-20",
+        "lecture-21",
+        "lecture-22",
+        "lecture-23",
+        "lecture-24",
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28",
+        "lecture-29",
+        "lecture-30",
+        "lecture-31",
+        "lecture-32",
+        "lecture-33",
+        "lecture-34",
+        "lecture-35",
+        "lecture-36",
+        "lecture-37",
+        "lecture-38",
+        "lecture-39",
+        "lecture-40"
+      ]
+    },
+    {
+      "path": "study-guide.html",
+      "purpose": "Prerequisites, reading paths and method-selection comparison",
+      "source_dependencies": [
+        "playlist",
+        "lecture-01",
+        "lecture-02",
+        "lecture-03",
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07",
+        "lecture-08",
+        "lecture-09",
+        "lecture-10",
+        "lecture-11",
+        "lecture-12",
+        "lecture-13",
+        "lecture-14",
+        "lecture-15",
+        "lecture-16",
+        "lecture-17",
+        "lecture-18",
+        "lecture-19",
+        "lecture-20",
+        "lecture-21",
+        "lecture-22",
+        "lecture-23",
+        "lecture-24",
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28",
+        "lecture-29",
+        "lecture-30",
+        "lecture-31",
+        "lecture-32",
+        "lecture-33",
+        "lecture-34",
+        "lecture-35",
+        "lecture-36",
+        "lecture-37",
+        "lecture-38",
+        "lecture-39",
+        "lecture-40"
+      ]
+    },
+    {
+      "path": "numerical-lab.html",
+      "purpose": "Interactive LP shadow-price and gradient-conditioning experiments",
+      "source_dependencies": [
+        "playlist",
+        "lecture-01",
+        "lecture-02",
+        "lecture-03",
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07",
+        "lecture-08",
+        "lecture-09",
+        "lecture-10",
+        "lecture-11",
+        "lecture-12",
+        "lecture-13",
+        "lecture-14",
+        "lecture-15",
+        "lecture-16",
+        "lecture-17",
+        "lecture-18",
+        "lecture-19",
+        "lecture-20",
+        "lecture-21",
+        "lecture-22",
+        "lecture-23",
+        "lecture-24",
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28",
+        "lecture-29",
+        "lecture-30",
+        "lecture-31",
+        "lecture-32",
+        "lecture-33",
+        "lecture-34",
+        "lecture-35",
+        "lecture-36",
+        "lecture-37",
+        "lecture-38",
+        "lecture-39",
+        "lecture-40"
+      ]
+    },
+    {
+      "path": "references.html",
+      "purpose": "Attribution, primary references and evidence boundaries",
+      "source_dependencies": [
+        "playlist",
+        "lecture-01",
+        "lecture-02",
+        "lecture-03",
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07",
+        "lecture-08",
+        "lecture-09",
+        "lecture-10",
+        "lecture-11",
+        "lecture-12",
+        "lecture-13",
+        "lecture-14",
+        "lecture-15",
+        "lecture-16",
+        "lecture-17",
+        "lecture-18",
+        "lecture-19",
+        "lecture-20",
+        "lecture-21",
+        "lecture-22",
+        "lecture-23",
+        "lecture-24",
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28",
+        "lecture-29",
+        "lecture-30",
+        "lecture-31",
+        "lecture-32",
+        "lecture-33",
+        "lecture-34",
+        "lecture-35",
+        "lecture-36",
+        "lecture-37",
+        "lecture-38",
+        "lecture-39",
+        "lecture-40"
+      ]
+    },
+    {
+      "path": "book.json",
+      "purpose": "Machine-readable chapter structure and authored-body digests",
+      "source_dependencies": [
+        "playlist",
+        "lecture-01",
+        "lecture-02",
+        "lecture-03",
+        "lecture-04",
+        "lecture-05",
+        "lecture-06",
+        "lecture-07",
+        "lecture-08",
+        "lecture-09",
+        "lecture-10",
+        "lecture-11",
+        "lecture-12",
+        "lecture-13",
+        "lecture-14",
+        "lecture-15",
+        "lecture-16",
+        "lecture-17",
+        "lecture-18",
+        "lecture-19",
+        "lecture-20",
+        "lecture-21",
+        "lecture-22",
+        "lecture-23",
+        "lecture-24",
+        "lecture-25",
+        "lecture-26",
+        "lecture-27",
+        "lecture-28",
+        "lecture-29",
+        "lecture-30",
+        "lecture-31",
+        "lecture-32",
+        "lecture-33",
+        "lecture-34",
+        "lecture-35",
+        "lecture-36",
+        "lecture-37",
+        "lecture-38",
+        "lecture-39",
+        "lecture-40"
+      ]
+    }
+  ],
+  "derivation": "Generated from source-manifest.json recordings and book.json; original teaching constructions are distinguished in the chapters."
+}

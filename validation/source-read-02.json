@@ -1,0 +1,138 @@
+{
+  "chapter": 2,
+  "method": "Sequential English caption reading",
+  "lectures": [
+    {
+      "lecture": 4,
+      "coverage_seconds": [
+        17.78,
+        3666.12
+      ],
+      "topics": [
+        {
+          "start": 36.1,
+          "topic": "Unbounded regions and objective classification"
+        },
+        {
+          "start": 825.66,
+          "topic": "Simplex initialization, tables and pivoting"
+        },
+        {
+          "start": 2287.9,
+          "topic": "Basis algebra, reduced costs and ratio test"
+        },
+        {
+          "start": 3086.31,
+          "topic": "Worked simplex tables"
+        }
+      ],
+      "repairs": [
+        "Unbounded feasible regions need not have unbounded objectives",
+        "Primal ratio test includes zero numerators",
+        "All transformed entering coefficients nonpositive, not one negative, certify a ray"
+      ],
+      "transcript_sha256": "94e2fa80265c2a766550741fa92819d226dc390056df80c1293cfb06c2f3384f"
+    },
+    {
+      "lecture": 5,
+      "coverage_seconds": [
+        17.44,
+        3491.919
+      ],
+      "topics": [
+        {
+          "start": 32.88,
+          "topic": "Additional primal simplex examples"
+        },
+        {
+          "start": 855.44,
+          "topic": "Big M and artificial variables"
+        },
+        {
+          "start": 1874.03,
+          "topic": "Numerical penalty limitation"
+        },
+        {
+          "start": 2276.45,
+          "topic": "Artificial-variable outcomes"
+        }
+      ],
+      "repairs": [
+        "Numerical Big M cannot be universally specified",
+        "Positive artificial variables imply infeasibility only at a properly prioritized optimum"
+      ],
+      "transcript_sha256": "964b2338801344209207c1a33bb613166a4de1adbd5999bdc6cdc82fbc0ffeae"
+    },
+    {
+      "lecture": 6,
+      "coverage_seconds": [
+        17.3,
+        3388.38
+      ],
+      "topics": [
+        {
+          "start": 51.29,
+          "topic": "Big M with equality row"
+        },
+        {
+          "start": 802.19,
+          "topic": "Two-phase auxiliary objective"
+        },
+        {
+          "start": 1185.94,
+          "topic": "Phase-I outcomes and zero artificial basics"
+        },
+        {
+          "start": 1545.9,
+          "topic": "Worked feasible and infeasible cases"
+        },
+        {
+          "start": 2887.15,
+          "topic": "Feasible phase I followed by unbounded phase II"
+        }
+      ],
+      "repairs": [
+        "Phase-I zero can retain zero artificial basic variables; clean up basis before phase II"
+      ],
+      "transcript_sha256": "02975a0a90e848661a01dcb0245661a5b2fc0ccc86b1c956288057006c12c9b4"
+    },
+    {
+      "lecture": 7,
+      "coverage_seconds": [
+        17.6,
+        3401.09
+      ],
+      "topics": [
+        {
+          "start": 137.58,
+          "topic": "Alternate optima"
+        },
+        {
+          "start": 1329.77,
+          "topic": "Unbounded objective"
+        },
+        {
+          "start": 1777.01,
+          "topic": "Degeneracy and cycling"
+        },
+        {
+          "start": 2269.81,
+          "topic": "Perturbation tie breaking"
+        },
+        {
+          "start": 2528.7,
+          "topic": "Initial degeneracy and ratio tie examples"
+        }
+      ],
+      "repairs": [
+        "Zero reduced cost alone does not prove distinct optimal points",
+        "Degeneracy need not be caused by globally redundant constraints",
+        "Degeneracy permits cycling but does not imply cycling"
+      ],
+      "transcript_sha256": "dc97a9a4a374bab6c73f8024145c1ff71a4d8b7bbcf95a17283630b08f2ce0fd"
+    }
+  ],
+  "audio_audit": "not performed",
+  "visual_audit": "not performed",
+  "coverage_convention": "First caption start through final caption end; full sequential textual reading, not audiovisual verification"
+}

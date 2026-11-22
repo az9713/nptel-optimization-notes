@@ -1,0 +1,49 @@
+{
+  "reviewer": "/root/nonlinear_decisions",
+  "scope": "Independent end-to-end mathematical, pedagogical, and code review of chapters01–05, their metadata, and labs; selected primary-source verification and a targeted lecture12 caption check. This is not a second complete caption or audiovisual audit.",
+  "verdict": "Accepted for manuscript and code correctness at the exact file hashes below; execution remains a separate root/CI release gate.",
+  "findings_fixed": [
+    {
+      "file": "chapters/ch05.md",
+      "location": "Hungarian method zero-cover example",
+      "finding": "The original general matching-cover equality claim needed a primary citation or a local justification.",
+      "resolution": "Author replaced it with a direct certificate: a size-two disjoint matching forces at least two covering vertices, and the displayed two-line cover attains that bound. Reviewer checked and accepted the replacement.",
+      "fixed_by": "/root/linear_discrete"
+    },
+    {
+      "file": "chapters/ch02.md",
+      "finding": "Git requires LF line endings.",
+      "resolution": "Root converted CRLF to LF only. Reviewer verified saved old text with CRLF replaced by LF equals current text exactly, then rebound this file hash. No scientific text changed.",
+      "fixed_by": "/root"
+    }
+  ],
+  "remaining_findings": [],
+  "checks_completed": [
+    "Read all five Markdown manuscripts, metadata files, and Python labs end to end.",
+    "Recomputed the workshop primal/dual certificates, pivot signs, sensitivity interval, rank-one update, integer cuts and branch bounds, transportation cycles, assignment reductions, and all 30 worked exercise solutions.",
+    "Verified Goemans LP notes chapter4 and Bland termination section, ETH Gomory section, and SciPy solver contracts against primary sources.",
+    "Checked lecture12 captions around1740–1900seconds: the unsafe branch-pruning statement is present and the chapter correction is mathematically justified."
+  ],
+  "execution_evidence": {
+    "author_report": "Author reports labs01–04 passed. Author lab05 session60424 remained pending at receipt creation.",
+    "reviewer_run": "Combined labs01–05 session61561 started; no completed result observed at receipt creation. No execution pass is inferred from this pending run.",
+    "release_requirement": "Root/CI must observe completed execution of the accepted lab files before publication."
+  },
+  "accepted_files": {
+    "chapters/ch01.md": "3576d7330d71718246ed947248ecad5735f1fa04863e959dc01a91e4b6323d06",
+    "chapters/ch01.json": "e04b228267fb3e9fd6d1cae632e8ed6844e0ce2269e5f481e8105f2c471dcb89",
+    "labs/ch01.py": "080b05d2795854c5619ae8c99d9a1c4fd08ff9ca7940b673bc1c6a837fac85b3",
+    "chapters/ch02.md": "87b879391e688cb31a0dbfe77b19262f311508dca58d6ad61f3a6265b06e6de4",
+    "chapters/ch02.json": "0842ab0e88fa2b9b0630628613f185b7c742ba1aa4d05f01e985b4040f1fda7e",
+    "labs/ch02.py": "5def9b7aa70b260dea22dd20b8703ec2a32863c110276ce18874c82175edae3d",
+    "chapters/ch03.md": "20816bd9b9dbd47c437a90ca3c2ccdb86ec2d6227cba3c59387c2103f481ba3d",
+    "chapters/ch03.json": "4d54e991688ad1f228651530c698d15eea36738972e1e17e1c3eabcc0307e577",
+    "labs/ch03.py": "48929be1fd951325ad8631477b2eb564b4a9ca2edc81846d94391b6714d10dc5",
+    "chapters/ch04.md": "f53b1027d3374d2a8739f499b811c4559bdba84f813b73ab54ebd5cb33c74e6b",
+    "chapters/ch04.json": "7dd06f3b98f857d46aa443ebbc0c5d852b08209fb79cb50bf58aba6323001331",
+    "labs/ch04.py": "c010c3accc9a3265a4789c22bf2b070206475de3d20c388104956de45ae37f67",
+    "chapters/ch05.md": "6b9b5086ac88e25e6980dcfffb6110bdf1c199022070d4d5e09b1bd20c371e5b",
+    "chapters/ch05.json": "d478dc4a72171268aa17d7201f9d985cf2cc470142edb500da4a9570e6fd5d50",
+    "labs/ch05.py": "0be4ebd9465b791c9ae4c05befe60a3f80eb4546f3880975abbf48275a241957"
+  }
+}

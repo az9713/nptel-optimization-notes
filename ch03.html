@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Dual certificates, dual simplex, and sensitivity · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html" aria-current=page>03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>03. Dual certificates, dual simplex, and sensitivity</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=KhSZmFpBkSw">Lecture 8</a>, <a href="https://www.youtube.com/watch?v=vpPJYJwWkNU">Lecture 9</a>, <a href="https://www.youtube.com/watch?v=Hsov7aoMbGU">Lecture 10</a> · Original expanded exposition · 3,471 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Construct a dual from bound arguments and sign restrictions</li><li>Use weak duality and complementary slackness to certify an optimum</li><li>Derive and trace a dual-simplex pivot</li><li>Calculate valid ranges for changes in capacities, profits, columns, and constraints</li></ul>
+<p><strong>Prerequisites:</strong> Chapters 1–2: equality-form bases, reduced costs, and primal simplex.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch03.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-derive-the-dual-as-a-bound-on-every-plan-0402">1. Derive the dual as a bound on every plan 04:02</a></li><li><a href="#2-signs-and-equalities-follow-from-the-same-logic-1658">2. Signs and equalities follow from the same logic 16:58</a></li><li><a href="#3-strong-duality-and-complementary-slackness-4725">3. Strong duality and complementary slackness 47:25</a></li><li><a href="#4-dual-simplex-repairs-primal-infeasibility-0039">4. Dual simplex repairs primal infeasibility 00:39</a></li><li><a href="#5-capacity-and-profit-ranges-are-basis-dependent-0125">5. Capacity and profit ranges are basis-dependent 01:25</a></li><li><a href="#6-columns-and-new-decisions-change-the-certificate-0712-2313">6. Columns and new decisions change the certificate 07:12 · 23:13</a></li><li><a href="#six-worked-problems">Six worked problems</a></li><li><a href="#sources-and-limits">Sources and limits</a></li></ul></div>
+<article>
+<p>The workshop earns nine monetary units by producing one batch of product 1 and three of product 2. A manager now asks whether buying another hour of finishing capacity is worthwhile. Re-solving the LP supplies a number, but it can hide the mechanism. A dual solution prices the resources, certifies the current profit, and predicts the value of a small capacity change while its assumptions remain valid.</p>
+<p>The recurring original teaching model is $\max 3x_1+2x_2$ with $x_1+x_2\le4$, $2x_1+x_2\le5$, and $x\ge0$. Let $A$ be its two-by-two resource matrix, $b=(4,5)^\top$ its capacity vector, and $c=(3,2)^\top$ its profit vector. Monetary and resource units must be consistent. A resource price is money per hour, not an extra quantity of physical resource.</p>
+<h2 id="1-derive-the-dual-as-a-bound-on-every-plan-0402">1. Derive the dual as a bound on every plan <a href="https://www.youtube.com/watch?v=KhSZmFpBkSw&amp;t=242s">04:02</a></h2>
+<p>Choose nonnegative resource prices $y\in\mathbb R^m$. Multiplying each inequality $a_i^\top x\le b_i$ by $y_i\ge0$ preserves its direction. Summing gives $y^\top Ax\le y^\top b$. If the assigned resource value of every product covers its profit, $A^\top y\ge c$, nonnegative production also gives $c^\top x\le y^\top Ax$. Consequently</p>
+<p>$$c^\top x\le y^\top Ax\le b^\top y.$$</p>
+<p>This is <strong>weak duality</strong>: every feasible price vector gives an upper bound on every feasible production profit. To find the tightest such bound, minimize the price of the available resources:</p>
+<p>$$\begin{aligned}
+\text{primal:}&amp;\quad\max c^\top x &amp;&amp; Ax\le b,\ x\ge0,\\
+\text{dual:}&amp;\quad\min b^\top y &amp;&amp; A^\top y\ge c,\ y\ge0.
+\end{aligned}$$</p>
+<p>There is one dual variable per primal resource row and one dual inequality per primal product. The transpose follows from collecting the coefficient of each product after weighting the rows. It is a consequence of a bound argument, not a mnemonic about flipping symbols.</p>
+<p>For the workshop the dual is</p>
+<p>$$\min 4y_1+5y_2\quad\text{subject to}\quad
+y_1+2y_2\ge3,\quad y_1+y_2\ge2,\quad y\ge0.$$</p>
+<p>The vector $(1,1)$ is dual feasible and costs nine. The primal vector $(1,3)$ is feasible and earns nine. Weak duality traps both optimal values between the same number, proving optimality without a general-purpose solver. The dual objective is the imputed value of available resources. It is not a minimization of physical resource consumption, which would be a different model.</p>
+<p>Any feasible primal vector gives a lower bound for this maximization, while any feasible dual vector gives an upper bound. Their difference, $b^\top y-c^\top x$, is a <strong>duality gap</strong>. A small gap is meaningful only after checking both feasibility conditions. An infeasible point with a large profit is not a lower bound on feasible production.</p>
+<h2 id="2-signs-and-equalities-follow-from-the-same-logic-1658">2. Signs and equalities follow from the same logic <a href="https://www.youtube.com/watch?v=KhSZmFpBkSw&amp;t=1018s">16:58</a></h2>
+<p>Suppose one primal resource row is an equality. Multiplying it by a positive or negative number still gives equality, so its dual multiplier can be unrestricted in sign. A greater-than-or-equal row in a maximization instead needs a nonpositive multiplier if the sum is to be an upper bound. Reversing that row first gives the same result with a nonnegative multiplier attached to the reversed inequality.</p>
+<p>A free primal variable requires equality in the corresponding dual constraint. To see why, write the residual profit coefficient as $q_j=c_j-a_j^\top y$. If $x_j\ge0$, requiring $q_j\le0$ prevents the Lagrangian upper bound from increasing without limit. If $x_j$ can have either sign, a nonzero $q_j$ can be exploited by moving $x_j$ in its sign direction. Finiteness therefore requires $q_j=0$.</p>
+<p>For example, maximize $3u+v$ subject to $u+v\le4$, $u-v=0$, with $u$ free and $v\ge0$. Let $p\ge0$ price the inequality and $q\in\mathbb R$ price the equality. The dual minimizes $4p$ subject to $p+q=3$ and $p-q\ge1$. The choice $p=2,q=1$ bounds profit by eight, and $u=v=2$ attains eight. Declaring $q$ nonnegative happens to preserve this optimum, but its sign should follow from the equality rule rather than this instance's answer.</p>
+<p>The <a href="https://math.mit.edu/~shor/18.310/lpnotes310.pdf">Goemans LP notes, chapter 4</a> develop duality from linear programming; <a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf">Boyd and Vandenberghe, §5.1</a> give the broader Lagrangian construction. The latter reference's minimization-based convention has different signs, so equations should be translated before comparison.</p>
+<h2 id="3-strong-duality-and-complementary-slackness-4725">3. Strong duality and complementary slackness <a href="https://www.youtube.com/watch?v=KhSZmFpBkSw&amp;t=2845s">47:25</a></h2>
+<p><strong>Strong LP duality</strong> states that if a primal LP has a finite optimum, the associated dual has an attained optimum with the same value. This is a theorem about linear programs; a proof in full generality uses a separation or theorem-of-alternatives argument. The exact mathematical claim is cited here rather than inferred from our one numerical example.</p>
+<p>A simplex optimum also makes the theorem visible in equality form. For $Mz=b,z\ge0$, let $B$ be an optimal feasible basis and $y=B^{-\top}c_B$. Nonpositive reduced costs give $M^\top y\ge c$. The equality-form dual permits free $y$, and</p>
+<p>$$b^\top y=(Bz_B)^\top y=z_B^\top c_B=c^\top z.$$</p>
+<p>The basis supplies a matching dual certificate. Degeneracy may allow different optimal bases or price vectors, but it does not destroy weak duality. The final inequality-form resource prices are nonnegative because the slack columns' reduced-cost inequalities impose their signs.</p>
+<p>For feasible $x,y$, expand the duality gap:</p>
+<p>$$b^\top y-c^\top x
+=y^\top(b-Ax)+x^\top(A^\top y-c).$$</p>
+<p>Every term is nonnegative. The gap vanishes exactly when every product in both sums vanishes. These equations are <strong>complementary slackness</strong>:</p>
+<p>$$y_i\bigl(b_i-a_i^\top x\bigr)=0,\qquad
+x_j\bigl(a_j^\top y-c_j\bigr)=0.$$</p>
+<p>An unused resource with strictly positive slack must have zero price in a matching optimum. A produced product with positive quantity must have resource valuation exactly equal to its profit. The converses require care: a zero-priced resource can still be fully used, and a product with exact valuation need not be produced. Degeneracy and alternative solutions permit zero on both sides of a complementary pair.</p>
+<p>For the workshop both products are positive, so their two dual inequalities become equalities. Solving gives $y_1=y_2=1$. Both resource prices are positive, so both primal capacities are tight. These four conditions recover the optimizer and price vector together. Complementarity is an optimality certificate only when the candidate pair is feasible in its respective problems.</p>
+<p>Weak duality also classifies impossible combinations. If the primal objective is unbounded above, the dual cannot have any feasible finite price vector. If the dual is feasible and the primal infeasible, the dual objective is unbounded below. Both problems can be infeasible. Neither “primal infeasible” nor “dual infeasible” alone is enough to determine the other problem's complete status.</p>
+<h2 id="4-dual-simplex-repairs-primal-infeasibility-0039">4. Dual simplex repairs primal infeasibility <a href="https://www.youtube.com/watch?v=vpPJYJwWkNU&amp;t=39s">00:39</a></h2>
+<p>Primal simplex maintains nonnegative basic quantities and works toward nonpositive reduced costs. <strong>Dual simplex</strong> maintains nonpositive reduced costs while repairing negative basic quantities. This is an algorithm for a dual-feasible basis, not merely the act of solving the dual formulation with an ordinary primal algorithm.</p>
+<p>In a dictionary $z_B=\beta-Hz_N$, let $H=B^{-1}N$ and let all nonbasic reduced costs satisfy $r_N\le0$. Suppose $\beta_p&lt;0$. That basic variable cannot belong to a feasible production plan. To make it nonnegative by increasing a nonbasic coordinate $z_j$, we need $H_{pj}&lt;0$, because $\beta_p-H_{pj}z_j$ then increases.</p>
+<p>If every coefficient in that row is nonnegative, its right-hand side stays negative for every $z_N\ge0$. The row itself certifies primal infeasibility. Otherwise choose an entering column among the negative entries using</p>
+<p>$$j\in\operatorname*{argmin}_{k:H_{pk}&lt;0}\frac{r_k}{H_{pk}}.$$</p>
+<p>Both numerator and denominator are nonpositive, so the eligible ratios are nonnegative. To derive the rule, solve the pivot row for $z_j$ and substitute it into the objective. Another nonbasic reduced cost becomes $r'_k=r_k-r_jH_{pk}/H_{pj}$. Negative row coefficients require $r_j/H_{pj}\le r_k/H_{pk}$ to retain $r'_k\le0$; nonnegative coefficients impose no tighter restriction. The minimum ratio therefore preserves dual feasibility.</p>
+<p>The chosen basic coordinate becomes zero, but other basic coordinates may still be negative. Repeat until they are all nonnegative, at which point primal and dual feasibility together certify optimality. A bounded implementation needs a tie rule or iteration limit; arbitrary ties can encounter degeneracy just as in primal simplex.</p>
+<h3 id="a-capacity-expansion-that-breaks-the-old-basis">A capacity expansion that breaks the old basis</h3>
+<p>Increase finishing capacity from four to six while holding the second capacity at five. Keep the old production basis</p>
+<p>$$B=\begin{bmatrix}1&amp;1\\2&amp;1\end{bmatrix},\qquad
+B^{-1}=\begin{bmatrix}-1&amp;1\\2&amp;-1\end{bmatrix}.$$</p>
+<p>The old-basis quantities become $B^{-1}(6,5)^\top=(-1,7)^\top$, so they are infeasible. Reduced costs have not changed because $B$ and $c$ have not changed. The row for $x_1$ has transformed slack coefficients $(-1,1)$; only $s_1$ is eligible. It enters and $x_1$ leaves. The new feasible plan is $x_1=0,x_2=5,s_1=1,s_2=0$, with profit ten.</p>
+<p>An independently checked bound is $3x_1+2x_2\le2(2x_1+x_2)\le10$ for $x_1\ge0$. The new optimizer attains it. Adding a “sufficiently large” artificial bound, another initialization idea discussed in lecture 9, is valid only if it preserves the original optimum or its limit is handled symbolically. An arbitrary finite cap can turn an originally unbounded LP into a bounded one. The lab therefore starts from a verified dual-feasible basis instead of hiding an unknown cap.</p>
+<h2 id="5-capacity-and-profit-ranges-are-basis-dependent-0125">5. Capacity and profit ranges are basis-dependent <a href="https://www.youtube.com/watch?v=Hsov7aoMbGU&amp;t=85s">01:25</a></h2>
+<p>Let $b$ change to $b+\Delta b$ with $M,c$, and basis $B$ fixed. The new basic vector is</p>
+<p>$$\beta'=B^{-1}(b+\Delta b)=\beta+B^{-1}\Delta b.$$</p>
+<p>Reduced costs stay fixed. Thus the same basis stays optimal exactly when the new basic vector remains nonnegative. The optimum point generally changes even while the basis stays the same. Its objective changes by $c_B^\top B^{-1}\Delta b=y^\top\Delta b$.</p>
+<p>For a finishing change $\Delta b=(\delta,0)$, the workshop's quantities become $(1-\delta,3+2\delta)$. They remain nonnegative for $-3/2\le\delta\le1$. Within this range the value is $9+\delta$. One additional finishing hour is worth one monetary unit locally, but a second additional hour has no value: at $\delta=2$ the new optimum is ten, not eleven. The old price stops being a derivative beyond its valid region.</p>
+<p>At a breakpoint multiple optimal bases or prices can occur. The optimal value as a function of capacities need not be differentiable there. One-at-a-time allowable ranges also cannot be combined as a box for simultaneous changes unless the joint condition $B^{-1}(b+\Delta b)\ge0$ is checked. Capacity interactions are already encoded in that vector inequality.</p>
+<p>If only costs change, the basic quantities remain fixed while reduced costs may change. For a nonbasic variable $j$, changing only $c_j$ changes only its reduced cost: $r'_j=r_j+\Delta c_j$. The current basis remains optimal when this quantity stays nonpositive. A nonbasic cost change can therefore destroy optimality even though it leaves the current objective unchanged at the current point.</p>
+<p>For workshop product 1, let its profit become $3+\eta$ while product 2 stays at two. Both production variables remain basic, so the point remains $(1,3)$. Solve the price equations to obtain $y_2=1+\eta$ and $y_1=1-\eta$. Slack reduced costs remain nonpositive precisely when $-1\le\eta\le1$. Profit is $9+\eta$ on this interval. At an endpoint the current point is still optimal but may cease to be unique.</p>
+<p>The interpretation of prices follows the chosen perturbation model. Adding one hour with no purchase cost is not the same as investing in a machine with fixed charges, minimum lot sizes, or new maintenance constraints. A shadow price is a marginal model quantity, and converting it into a purchase decision requires the actual acquisition economics.</p>
+<h3 id="derive-a-one-coordinate-allowable-interval">Derive a one-coordinate allowable interval</h3>
+<p>For a change in resource $k$, let $e_k$ be its coordinate vector and let $q=B^{-1}e_k$. Then the retained basis requires $\beta_i+q_i\delta\ge0$ for every basic coordinate. If $q_i&gt;0$, this is a lower bound $\delta\ge-\beta_i/q_i$; if $q_i&lt;0$, it is an upper bound $\delta\le-\beta_i/q_i$. A zero coefficient imposes no new condition when the old basis is feasible. Intersect every such bound, taking a missing lower or upper bound as negative or positive infinity.</p>
+<p>For the workshop's first resource, $q=(-1,2)$ gives an upper bound one from the first coordinate and a lower bound $-3/2$ from the second. At the upper endpoint $x_1$ reaches zero; at the lower endpoint $x_2$ reaches zero. These are identifiable physical changes in the product mix. An allowable interval is therefore a region where one basis remains a valid certificate, rather than a general uncertainty interval for unknown data.</p>
+<p>For a basic profit change, let $e_\ell$ now select the changed coordinate within $c_B$. Solving $B^\top y'=c_B+\eta e_\ell$ gives $y'=y+\eta B^{-\top}e_\ell$. Substitute this into each nonbasic reduced cost and intersect the resulting scalar inequalities. The method is the cost-side counterpart of the capacity calculation, but its inequalities protect dual feasibility rather than primal feasibility. Mixing these two tests is a common reason that a sensitivity calculation returns a numerically plausible but unjustified range.</p>
+<p>The value function also has a global bound interpretation. A fixed dual-feasible $y$ remains feasible when only $b$ changes, so every new primal optimum obeys $V(b+\Delta b)\le y^\top(b+\Delta b)$, provided the new problem is feasible and has the stated maximum. Equality holds within a retained optimal basis region. Outside it, the same affine function can remain a valid upper bound even though it ceases to predict the optimum exactly. For the six-hour workshop it predicts eleven while the attainable optimum is ten. The certificate survives as a bound; its interpretation as an exact marginal forecast does not.</p>
+<h2 id="6-columns-and-new-decisions-change-the-certificate-0712-2313">6. Columns and new decisions change the certificate <a href="https://www.youtube.com/watch?v=Hsov7aoMbGU&amp;t=432s">07:12</a> · <a href="https://www.youtube.com/watch?v=Hsov7aoMbGU&amp;t=1393s">23:13</a></h2>
+<p>Changing a nonbasic column $m_j$ to $m_j+u$ leaves the current basic point feasible because its associated quantity is still zero. Its reduced cost becomes $r'_j=c_j-y^\top(m_j+u)$. If this remains nonpositive, the old certificate survives; otherwise reoptimization is needed. Changing a basic column is harder because it changes both the primal quantities and the dual prices.</p>
+<p>Suppose basic column $k$ changes by a vector $u$, so $B'=B+ue_k^\top$, where $e_k$ is the coordinate vector selecting that column's position in the basis. Write $v=B^{-1}u$. The relation $B'\beta'=b=B\beta$ gives $\beta'+v\beta'_k=\beta$. Its $k$th coordinate is $(1+v_k)\beta'_k=\beta_k$. Provided $1+v_k\ne0$,</p>
+<p>$$\beta'=\beta-\frac{v\beta_k}{1+v_k}.$$</p>
+<p>This derives the rank-one update without copying a dense table formula. Check $\beta'\ge0$, solve $(B')^\top y'=c_B$, then check every new reduced cost. At $1+v_k=0$ the proposed basis is singular and cannot be retained. Crossing that singularity cannot be handled by multiplying inequalities by an assumed-positive denominator.</p>
+<p>A newly available product with resource column $a_{\rm new}$ and profit $c_{\rm new}$ has reduced cost $c_{\rm new}-y^\top a_{\rm new}$. For the workshop, a new product consuming $(1,1)$ hours and earning $5/2$ has reduced cost $1/2&gt;0$ under old prices. Introducing it at zero preserves old feasibility, but invalidates the old optimality certificate. It is a candidate to enter primal simplex, subject to an actual feasible step.</p>
+<p>Adding a constraint shrinks the feasible set. If the old optimizer satisfies it, the optimizer remains optimal: no new feasible point has been introduced, and the old one survives. If it violates the added row, feasibility must be repaired, often by dual simplex. Adding a product enlarges the feasible set, so the old maximum cannot decrease; adding a constraint cannot increase it. These monotonicity statements concern unchanged objectives and compatible modeling domains.</p>
+<p>The <a href="labs/ch03.py">chapter laboratory</a> solves the primal and dual independently, checks complementarity, sweeps the valid capacity and cost ranges, and applies an explicit dual-simplex routine to the six-hour workshop. Inputs are finite arrays with a nonsingular dual-feasible basis; the routine returns a status and current basic vector, changes no files, and stops on an iteration limit. Its small dense implementation illustrates the equations, while SciPy's <a href="https://docs.scipy.org/doc/scipy/reference/optimize.linprog-highs-ds.html">HiGHS dual-simplex interface</a> provides an independent numerical comparison.</p>
+<h2 id="six-worked-problems">Six worked problems</h2>
+<h3 id="exercise-1-verify-a-bound">Exercise 1 — Verify a bound</h3>
+<p>For the workshop, is $y=(2,0)$ dual feasible, and what does it prove?</p>
+<details>
+<summary>Worked solution</summary>
+<p>Its first product valuation is $2&lt;3$, so it violates the first dual inequality. Its objective value eight is therefore not an upper bound on feasible profit. The primal plan $(1,3)$ earns nine and exposes the failed assertion. Pricing resources nonnegatively is necessary but insufficient: every product's assigned resource value must cover its profit.</p>
+</details>
+<h3 id="exercise-2-interpret-a-zero-price">Exercise 2 — Interpret a zero price</h3>
+<p>Does a zero optimal resource price prove that the resource has positive unused capacity?</p>
+<details>
+<summary>Worked solution</summary>
+<p>No. Complementary slackness says positive slack forces zero price, and positive price forces zero slack. When price equals zero the product equation $y_i s_i=0$ places no further restriction on slack. At the workshop breakpoint with capacities $(5,5)$, the plan $(0,5)$ uses both resources fully, while the valid optimal prices $(0,2)$ give the first resource price zero.</p>
+</details>
+<h3 id="exercise-3-joint-perturbation">Exercise 3 — Joint perturbation</h3>
+<p>Change workshop capacities by $(\delta_1,\delta_2)$. Derive the region where the production basis remains optimal.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Multiplication by the displayed inverse gives quantities $(1-\delta_1+\delta_2,3+2\delta_1-\delta_2)$. Both must be nonnegative. Hence $\delta_1-\delta_2\le1$ and $\delta_2-2\delta_1\le3$. Reduced costs remain fixed, so these inequalities are sufficient for optimality of that basis. The value becomes $9+\delta_1+\delta_2$. This region is an intersection of two half-spaces, not the Cartesian product of separate one-coordinate ranges.</p>
+</details>
+<h3 id="exercise-4-a-nonbasic-cost-increase">Exercise 4 — A nonbasic cost increase</h3>
+<p>Suppose a nonbasic variable has reduced cost $-3$. What happens when its objective coefficient rises by two, three, or four, with all other data fixed?</p>
+<details>
+<summary>Worked solution</summary>
+<p>Its reduced costs become $-1$, zero, and one. The first two preserve the current certificate. At zero, a distinct alternative optimizer requires a positive feasible movement, as Chapter 2 explains. At one, the current reduced-cost certificate fails. Primal simplex can attempt entry, which may yield a zero-length degenerate pivot before improvement or may reveal an unbounded ray. Feasibility of the old point is unaffected in all three cases.</p>
+</details>
+<h3 id="exercise-5-new-constraint">Exercise 5 — New constraint</h3>
+<p>Add $x_1\le2$ to the workshop. Then instead add $x_2\le2$. Which change needs reoptimization?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The optimizer $(1,3)$ satisfies $x_1\le2$, so it survives and its value nine remains optimal over the smaller set. It violates $x_2\le2$, so that old plan is no longer admissible. For the latter problem, at $x_2=2$ the tighter bound is $2x_1+2\le5$, giving $x_1=3/2$ and profit $17/2$. A direct bound is $3x_1+2x_2\le(3/2)(2x_1+x_2)+(1/2)x_2\le15/2+1=17/2$.</p>
+</details>
+<h3 id="exercise-6-why-the-two-formulations-agree">Exercise 6 — Why the two formulations agree</h3>
+<p>Show that a feasible pair satisfying complementary slackness has equal objective values and is optimal in both problems.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The gap decomposition is a sum of the complementary products. Each is zero by hypothesis, so $b^\top y=c^\top x$. Weak duality says every feasible primal objective is at most this dual value, and every feasible dual objective is at least this primal value. Thus neither side can improve on the pair. This argument proves the sufficiency of a supplied certificate and does not require proving the existence portion of strong duality.</p>
+</details>
+<h2 id="sources-and-limits">Sources and limits</h2>
+<p>Lectures <a href="https://www.youtube.com/watch?v=KhSZmFpBkSw">8</a>, <a href="https://www.youtube.com/watch?v=vpPJYJwWkNU">9</a>, and <a href="https://www.youtube.com/watch?v=Hsov7aoMbGU">10</a> determine the duality, dual-simplex, and parameter-change sequence. All workshop perturbations and computations are original teaching examples. The chapter qualifies informal “same solution” language: primal and dual variables describe different objects, their optimal values agree under strong duality, and a retained basis need not mean retained quantities.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch03.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Dual certificates and sensitivity checked with independent LP solves.&quot;&quot;&quot;
+import json
+
+import numpy as np
+from scipy.optimize import linprog
+
+
+def dual_simplex(M, b, c, basis, tolerance=1e-10, limit=100):
+    &quot;&quot;&quot;Maximization dictionary with nonpositive reduced costs; dense demo.&quot;&quot;&quot;
+    M, b, c = (np.asarray(v, float) for v in (M, b, c))
+    m, n = M.shape
+    basis = list(basis)
+    if b.shape != (m,) or c.shape != (n,) or len(set(basis)) != m:
+        raise ValueError(&quot;Incompatible arrays or invalid basis&quot;)
+    if not all(np.isfinite(a).all() for a in (M, b, c)):
+        raise ValueError(&quot;Use finite arrays&quot;)
+    trace = []
+    for _ in range(limit):
+        B = M[:, basis]
+        beta = np.linalg.solve(B, b)
+        y = np.linalg.solve(B.T, c[basis])
+        reduced = c - M.T @ y
+        if reduced.max() &gt; tolerance:
+            raise ValueError(&quot;Basis is not dual feasible&quot;)
+        z = np.zeros(n)
+        z[basis] = beta
+        trace.append({&quot;basis&quot;: basis.copy(), &quot;basic&quot;: beta.tolist()})
+        if beta.min() &gt;= -tolerance:
+            return {&quot;status&quot;: &quot;optimal&quot;, &quot;z&quot;: z, &quot;trace&quot;: trace}
+        row = int(np.argmin(beta))
+        transformed = np.linalg.solve(B, M)
+        candidates = [j for j in range(n) if j not in basis
+                      and transformed[row, j] &lt; -tolerance]
+        if not candidates:
+            return {&quot;status&quot;: &quot;infeasible&quot;, &quot;trace&quot;: trace}
+        entering = min(candidates,
+                       key=lambda j: (reduced[j] / transformed[row, j], j))
+        basis[row] = entering
+    raise RuntimeError(&quot;Iteration limit reached&quot;)
+
+
+def main():
+    A, b, c = np.array([[1, 1], [2, 1]]), np.array([4, 5]), [3, 2]
+    primal = linprog(-np.array(c), A_ub=A, b_ub=b, method=&quot;highs&quot;)
+    dual = linprog(b, A_ub=-A.T, b_ub=-np.array(c), method=&quot;highs&quot;)
+    assert primal.success and dual.success
+    assert np.allclose(primal.x, [1, 3]) and np.allclose(dual.x, [1, 1])
+    assert np.isclose(-primal.fun, dual.fun)
+    assert np.allclose(dual.x * (b - A @ primal.x), 0)
+    assert np.allclose(primal.x * (A.T @ dual.x - c), 0)
+    values = []
+    for delta in [-1.5, -1, 0, 0.5, 1, 2]:
+        changed = linprog(-np.array(c), A_ub=A, b_ub=b + [delta, 0],
+                          method=&quot;highs&quot;)
+        assert changed.success
+        expected = 9 + delta if delta &lt;= 1 else 10
+        assert np.isclose(-changed.fun, expected)
+        values.append([delta, float(-changed.fun)])
+    for eta in [-1, -0.5, 0, 0.5, 1]:
+        changed = linprog([-3 - eta, -2], A_ub=A, b_ub=b, method=&quot;highs&quot;)
+        assert changed.success and np.isclose(-changed.fun, 9 + eta)
+    M = np.column_stack((A, np.eye(2)))
+    repaired = dual_simplex(M, [6, 5], [3, 2, 0, 0], [0, 1])
+    assert repaired[&quot;status&quot;] == &quot;optimal&quot;
+    assert np.allclose(repaired[&quot;z&quot;], [0, 5, 1, 0])
+    reference = linprog([-3, -2], A_ub=A, b_ub=[6, 5], method=&quot;highs-ds&quot;)
+    assert reference.success and np.isclose(-reference.fun, 10)
+    capped = linprog([-3, -2], A_ub=np.vstack((A, [0, 1])),
+                     b_ub=[4, 5, 2], method=&quot;highs&quot;)
+    assert np.allclose(capped.x, [1.5, 2]) and np.isclose(-capped.fun, 8.5)
+    print(json.dumps({&quot;primal&quot;: primal.x.tolist(), &quot;dual&quot;: dual.x.tolist(),
+                      &quot;capacity_sweep&quot;: values, &quot;dual_simplex&quot;: repaired,
+                      &quot;added_constraint_profit&quot;: 8.5},
+                     default=lambda v: v.tolist()))
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch02.html">← Simplex, artificial variables, and exceptional cases</a><a rel="next" href="ch04.html">Integer programming: valid cuts and complete search →</a></div></main></div></body></html>

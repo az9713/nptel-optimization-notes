@@ -1,0 +1,122 @@
+{
+  "chapter": 3,
+  "method": "Sequential English caption reading",
+  "lectures": [
+    {
+      "lecture": 8,
+      "coverage_seconds": [
+        18.72,
+        3566.689
+      ],
+      "topics": [
+        {
+          "start": 242.24,
+          "topic": "Dual bounds and equality of optimum values"
+        },
+        {
+          "start": 386.42,
+          "topic": "Canonical primal-dual formulation"
+        },
+        {
+          "start": 1018.07,
+          "topic": "Equality rows and free variables"
+        },
+        {
+          "start": 1219.77,
+          "topic": "Dual formulation examples"
+        },
+        {
+          "start": 2845.79,
+          "topic": "Feasibility/unboundedness classification"
+        },
+        {
+          "start": 3068.02,
+          "topic": "Solving a dual and retrieving primal solution"
+        }
+      ],
+      "repairs": [
+        "Resource valuation differs from physical consumption",
+        "Primal and dual optimal values agree, not generally their vectors",
+        "Primal right-hand sides need not be nonnegative"
+      ],
+      "transcript_sha256": "73c325135cdc5fe3920377be99a5319f0228ce2d29aa06785b649fa9cb651387"
+    },
+    {
+      "lecture": 9,
+      "coverage_seconds": [
+        17.21,
+        3499.98
+      ],
+      "topics": [
+        {
+          "start": 38.99,
+          "topic": "Dual feasibility versus primal feasibility"
+        },
+        {
+          "start": 346.33,
+          "topic": "Dual-simplex entering and leaving rules"
+        },
+        {
+          "start": 815.62,
+          "topic": "Artificial constraint initialization"
+        },
+        {
+          "start": 1034.72,
+          "topic": "Dual-simplex numerical example"
+        },
+        {
+          "start": 2870.2,
+          "topic": "Sensitivity changes in costs, requirements, matrix, variables and constraints"
+        }
+      ],
+      "repairs": [
+        "A dual-feasible but primal-infeasible basis is not an optimal primal solution",
+        "Finite artificial bounds require validity justification",
+        "Nonbasic cost changes can invalidate reduced-cost optimality"
+      ],
+      "transcript_sha256": "8f872ddcebc373876ea0f7e917ef68201654b0efa295ae69db3040224a8a3f2c"
+    },
+    {
+      "lecture": 10,
+      "coverage_seconds": [
+        17.6,
+        3502.129
+      ],
+      "topics": [
+        {
+          "start": 85.17,
+          "topic": "Right-hand-side allowable ranges"
+        },
+        {
+          "start": 432.41,
+          "topic": "Nonbasic and basic coefficient changes"
+        },
+        {
+          "start": 1393.32,
+          "topic": "Adding a variable"
+        },
+        {
+          "start": 1592.23,
+          "topic": "Adding a constraint"
+        },
+        {
+          "start": 1712.28,
+          "topic": "Product-mix perturbation examples"
+        },
+        {
+          "start": 3033.74,
+          "topic": "RHS change repaired by dual simplex"
+        }
+      ],
+      "repairs": [
+        "Same optimal basis does not mean same quantities or value",
+        "Nonbasic profit change leaves current point value fixed until reoptimization",
+        "Basic-column update must retain nonsingularity and check denominator sign"
+      ],
+      "transcript_sha256": "245eb8293720f83925008e4d33203a2228dd7d648ab867abdab7b3123d680792"
+    }
+  ],
+  "visual_audit": "not performed",
+  "audio_audit": "not performed",
+  "coverage_convention": "First caption start through final caption end; full sequential textual reading, not audiovisual verification"
+}

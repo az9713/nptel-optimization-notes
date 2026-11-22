@@ -1,0 +1,115 @@
+{
+  "chapter": 1,
+  "method": "Sequential English caption reading; original exposition and mathematical repairs",
+  "lectures": [
+    {
+      "lecture": 1,
+      "coverage_seconds": [
+        16.9,
+        3651.359
+      ],
+      "topics": [
+        {
+          "start": 85.46,
+          "topic": "Production resources and profit model"
+        },
+        {
+          "start": 638.46,
+          "topic": "Matrix algebra, rank and inverse"
+        },
+        {
+          "start": 2648.35,
+          "topic": "Vector spaces, combinations, dependence and bases"
+        },
+        {
+          "start": 3471.57,
+          "topic": "Convexity and extreme points"
+        }
+      ],
+      "repairs": [
+        "Upper triangular matrices may contain zeros above the diagonal",
+        "Spanning sets need not be independent",
+        "Convex coefficients must be nonnegative"
+      ],
+      "transcript_sha256": "f3b911615b1de0e082e55bd3512a1f78677a3e17bf32f91b35ec9a36a84b26ee"
+    },
+    {
+      "lecture": 2,
+      "coverage_seconds": [
+        15.62,
+        3529.36
+      ],
+      "topics": [
+        {
+          "start": 29.37,
+          "topic": "Rank consistency of linear equations"
+        },
+        {
+          "start": 373.48,
+          "topic": "Bases, basic solutions and degeneracy"
+        },
+        {
+          "start": 1124.97,
+          "topic": "Model formulation and validation"
+        },
+        {
+          "start": 1793.82,
+          "topic": "LP assumptions and equivalent forms"
+        },
+        {
+          "start": 2491.16,
+          "topic": "Cutting, staffing and transportation models"
+        }
+      ],
+      "repairs": [
+        "Signed physical variables are permitted",
+        "Replacing uncertain coefficients by means does not preserve reliability",
+        "Integer pattern counts are required for an executable cutting plan"
+      ],
+      "transcript_sha256": "4b5f11d5bf1a1631d355c0aca49aa8261ab9a5874a1e81627dba83d2976be207"
+    },
+    {
+      "lecture": 3,
+      "coverage_seconds": [
+        17.9,
+        3450.059
+      ],
+      "topics": [
+        {
+          "start": 201.05,
+          "topic": "Hyperplanes and half-spaces"
+        },
+        {
+          "start": 563.94,
+          "topic": "Polyhedra and convex hulls"
+        },
+        {
+          "start": 780.54,
+          "topic": "LP feasible geometry"
+        },
+        {
+          "start": 1696.78,
+          "topic": "Vertex optimality and basic feasible solutions"
+        },
+        {
+          "start": 2115.31,
+          "topic": "Graphical search and iso-profit methods"
+        },
+        {
+          "start": 2993.71,
+          "topic": "Infeasibility and multiple optima"
+        }
+      ],
+      "repairs": [
+        "Polyhedron differs from finite convex hull",
+        "Hyperplane distance is absolute offset divided by normal norm",
+        "An optimal vertex exists under stated conditions; not every optimal point must be a vertex",
+        "Less-than-or-equal inequalities do not by themselves imply feasibility"
+      ],
+      "transcript_sha256": "2eebe37435d5e747a272626c3408c3982e8f551ae7c1823d700b2eb21f2bf12f"
+    }
+  ],
+  "visual_audit": "not performed",
+  "audio_audit": "not performed",
+  "coverage_convention": "First caption start through final caption end; full sequential textual reading, not audiovisual verification"
+}

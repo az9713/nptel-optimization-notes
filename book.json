@@ -1,0 +1,302 @@
+{
+  "title": "Optimization: Models, Algorithms, and Decisions",
+  "chapters": [
+    {
+      "title": "Modeling decisions and the geometry of linear programming",
+      "lectures": [
+        1,
+        2,
+        3
+      ],
+      "objectives": [
+        "Translate resource, coverage, and balance requirements into a linear model",
+        "Distinguish affine geometry, convexity, feasibility, and optimality",
+        "Derive the connection between vertices and basic feasible solutions",
+        "Check a small linear program by enumeration and an independent solver"
+      ],
+      "prerequisites": "Vectors, matrix multiplication, elementary linear algebra; convexity is developed here.",
+      "id": "ch01",
+      "number": 1,
+      "body_sha256": "3576d7330d71718246ed947248ecad5735f1fa04863e959dc01a91e4b6323d06",
+      "words": 3673
+    },
+    {
+      "title": "Simplex, artificial variables, and exceptional cases",
+      "lectures": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "objectives": [
+        "Derive reduced costs and the primal ratio test from a basis",
+        "Trace a complete simplex solve and construct an unbounded ray",
+        "Separate feasibility from profit using a two-phase auxiliary problem",
+        "Diagnose degeneracy, cycling, and alternate optima"
+      ],
+      "prerequisites": "Chapter 1: LP models, rank, vertices, and basic feasible solutions.",
+      "id": "ch02",
+      "number": 2,
+      "body_sha256": "87b879391e688cb31a0dbfe77b19262f311508dca58d6ad61f3a6265b06e6de4",
+      "words": 3498
+    },
+    {
+      "title": "Dual certificates, dual simplex, and sensitivity",
+      "lectures": [
+        8,
+        9,
+        10
+      ],
+      "objectives": [
+        "Construct a dual from bound arguments and sign restrictions",
+        "Use weak duality and complementary slackness to certify an optimum",
+        "Derive and trace a dual-simplex pivot",
+        "Calculate valid ranges for changes in capacities, profits, columns, and constraints"
+      ],
+      "prerequisites": "Chapters 1–2: equality-form bases, reduced costs, and primal simplex.",
+      "id": "ch03",
+      "number": 3,
+      "body_sha256": "20816bd9b9dbd47c437a90ca3c2ccdb86ec2d6227cba3c59387c2103f481ba3d",
+      "words": 3471
+    },
+    {
+      "title": "Integer programming: valid cuts and complete search",
+      "lectures": [
+        11,
+        12
+      ],
+      "objectives": [
+        "Use an LP relaxation as an objective bound without treating its solution as integer feasible",
+        "Derive a Gomory fractional cut and a mixed-integer split cut",
+        "Trace branch-and-bound with valid incumbent pruning",
+        "Recognize modeling and numerical conditions needed for an integer optimum certificate"
+      ],
+      "prerequisites": "Chapters 1–3: LP relaxation geometry, basis dictionaries, reduced costs, and dual simplex.",
+      "id": "ch04",
+      "number": 4,
+      "body_sha256": "f53b1027d3374d2a8739f499b811c4559bdba84f813b73ab54ebd5cb33c74e6b",
+      "words": 2898
+    },
+    {
+      "title": "Transportation, network bases, and assignment",
+      "lectures": [
+        13,
+        14,
+        15
+      ],
+      "objectives": [
+        "Formulate balanced shipping and interpret dummy supplies or demands",
+        "Construct an initial transportation basis and improve it with cycle pivots",
+        "Use row and column potentials as optimality certificates",
+        "Explain why integer balances admit integer transportation and assignment optima",
+        "Trace the Hungarian reduced-cost adjustment"
+      ],
+      "prerequisites": "Chapters 1–4: LP geometry, bases, reduced costs, dual certificates, and integer restrictions.",
+      "id": "ch05",
+      "number": 5,
+      "body_sha256": "6b9b5086ac88e25e6980dcfffb6110bdf1c199022070d4d5e09b1bd20c371e5b",
+      "words": 3633
+    },
+    {
+      "title": "Project networks, critical paths, and uncertain deadlines",
+      "lectures": [
+        16,
+        17,
+        18
+      ],
+      "objectives": [
+        "Translate precedence statements into a valid project network",
+        "Derive earliest and latest event times and distinguish activity floats",
+        "Use PERT estimates without confusing a path approximation with a project guarantee",
+        "Analyze how crashing changes the set of binding paths"
+      ],
+      "prerequisites": "Directed graphs, elementary probability, and the LP modeling conventions of chapters 1–3.",
+      "id": "ch06",
+      "number": 6,
+      "body_sha256": "6845cf67704d8298265e120bc31843b0284039304b1b788e621d7fde215750b7",
+      "words": 3623
+    },
+    {
+      "title": "Shortest paths and tours: local certificates and global connectivity",
+      "lectures": [
+        19,
+        20
+      ],
+      "objectives": [
+        "Derive relaxation and Dijkstra's label-setting invariant",
+        "Distinguish a shortest path tree from an all-pairs solution",
+        "Formulate TSP with subtour elimination and interpret assignment bounds",
+        "Prove the doubled-tree metric approximation and identify its assumptions"
+      ],
+      "prerequisites": "Directed graphs and DAG recurrences from chapter 6; assignment models from chapter 5.",
+      "id": "ch07",
+      "number": 7,
+      "body_sha256": "562caa0c9df63c3a488d7b6ec7ec5f541dd6acba123f9fc6d5b9fc9ec7b5e278",
+      "words": 3515
+    },
+    {
+      "title": "Stationary points, curvature, and global optimality",
+      "lectures": [
+        21,
+        22
+      ],
+      "objectives": [
+        "Derive first- and second-order local optimality conditions",
+        "Classify degenerate stationary points without overusing the Hessian test",
+        "Distinguish positive definiteness from semidefiniteness and test them correctly",
+        "Prove convexity-based global optimality and separate uniqueness from existence"
+      ],
+      "prerequisites": "Multivariable differentiation, Taylor expansion, and symmetric-matrix eigenvalues.",
+      "id": "ch08",
+      "number": 8,
+      "body_sha256": "ecd52c7250c54eff55b54982c07f4268fdb10a8f9596da31bb5a073801e19aff",
+      "words": 3262
+    },
+    {
+      "title": "Equality constraints, KKT conditions, and sensitivity",
+      "lectures": [
+        23,
+        24
+      ],
+      "objectives": [
+        "Derive Lagrange stationarity from feasible tangent directions",
+        "Use reduced curvature instead of demanding a positive-definite bordered matrix",
+        "Apply all four KKT conditions with consistent multiplier signs",
+        "Separate constraint qualification, convex sufficiency, and sensitivity assumptions"
+      ],
+      "prerequisites": "Local and global optimality, gradients, Hessians, convexity, and LP duality.",
+      "id": "ch09",
+      "number": 9,
+      "body_sha256": "958422cc9a86ce16be46f78680865b642980f3d1e5904177c5e953830cce4a4e",
+      "words": 3121
+    },
+    {
+      "title": "Interval elimination, Fibonacci search, and golden sections",
+      "lectures": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "objectives": [
+        "Prove interval elimination under explicit unimodality and tie assumptions",
+        "Separate bracketing, location tolerance, objective error, and evaluation budgets",
+        "Derive dichotomous and interval-halving contraction laws",
+        "Derive Fibonacci sample reuse and the golden-section fixed point"
+      ],
+      "prerequisites": "Scalar functions, inequalities, finite sequences, and the distinction between local and global minima.",
+      "id": "ch10",
+      "number": 10,
+      "body_sha256": "044446bfa9688b7c1bfb3858196264bf00bc7a0d858387e316fd19c709d47507",
+      "words": 3518
+    },
+    {
+      "title": "Interpolation, direct search, and gradient descent",
+      "lectures": [
+        29,
+        30,
+        31
+      ],
+      "objectives": [
+        "Construct quadratic and cubic local models",
+        "Trace a nonlinear simplex update",
+        "Derive exact line search for a positive definite quadratic",
+        "Diagnose misleading stopping tests and finite differences"
+      ],
+      "prerequisites": "One-variable minimization, gradients, Hessians, positive definite matrices, and Chapter 10 bracketing.",
+      "id": "ch11",
+      "number": 11,
+      "body_sha256": "c168154a5f0eed50cb0b330683c93ed441966f007a6534f85cb5fbc977f463e3",
+      "words": 3136
+    },
+    {
+      "title": "Feasible directions, cutting planes, and penalty paths",
+      "lectures": [
+        32,
+        33
+      ],
+      "objectives": [
+        "Distinguish linearized feasibility from feasible motion",
+        "Build globally valid convex cutting planes",
+        "Derive exterior-penalty and interior-barrier limits",
+        "Use primal and dual residuals to stop constrained optimization"
+      ],
+      "prerequisites": "Gradients, convexity, LP duality, KKT conditions, and Chapter 11 line search.",
+      "id": "ch12",
+      "number": 12,
+      "body_sha256": "b108a31e7310a65d59c07036d32f2faaa9c0514d3e866e4bcc62afcb962abb0a",
+      "words": 3075
+    },
+    {
+      "title": "Separable programming and controlled linear approximations",
+      "lectures": [
+        34
+      ],
+      "objectives": [
+        "Recognize additive separability and its coordinate dependence",
+        "Build adjacent-weight piecewise linear models",
+        "Distinguish an interpolation graph from its convex hull",
+        "Bound approximation error and recheck nonlinear feasibility"
+      ],
+      "prerequisites": "Linear programming, convex combinations, one-variable interpolation, and convexity.",
+      "id": "ch13",
+      "number": 13,
+      "body_sha256": "858493c79c308dd3877539aaaf150be166a4d7dae750d4938ed1bf331d1899cc",
+      "words": 3010
+    },
+    {
+      "title": "Geometric programming: positive models and dual certificates",
+      "lectures": [
+        35,
+        36
+      ],
+      "objectives": [
+        "Recognize monomials and posynomials on a positive domain",
+        "Derive the logarithmic convex transformation",
+        "Construct arithmetic–geometric mean dual bounds",
+        "Distinguish ordinary GP from reversed-posynomial generalizations"
+      ],
+      "prerequisites": "Logarithms, convexity, Lagrange multipliers, and weak duality.",
+      "id": "ch14",
+      "number": 14,
+      "body_sha256": "c6f03a2761b50120dc97e3e27c7998f63a551bac683e801a02cc1b2b121e079d",
+      "words": 2880
+    },
+    {
+      "title": "Dynamic programming: state, recursion, and resource allocation",
+      "lectures": [
+        37,
+        38
+      ],
+      "objectives": [
+        "Define a sufficient state and a Bellman recursion",
+        "Solve and reconstruct an integer resource allocation",
+        "Derive continuous additive and multiplicative recursions",
+        "Separate uncertain inputs from sequential information arrival"
+      ],
+      "prerequisites": "Integer programming, elementary probability, single-variable calculus, and shortest paths.",
+      "id": "ch15",
+      "number": 15,
+      "body_sha256": "1ae8328084ec18136c15d21d24c90603ca64b98f73014647de1cec15f68bdfe4",
+      "words": 3129
+    },
+    {
+      "title": "Multiple objectives, AHP, and TOPSIS",
+      "lectures": [
+        39,
+        40
+      ],
+      "objectives": [
+        "Separate dominance from preference",
+        "Choose among scalarization, goals, lexicographic and epsilon constraints",
+        "Derive consistent AHP priorities and diagnose inconsistency",
+        "Implement TOPSIS with explicit directions, normalization and sensitivity"
+      ],
+      "prerequisites": "Vector inequalities, convexity, eigenvectors, linear programming, and Euclidean distance.",
+      "id": "ch16",
+      "number": 16,
+      "body_sha256": "47016f5f41fe5b2cf71eeada0fc1c54fbda4808e039640ff4f8474f77992a1dc",
+      "words": 3386
+    }
+  ]
+}

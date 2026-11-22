@@ -1,0 +1,158 @@
+{
+  "chapter": 16,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 39,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.24,
+        3334.19
+      ],
+      "transcript_sha256": "b721703cbcf31affd62d4e810251d084059373e3e33bcf2c1a1831989d0ccc2c",
+      "topics": [
+        {
+          "start": 17,
+          "topic": "Conflicting objectives"
+        },
+        {
+          "start": 303,
+          "topic": "Flight alternatives and dominance"
+        },
+        {
+          "start": 729,
+          "topic": "Objectives and aspirations"
+        },
+        {
+          "start": 1044,
+          "topic": "Ideal point"
+        },
+        {
+          "start": 1137,
+          "topic": "Nondominance"
+        },
+        {
+          "start": 1353,
+          "topic": "Decision-to-criterion-space example"
+        },
+        {
+          "start": 1702,
+          "topic": "Preferred compromise"
+        },
+        {
+          "start": 1818,
+          "topic": "Preference-information categories"
+        },
+        {
+          "start": 1945,
+          "topic": "Global criterion"
+        },
+        {
+          "start": 2259,
+          "topic": "Utility and weighted methods"
+        },
+        {
+          "start": 2524,
+          "topic": "Lexicographic method"
+        },
+        {
+          "start": 2719,
+          "topic": "Goal programming"
+        },
+        {
+          "start": 3019,
+          "topic": "Epsilon constraints"
+        },
+        {
+          "start": 3150,
+          "topic": "Interactive and fuzzy overview"
+        }
+      ]
+    },
+    {
+      "lecture": 40,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        21.56,
+        3453.41
+      ],
+      "transcript_sha256": "591b0f48ec01c3e6f3819e2d2fb4d8a5d7c309562ce922f18d86874ee7f34b39",
+      "topics": [
+        {
+          "start": 21,
+          "topic": "Finite alternative selection"
+        },
+        {
+          "start": 159,
+          "topic": "MODM and MADM distinctions"
+        },
+        {
+          "start": 325,
+          "topic": "Method inventory"
+        },
+        {
+          "start": 407,
+          "topic": "AHP"
+        },
+        {
+          "start": 553,
+          "topic": "Location example"
+        },
+        {
+          "start": 824,
+          "topic": "Pairwise scale"
+        },
+        {
+          "start": 1270,
+          "topic": "Hierarchy"
+        },
+        {
+          "start": 1318,
+          "topic": "Column normalization and row-average priorities"
+        },
+        {
+          "start": 1614,
+          "topic": "Consistency index and random reference"
+        },
+        {
+          "start": 1836,
+          "topic": "Criterion synthesis"
+        },
+        {
+          "start": 2252,
+          "topic": "TOPSIS"
+        },
+        {
+          "start": 2593,
+          "topic": "TOPSIS normalization"
+        },
+        {
+          "start": 2821,
+          "topic": "Ideal and anti-ideal"
+        },
+        {
+          "start": 3093,
+          "topic": "Distance measures"
+        },
+        {
+          "start": 3180,
+          "topic": "Relative closeness"
+        },
+        {
+          "start": 3325,
+          "topic": "Numerical ordering and inconsistent closing sentence"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Nondominated does not mean equally preferred",
+    "Ideal vector can be feasible when objectives share a minimizer",
+    "Positive weighted sums may miss unsupported efficient points",
+    "AHP row-average priorities distinguished from exact Perron eigenvector",
+    "RI convention not silently replaced",
+    "TOPSIS closing sentence conflicts with preceding numerical ordering"
+  ],
+  "visual_audit": "not performed by chapter author; any root visual checks recorded separately",
+  "audio_audit": "not performed"
+}

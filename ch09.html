@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Equality constraints, KKT conditions, and sensitivity · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html" aria-current=page>09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>09. Equality constraints, KKT conditions, and sensitivity</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=LdBXuN7Tbs4">Lecture 23</a>, <a href="https://www.youtube.com/watch?v=_Lt3zNdnE0k">Lecture 24</a> · Original expanded exposition · 3,121 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Derive Lagrange stationarity from feasible tangent directions</li><li>Use reduced curvature instead of demanding a positive-definite bordered matrix</li><li>Apply all four KKT conditions with consistent multiplier signs</li><li>Separate constraint qualification, convex sufficiency, and sensitivity assumptions</li></ul>
+<p><strong>Prerequisites:</strong> Local and global optimality, gradients, Hessians, convexity, and LP duality.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch09.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-eliminating-an-equality-must-preserve-its-entire-domain-1710">1. Eliminating an equality must preserve its entire domain 17:10</a></li><li><a href="#2-lagrange-multipliers-encode-the-normal-space-condition-2431">2. Lagrange multipliers encode the normal-space condition 24:31</a></li><li><a href="#3-second-order-tests-use-the-lagrangian-on-the-tangent-space-3646">3. Second-order tests use the Lagrangian on the tangent space 36:46</a></li><li><a href="#4-inequalities-add-multiplier-signs-and-complementary-slackness-0019">4. Inequalities add multiplier signs and complementary slackness 00:19</a></li><li><a href="#5-constraint-qualification-licenses-necessity-convexity-licenses-sufficiency-2217">5. Constraint qualification licenses necessity; convexity licenses sufficiency 22:17</a></li><li><a href="#6-an-active-set-calculation-gives-a-verifiable-allocation-5025">6. An active-set calculation gives a verifiable allocation 50:25</a></li><li><a href="#7-a-multiplier-is-a-local-value-derivative-under-regularity-5000">7. A multiplier is a local value derivative under regularity 50:00</a></li><li><a href="#8-executable-certificates-and-limits">8. Executable certificates and limits</a></li><li><a href="#exercises">Exercises</a></li><li><a href="#sources-and-scope">Sources and scope</a></li></ul></div>
+<article>
+<p>An unconstrained optimizer can reduce calibration error by changing two parameters in a direction that violates a conservation law. A zero gradient is no longer the right requirement. The question is whether any <em>feasible</em> change reduces the objective. Lagrange multipliers and the Karush–Kuhn–Tucker conditions describe how constraint normals block otherwise improving directions.</p>
+<p>Our original running allocation model minimizes squared deviation from a preferred operating point. We first impose an equality and then replace it with a capacity inequality. This exposes three distinctions: equality multipliers can have either sign; active inequality multipliers may be zero; and local stationarity becomes a global certificate only under additional structure.</p>
+<h2 id="1-eliminating-an-equality-must-preserve-its-entire-domain-1710">1. Eliminating an equality must preserve its entire domain <a href="https://www.youtube.com/watch?v=LdBXuN7Tbs4&amp;t=1030s">17:10</a></h2>
+<p>Consider $\min x^2+y^2+z^2$ subject to $x+y+2z=12$, with unrestricted real variables. The objective penalizes large allocations and the equality imposes a fixed weighted total. Direct substitution gives $z=(12-x-y)/2$, so the reduced objective is</p>
+<p>$$\phi(x,y)=x^2+y^2+\tfrac14(12-x-y)^2.$$</p>
+<p>Its gradient equations are $2x-(12-x-y)/2=0$ and $2y-(12-x-y)/2=0$. Subtracting gives $x=y$, and substitution yields $x=y=2$, $z=4$. The objective is 24. The reduced Hessian is $\begin{bmatrix}5/2&amp;1/2\\1/2&amp;5/2\end{bmatrix}$, whose eigenvalues are 2 and 3. It is positive definite everywhere, so the reduced problem is strictly convex and this solution is its unique global minimum.</p>
+<p>Substitution is exact here because every real $(x,y)$ yields one feasible $z$, and every feasible triple has this representation. For a nonlinear equality, one formula can lose branches or introduce a restricted parameter domain. Replacing $x^2+y^2=1$ by $y=\sqrt{1-x^2}$ retains only the upper semicircle and requires $-1\le x\le1$. Applying an unconstrained theorem to all real $x$ would solve neither the original circle nor the correctly reduced problem.</p>
+<p>A local implicit-function representation also requires a nonzero appropriate derivative. Having fewer equality equations than variables does not by itself guarantee a global elimination formula. Constraint dependence, singular points, and disconnected components require separate attention.</p>
+<h2 id="2-lagrange-multipliers-encode-the-normal-space-condition-2431">2. Lagrange multipliers encode the normal-space condition <a href="https://www.youtube.com/watch?v=LdBXuN7Tbs4&amp;t=1471s">24:31</a></h2>
+<p>Let $x\in\mathbb R^n$, let $f(x)$ be differentiable, and impose differentiable equalities $h(x)=0$ with $h:\mathbb R^n\to\mathbb R^p$. The Jacobian $J_h(x)$ has row $j$ equal to $\nabla h_j(x)^\top$. At a <strong>regular point</strong>, these rows are linearly independent. A first-order feasible tangent direction $d$ satisfies $J_h(x)d=0$.</p>
+<p>At a regular local minimizer, the objective derivative must vanish along every feasible tangent direction. Both directions along a smooth feasible curve are locally available, so a nonzero tangent derivative would permit improvement in one orientation. Linear algebra then says that $\nabla f(x_*)$ lies in the row space of the equality Jacobian: the orthogonal complement of its null space.</p>
+<p>Introduce unrestricted multipliers $\nu\in\mathbb R^p$ and define the <strong>Lagrangian</strong></p>
+<p>$$L(x,\nu)=f(x)+\nu^\top h(x).$$</p>
+<p>The first-order equations are</p>
+<p>$$\nabla_x L(x_*,\nu_*)=\nabla f(x_*)+J_h(x_*)^\top\nu_*=0,
+\qquad h(x_*)=0.$$</p>
+<p>The sign convention is fixed by this displayed definition. Writing $f-\nu^\top h$ would reverse the multiplier signs while describing the same primal stationarity. Equality multipliers have no nonnegativity restriction because an equality's normal may be used in either orientation.</p>
+<p>For the allocation example, take $h=x+y+2z-12$. Stationarity gives $2x+\nu=0$, $2y+\nu=0$, and $2z+2\nu=0$. Thus $x=y=-\nu/2$ and $z=-\nu$. The equality gives $-3\nu=12$, so $\nu=-4$ and the same solution $(2,2,4)$ follows.</p>
+<h3 id="the-lagrangian-is-not-jointly-minimized-over-primal-and-multiplier-variables">The Lagrangian is not jointly minimized over primal and multiplier variables</h3>
+<p>The multiplier equations enforce the original constraints. They do not convert the constrained problem into ordinary unconstrained minimization of $L$ over $(x,\nu)$. At any infeasible $x$ with $h(x)\ne0$, choosing $\nu=-t h(x)$ sends $\nu^\top h(x)$ to $-\infty$ as $t\to\infty$. Joint minimization would therefore encourage unbounded multiplier behavior rather than enforce feasibility.</p>
+<p>Even at a correct solution, the Lagrangian's full Hessian in $(x,\nu)$ is generally indefinite. Its multiplier-multiplier block is zero. A vector supported only on nonzero multiplier coordinates gives zero quadratic form, already ruling out positive definiteness. The stationarity equations form a constrained or saddle system, not a joint-minimum test.</p>
+<p>For the equality allocation example, the full symmetric KKT matrix is</p>
+<p>$$\begin{bmatrix}2I_3&amp;a\\a^\top&amp;0\end{bmatrix},
+\qquad a=(1,1,2)^\top.$$</p>
+<p>It has both positive and negative eigenvalues despite the primal problem's unique minimum. Demanding positive definiteness of this bordered matrix would reject a valid constrained minimizer. This is a consequential difference between the full stationarity system and curvature along feasible directions.</p>
+<h2 id="3-second-order-tests-use-the-lagrangian-on-the-tangent-space-3646">3. Second-order tests use the Lagrangian on the tangent space <a href="https://www.youtube.com/watch?v=LdBXuN7Tbs4&amp;t=2206s">36:46</a></h2>
+<p>For twice continuously differentiable equalities, let $x(t)$ be a feasible curve with $x(0)=x_*$ and $x'(0)=d$. Differentiating $h(x(t))=0$ twice gives $J_hx''(0)$ plus the vector of constraint-curvature terms $d^\top\nabla^2h_jd$ equal to zero. Meanwhile,</p>
+<p>$$\frac{d^2}{dt^2}f(x(t))\bigg|_{t=0}
+=d^\top\nabla^2 f(x_*)d+\nabla f(x_*)^\top x''(0).$$</p>
+<p>Substitute $\nabla f=-J_h^\top\nu_*$ and the differentiated feasibility relation. The expression becomes $d^\top\nabla^2_{xx}L(x_*,\nu_*)d$. Constraint curvature contributes through the multipliers. The objective Hessian alone can miss it.</p>
+<p>At a regular constrained local minimum this quadratic form is nonnegative for all tangent directions. Positive definiteness on every nonzero tangent direction, together with stationarity and regularity, is a sufficient condition for a strict local minimum. A convenient computation chooses columns of a matrix $Z$ spanning $\ker J_h$ and tests the <strong>reduced Hessian</strong> $Z^\top\nabla^2_{xx}LZ$. Its dimension is the number of locally free directions.</p>
+<p>For a concrete curved constraint, minimize $y$ subject to $h(x,y)=x^2-y=0$. Feasibility reduces the objective to $x^2$, so $(0,0)$ is a strict constrained minimum. The objective Hessian is zero everywhere and supplies no useful curvature. With $L=y+\nu(x^2-y)$, stationarity gives $\nu=1$. At the origin the tangent directions have form $(d_x,0)$, and the Lagrangian curvature is $2d_x^2&gt;0$ for nonzero tangent displacements. This recovers the missing geometric effect.</p>
+<p>Regularity is not optional in the multiplier necessity claim. Minimize $x$ subject to $x^2=0$. The only feasible point is zero, so it is a global minimizer. But stationarity would require $1+\nu(2x)=0$, impossible at zero. The constraint gradient vanishes there. The geometric feasible set is valid; its chosen equation has a singular first-order description.</p>
+<h2 id="4-inequalities-add-multiplier-signs-and-complementary-slackness-0019">4. Inequalities add multiplier signs and complementary slackness <a href="https://www.youtube.com/watch?v=_Lt3zNdnE0k&amp;t=19s">00:19</a></h2>
+<p>Now consider</p>
+<p>$$\min f(x)\quad\text{subject to}\quad
+g_i(x)\le0\ (i=1,\ldots,m),\qquad h_j(x)=0\ (j=1,\ldots,p).$$</p>
+<p>Define $L(x,\lambda,\nu)=f(x)+\sum_i\lambda_i g_i(x)+\sum_j\nu_jh_j(x)$. The <strong>Karush–Kuhn–Tucker conditions</strong>, KKT, consist of four requirements:</p>
+<ol>
+<li><strong>Primal feasibility:</strong> $g_i(x_*)\le0$ and $h_j(x_*)=0$.</li>
+<li><strong>Dual feasibility:</strong> $\lambda_i\ge0$, with equality multipliers $\nu_j$ unrestricted.</li>
+<li><strong>Stationarity:</strong> $\nabla f(x_*)+\sum_i\lambda_i\nabla g_i(x_*)+\sum_j\nu_j\nabla h_j(x_*)=0$.</li>
+<li><strong>Complementary slackness:</strong> $\lambda_i g_i(x_*)=0$ for each inequality.</li>
+</ol>
+<p>An inequality is <strong>active</strong> if $g_i(x_*)=0$ and inactive if it is strictly negative. Complementary slackness forces the multiplier of an inactive inequality to vanish. It does not force an active multiplier to be positive. For $\min x^2$ subject to $-x\le0$, the optimum zero is active but stationarity gives $\lambda=0$. Activity concerns a geometric equality; a positive multiplier concerns a nonzero marginal effect under appropriate sensitivity assumptions.</p>
+<p>The multiplier sign reflects the inequality convention. For a minimization problem with $g_i\le0$, nonnegative multipliers ensure $L(x,\lambda,\nu)\le f(x)$ at every feasible point. This lower-bound property connects KKT with duality. If a constraint is written as $g_i\ge0$, either negate the function or change the associated sign rule consistently. Signs cannot be transferred from a maximization tableau by memory.</p>
+<p>Introducing squared slacks $g_i(x)+s_i^2=0$ is an algebraic way to represent inequality feasibility. Differentiation gives $2\lambda_i s_i=0$, suggesting complementarity. It does not by itself prove multiplier nonnegativity, constraint qualification, or sufficiency of stationarity. At $s_i=0$, the derivative with respect to the slack vanishes, which can create singular descriptions. The four explicit KKT requirements remain the reliable contract.</p>
+<h2 id="5-constraint-qualification-licenses-necessity-convexity-licenses-sufficiency-2217">5. Constraint qualification licenses necessity; convexity licenses sufficiency <a href="https://www.youtube.com/watch?v=_Lt3zNdnE0k&amp;t=1337s">22:17</a></h2>
+<p>For differentiable nonlinear constraints, a local optimum need not satisfy KKT without a <strong>constraint qualification</strong>, a regularity assumption on how the constraints describe feasible directions. One sufficient condition is linear independence of all equality gradients and active inequality gradients at the optimum, commonly called LICQ. It ensures that the first-order normal representation is valid. Other qualifications are weaker and can apply when LICQ fails.</p>
+<p>The earlier example $\min x$ subject to $x^2\le0$ shows the issue with inequalities. Its sole feasible point is zero, but stationarity $1+2\lambda x=0$ cannot hold. The gradient of the active inequality vanishes. This is not evidence that the problem lacks an optimum; it is evidence that an unqualified multiplier necessity theorem was misapplied.</p>
+<p>KKT is generally not sufficient for local optimality. Minimize $-x^2$ subject to $-1\le x\le1$. At zero both inequalities are inactive, their multipliers can be zero, and the objective derivative is zero. All KKT conditions hold, yet zero is a strict local maximum. The equations identify candidate stationary structure, not the desired curvature.</p>
+<p>For a <strong>convex optimization problem</strong>, take a convex differentiable objective, convex differentiable inequality functions, and affine equalities, all on an appropriate convex domain. Any feasible KKT point is globally optimal. To prove it, fix its multipliers. Nonnegative weighted sums preserve convexity, so $L(\cdot,\lambda_*,\nu_*)$ is convex. Stationarity makes $x_*$ a global minimizer of that Lagrangian. For every feasible $x$,</p>
+<p>$$f(x)\ge L(x,\lambda_*,\nu_*)
+\ge L(x_*,\lambda_*,\nu_*)=f(x_*).$$</p>
+<p>The final equality uses feasibility and complementary slackness. This is a complete global certificate. It requires no positive-definite Hessian, no unique optimum, and no additional constraint qualification once a KKT point has actually been found.</p>
+<p>Constraint qualifications matter again when asking whether an optimum has multipliers at all. In convex problems, <strong>Slater's condition</strong> requires a feasible point satisfying all inequality constraints strictly, with affine equalities satisfied exactly, under the usual domain assumptions. It supplies strong duality and multiplier existence for a finite attained optimum in the standard setting. <a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf#page=257">Boyd and Vandenberghe, §5.5.3, printed pp. 243–244</a> separate these necessity and sufficiency claims explicitly.</p>
+<h2 id="6-an-active-set-calculation-gives-a-verifiable-allocation-5025">6. An active-set calculation gives a verifiable allocation <a href="https://www.youtube.com/watch?v=_Lt3zNdnE0k&amp;t=3025s">50:25</a></h2>
+<p>Minimize $f(x,y)=(x-2)^2+(y-3)^2$ subject to $x+y\le3$, $-2x+y\le2$, and $x,y\ge0$. The preferred unconstrained point $(2,3)$ violates the first capacity. Introduce multipliers $\lambda_1,\lambda_2$ for the displayed capacities and $\alpha,\beta$ for $-x\le0,-y\le0$.</p>
+<p>At a candidate with positive $x,y$, complementarity gives $\alpha=\beta=0$. Suppose the first capacity binds and the second is inactive. The equations become $2(x-2)+\lambda_1=0$, $2(y-3)+\lambda_1=0$, and $x+y=3$. Adding the first two gives $2(3-5)+2\lambda_1=0$, so $\lambda_1=2$. Then $x=1$ and $y=2$.</p>
+<p>Check every condition rather than accepting the algebraic root. The second capacity has value $-2(1)+2=0&lt;2$, so it is indeed inactive and $\lambda_2=0$. Both variables are positive, so lower-bound multipliers vanish. The first multiplier is nonnegative. The loss is $1+1=2$. The convex global certificate applies, and strict convexity of this objective makes the optimum unique.</p>
+<p>A direct certificate is also available. With the accepted multipliers, $L=f+2(x+y-3)$ expands to $(x-1)^2+(y-2)^2+2$. Its minimum over all real pairs is 2. Feasible points satisfy $f\ge L$, and $(1,2)$ attains equality. This independently checks both the answer and the multiplier sign.</p>
+<p>Enumerating active sets can solve small problems, but the number of subsets grows exponentially. Degenerate constraints can create multiple descriptions of the same point. A candidate must pass primal feasibility, multiplier signs, and stationarity; solving equalities alone can produce infeasible points or negative multipliers. Larger numerical methods manage this structure without listing every subset explicitly.</p>
+<h2 id="7-a-multiplier-is-a-local-value-derivative-under-regularity-5000">7. A multiplier is a local value derivative under regularity <a href="https://www.youtube.com/watch?v=LdBXuN7Tbs4&amp;t=3000s">50:00</a></h2>
+<p>For an equality $h(x)=b$, define the optimal value $v(b)$ and use $L=f+\nu(h-b)$. Assume a smoothly varying optimizer and multiplier exist nearby. Differentiating feasibility gives $J_hx'(b)=1$ for a scalar right-hand side. Differentiating the objective and using stationarity gives</p>
+<p>$$v'(b)=\nabla f(x(b))^\top x'(b)
+=-\nu(b)J_hx'(b)=-\nu(b).$$</p>
+<p>For the equality allocation problem with right-hand side $b$, the solution is $(b/6,b/6,b/3)$. Its value is $v(b)=b^2/6$, so $v'(12)=4$. The multiplier at 12 is $-4$, confirming the sign. Increasing an equality right-hand side is not inherently a relaxation: feasible sets for different equality values are generally not nested.</p>
+<p>For the inequality $g_i(x)\le b_i$, increasing $b_i$ enlarges the feasible set and cannot increase a minimization optimum. Under differentiable sensitivity, $\partial v/\partial b_i=-\lambda_i\le0$. At active-set changes, the value function may be nondifferentiable and multipliers can instead support directional or subgradient statements. A shadow price is not permission to extrapolate a local derivative over arbitrarily large resource changes. <a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf#page=265">Boyd and Vandenberghe, §5.6.3</a> state the differentiability qualification.</p>
+<h2 id="8-executable-certificates-and-limits">8. Executable certificates and limits</h2>
+<p>The <a href="labs/ch09.py">chapter lab</a> enumerates independent active sets for a tiny squared-distance quadratic program, solves the associated linear KKT systems, and filters candidates by feasibility and multiplier signs. It checks the allocation $(1,2)$, multipliers $(2,0,0,0)$, loss 2, stationarity, and complementary slackness. Inputs must be finite arrays of compatible dimensions; singular candidate systems are skipped. This is an educational finite-instance procedure, not a general nonlinear solver.</p>
+<p>The lab independently solves the four-by-four bordered equality system and obtains $(2,2,4,-4)$. It verifies that the matrix has eigenvalues of both signs and that the value-function finite difference is 4. These checks establish the stated examples. They do not test all constraint qualifications or provide a general second-order inequality-constrained theorem; that theorem requires curvature on an appropriate critical cone, beyond simply testing the full Hessian.</p>
+<h2 id="exercises">Exercises</h2>
+<ol>
+<li>Solve the equality allocation model by direct substitution and certify its global minimum.</li>
+<li>Explain why the bordered KKT matrix can be indefinite at a strict constrained minimum.</li>
+<li>Analyze $\min y$ subject to $x^2-y=0$ using the Lagrangian and the tangent space.</li>
+<li>Give an active constraint with zero multiplier and an optimum at which no KKT multiplier exists.</li>
+<li>Verify all KKT conditions and a global certificate for the capacity allocation $(1,2)$.</li>
+<li>Derive the equality value function for right-hand side $b$ and compare its derivative with the multiplier. Explain why equality changes are not automatically relaxations.</li>
+</ol>
+<details>
+<summary>Fully worked solutions</summary>
+<ol>
+<li>
+<p>Substitute $z=(12-x-y)/2$. The reduced gradient equations imply $x=y=2$, hence $z=4$ and objective 24. The reduced Hessian has positive eigenvalues 2 and 3 everywhere, so its objective is strictly convex. Every feasible triple corresponds to one reduced pair, proving globality and uniqueness for the original problem. Alternatively Cauchy–Schwarz gives $(x+y+2z)^2\le6(x^2+y^2+z^2)$, so the objective is at least $144/6=24$; equality holds when $(x,y,z)$ is proportional to $(1,1,2)$, yielding the same triple.</p>
+</li>
+<li>
+<p>The full matrix includes derivatives with respect to free equality multipliers and has a zero multiplier-multiplier block. A vector with only multiplier entries has zero quadratic form, ruling out positive definiteness. In the worked example eigenvalues of both signs appear. Feasible primal displacements are restricted by the equality Jacobian, and only the Lagrangian curvature on that tangent subspace classifies the constrained minimum.</p>
+</li>
+<li>
+<p>With $L=y+\nu(x^2-y)$, stationarity at the origin gives $\nu=1$. The equality gradient is $(0,-1)$, so tangent vectors are $(d_x,0)$. The primal Hessian of $L$ is $\operatorname{diag}(2,0)$, producing tangent curvature $2d_x^2&gt;0$. Direct substitution $y=x^2$ proves the same strict constrained minimum. The zero objective Hessian would have missed the constraint curvature.</p>
+</li>
+<li>
+<p>For $\min x^2$ subject to $-x\le0$, zero is active and stationarity gives multiplier zero. For $\min x$ subject to $x^2\le0$, zero is the only feasible point, but stationarity would require $1+\lambda(0)=0$. There is no multiplier because the active constraint's gradient vanishes. Complementarity's converse and unqualified necessity both fail in these examples for different reasons.</p>
+</li>
+<li>
+<p>At $(1,2)$, the capacity residuals are zero and $-2$, and lower-bound residuals are $-1,-2$. Set multipliers to $(2,0,0,0)$. The objective gradient is $(-2,-2)$, canceled by $2(1,1)$. All products of multiplier and residual vanish, all multipliers are nonnegative, and feasibility holds. The Lagrangian equals $(x-1)^2+(y-2)^2+2$, so it lower-bounds every feasible objective by 2. The candidate attains it and is uniquely optimal by strict convexity.</p>
+</li>
+<li>
+<p>The equality solution is proportional to $(1,1,2)$: $(b/6,b/6,b/3)$. Squaring and summing gives $v(b)=b^2/6$. Thus $v'(b)=b/3$ and at 12 it is 4. Stationarity gives $\nu=-b/3$, so $v'=-\nu$. An equality fixes a level surface; moving that surface replaces the feasible set rather than necessarily enlarging it. An inequality upper bound instead has nested feasible sets as the bound increases.</p>
+</li>
+</ol>
+</details>
+<h2 id="sources-and-scope">Sources and scope</h2>
+<p>Lectures <a href="https://www.youtube.com/watch?v=LdBXuN7Tbs4">23</a> and <a href="https://www.youtube.com/watch?v=_Lt3zNdnE0k">24</a> motivate substitution, multipliers, sensitivity, and KKT. This exposition repairs the distinction between a bordered stationarity matrix and a reduced Hessian, unrestricted equality signs, non-strict inequality multiplier signs, and the separate roles of qualification and convexity. The explicit proofs and worked certificates are teaching additions rather than claims of verbatim board transcription.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch09.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;KKT equations verified against all active sets of a small convex QP.&quot;&quot;&quot;
+from itertools import combinations
+
+import numpy as np
+
+
+def active_set_solutions(center, matrix, bounds, tolerance=1e-9):
+    &quot;&quot;&quot;Solve min ||x-center||^2 subject to matrix @ x &lt;= bounds.
+
+    Enumerates independent active sets up to parameter dimension; finite,
+    tiny teaching instances only. Returns feasible KKT candidate triples.
+    &quot;&quot;&quot;
+    center = np.asarray(center, float)
+    matrix = np.asarray(matrix, float)
+    bounds = np.asarray(bounds, float)
+    n = len(center)
+    if (center.ndim != 1 or matrix.ndim != 2 or matrix.shape[1] != n
+            or bounds.shape != (len(matrix),)
+            or not all(np.isfinite(a).all() for a in (center, matrix, bounds))):
+        raise ValueError(&quot;finite arrays with compatible dimensions required&quot;)
+    candidates = []
+    for size in range(min(n, len(matrix)) + 1):
+        for active in combinations(range(len(matrix)), size):
+            selected = matrix[list(active)]
+            kkt = np.block([[2 * np.eye(n), selected.T],
+                            [selected, np.zeros((size, size))]])
+            rhs = np.r_[2 * center, bounds[list(active)]]
+            try:
+                answer = np.linalg.solve(kkt, rhs)
+            except np.linalg.LinAlgError:
+                continue
+            x, values = answer[:n], answer[n:]
+            if np.all(matrix @ x &lt;= bounds + tolerance) and np.all(values &gt;= -tolerance):
+                multipliers = np.zeros(len(matrix))
+                multipliers[list(active)] = values
+                candidates.append((x, multipliers, active))
+    return candidates
+
+
+if __name__ == &quot;__main__&quot;:
+    matrix = np.array([[1, 1], [-2, 1], [-1, 0], [0, -1]], float)
+    bounds = np.array([3, 2, 0, 0], float)
+    candidates = active_set_solutions([2, 3], matrix, bounds)
+    assert candidates
+    for x, multipliers, active in candidates:
+        assert np.allclose(x, [1, 2])
+        assert np.allclose(multipliers, [2, 0, 0, 0])
+        assert np.allclose(2 * (x - [2, 3]) + matrix.T @ multipliers, 0)
+        assert np.allclose(multipliers * (matrix @ x - bounds), 0)
+        assert np.isclose(np.sum((x - [2, 3]) ** 2), 2)
+    a = np.array([[1.0, 1.0, 2.0]])
+    bordered = np.block([[2 * np.eye(3), a.T], [a, np.zeros((1, 1))]])
+    answer = np.linalg.solve(bordered, [0, 0, 0, 12])
+    assert np.allclose(answer, [2, 2, 4, -4])
+    eigenvalues = np.linalg.eigvalsh(bordered)
+    assert eigenvalues.min() &lt; 0 &lt; eigenvalues.max()
+    epsilon = 1e-5
+    value = lambda b: b * b / 6
+    sensitivity = (value(12 + epsilon) - value(12 - epsilon)) / (2 * epsilon)
+    assert np.isclose(sensitivity, 4)
+    print(&quot;inequality optimum=(1,2), loss=2, lambda=(2,0,0,0)&quot;)
+    print(&quot;equality optimum=(2,2,4), objective=24, multiplier=-4&quot;)
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch08.html">← Stationary points, curvature, and global optimality</a><a rel="next" href="ch10.html">Interval elimination, Fibonacci search, and golden sections →</a></div></main></div></body></html>

@@ -1,0 +1,88 @@
+{
+  "reviewer": "network_classical (independent of nonlinear chapter author and interactive lab author)",
+  "scope": [
+    "chapters/ch11–16.md: full scientific and pedagogical review including all worked solutions",
+    "chapters/ch11–16.json: full metadata review",
+    "labs/ch11–16.py: full code inspection; not a claim of independent post-edit execution",
+    "validation/source-read-11–16.json: full ledger inspection and comparison to manifest digests and caption endpoints",
+    "numerical-lab.md and assets/lab.js: full equations and algorithm review"
+  ],
+  "report": "validation/nonlinear-review.md",
+  "findings_fixed": [
+    {
+      "files": [
+        "chapters/ch11.md"
+      ],
+      "finding": "Missing proof of strong-convexity gradient-gap estimate",
+      "resolution": "Added explicit strong-convexity inequality and completion-of-square derivation"
+    },
+    {
+      "files": [
+        "chapters/ch12.md"
+      ],
+      "finding": "Simplified feasible-direction subproblem omitted equality tangent restrictions",
+      "resolution": "Added J_h(x)d=0 and nonlinear equality first-order/restoration caveat"
+    },
+    {
+      "files": [
+        "chapters/ch16.md",
+        "labs/ch16.py"
+      ],
+      "finding": "AHP singleton matrix produced an undefined consistency index",
+      "resolution": "Added order-at-least-two input guard, expected-rejection regression and matching manuscript contract"
+    }
+  ],
+  "remaining_findings": [],
+  "source_fidelity": {
+    "independent_caption_samples": [
+      {
+        "lecture": 29,
+        "start_seconds": 1025,
+        "end_seconds": 1190
+      },
+      {
+        "lecture": 32,
+        "start_seconds": 2321,
+        "end_seconds": 2490
+      },
+      {
+        "lecture": 40,
+        "start_seconds": 1318,
+        "end_seconds": 1470
+      },
+      {
+        "lecture": 40,
+        "start_seconds": 3180,
+        "end_seconds": 3455
+      }
+    ],
+    "author_ledgers_checked": true,
+    "manifest_digest_and_endpoint_mismatches": [],
+    "independent_full_caption_reread": false,
+    "independent_audio_review": false,
+    "independent_comprehensive_board_review": false
+  },
+  "execution_boundary": "Central arithmetic independently recomputed, including AHP/TOPSIS and both interactive algorithms. All Python labs inspected. Root final sequential execution or CI remains required; no duplicate of the pending chapter13 rerun started.",
+  "accepted_files": {
+    "chapters/ch11.md": "c168154a5f0eed50cb0b330683c93ed441966f007a6534f85cb5fbc977f463e3",
+    "chapters/ch11.json": "7eadd8ab02ce6c54d0195cdf625c5561286f4d0fd8ff8c9521d12bbf016bc532",
+    "labs/ch11.py": "5cd3f26df35eccf5ea9149e4d7a77edded31292c7249b2f8b390de919d26ff28",
+    "chapters/ch12.md": "b108a31e7310a65d59c07036d32f2faaa9c0514d3e866e4bcc62afcb962abb0a",
+    "chapters/ch12.json": "17e3efe06714606c9e5f72a86be3e2bf1913c5cf0b977664e363113ef7686c2b",
+    "labs/ch12.py": "e073e0938ac7a97173752ac228e7ef98a5715ebb3ad3dc162f939543be0176e8",
+    "chapters/ch13.md": "858493c79c308dd3877539aaaf150be166a4d7dae750d4938ed1bf331d1899cc",
+    "chapters/ch13.json": "b0f221d541913abb3fcf5e55c07a85b934c1a410c3e6a8279326f2e19a092dae",
+    "labs/ch13.py": "1de30f835ead33e2d113adc073afe6680ef945c2714528a55059c73b12f00eef",
+    "chapters/ch14.md": "c6f03a2761b50120dc97e3e27c7998f63a551bac683e801a02cc1b2b121e079d",
+    "chapters/ch14.json": "d9f85b9bfd5b683d3e25b413510c7d74d2b892cce5c41b917891d008b26e447c",
+    "labs/ch14.py": "c41f77a7b77f338ce093ba26737af51a901215161a478ab1fcb4cea15f54be6b",
+    "chapters/ch15.md": "1ae8328084ec18136c15d21d24c90603ca64b98f73014647de1cec15f68bdfe4",
+    "chapters/ch15.json": "ad6948a945a195a5b371314fff30a2b06e6141d310cc53e4974d796ac9e63f2c",
+    "labs/ch15.py": "88d0ca201ea45850d471f13f12cda3c9c433490533838cce088e55bb1e58a37b",
+    "chapters/ch16.md": "47016f5f41fe5b2cf71eeada0fc1c54fbda4808e039640ff4f8474f77992a1dc",
+    "chapters/ch16.json": "1ce90ee29dda1cbede03477bbdbd4f89a14d46882b719b89f226d65aafeb61ea",
+    "labs/ch16.py": "d6764a4f2256bc28e9df99b726bdc519085331312d95beade46ec7c90483f428",
+    "numerical-lab.md": "e0485c0aae96d5f55cff387104b77ff4aa8e366d011dfdf21ca4cda774644730",
+    "assets/lab.js": "34397449a6edb3d6c179f6157d5d2a7c46a50d597f528cd2566c520e55f1f158"
+  }
+}

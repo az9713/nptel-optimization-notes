@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Interval elimination, Fibonacci search, and golden sections · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html" aria-current=page>10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>10. Interval elimination, Fibonacci search, and golden sections</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=-x6eWf-x9SE">Lecture 25</a>, <a href="https://www.youtube.com/watch?v=0-rEdv41l28">Lecture 26</a>, <a href="https://www.youtube.com/watch?v=OgQ4j5Xw8t0">Lecture 27</a>, <a href="https://www.youtube.com/watch?v=C_kVLY3DM20">Lecture 28</a> · Original expanded exposition · 3,518 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Prove interval elimination under explicit unimodality and tie assumptions</li><li>Separate bracketing, location tolerance, objective error, and evaluation budgets</li><li>Derive dichotomous and interval-halving contraction laws</li><li>Derive Fibonacci sample reuse and the golden-section fixed point</li></ul>
+<p><strong>Prerequisites:</strong> Scalar functions, inequalities, finite sequences, and the distinction between local and global minima.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch10.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-a-search-step-has-a-direction-a-length-and-a-stopping-rule-0525">1. A search step has a direction, a length, and a stopping rule 05:25</a></li><li><a href="#2-unimodality-licenses-elimination-1652">2. Unimodality licenses elimination 16:52</a></li><li><a href="#3-a-grid-provides-a-location-interval-not-relative-objective-accuracy-0038">3. A grid provides a location interval, not relative objective accuracy 00:38</a></li><li><a href="#4-dichotomous-search-has-a-resolution-floor-1318">4. Dichotomous search has a resolution floor 13:18</a></li><li><a href="#5-fibonacci-ratios-arrange-reuse-for-a-finite-horizon-0605">5. Fibonacci ratios arrange reuse for a finite horizon 06:05</a></li><li><a href="#6-golden-section-search-chooses-a-reusable-fixed-ratio-0316">6. Golden-section search chooses a reusable fixed ratio 03:16</a></li><li><a href="#7-comparing-algorithms-requires-a-common-accounting-convention-3624">7. Comparing algorithms requires a common accounting convention 36:24</a></li><li><a href="#8-executable-checks-and-stopping-evidence">8. Executable checks and stopping evidence</a></li><li><a href="#exercises">Exercises</a></li><li><a href="#sources-and-scope">Sources and scope</a></li></ul></div>
+<article>
+<p>A physical experiment returns an objective value but no derivative. Every measurement costs time. We want to locate a scalar setting that minimizes the objective while making the number of experiments and the final uncertainty explicit. A small interval containing a minimizer is a useful result; a rounded point declared “optimal” without a location bound is weaker evidence.</p>
+<p>Our original running construction is $f(x)=(x-1.3)^2+2$ on $[-2,5]$. Its exact minimizer, 1.3, is available for independent checks but hidden from the search routines. The methods only compare objective evaluations. The initial interval width is 7. We will distinguish finding a bracket, safely discarding part of it, reusing past evaluations, and deciding what the final width certifies.</p>
+<h2 id="1-a-search-step-has-a-direction-a-length-and-a-stopping-rule-0525">1. A search step has a direction, a length, and a stopping rule <a href="https://www.youtube.com/watch?v=-x6eWf-x9SE&amp;t=325s">05:25</a></h2>
+<p>A general iterative search has the form $x_{k+1}=x_k+\alpha_k d_k$, where $d_k$ is a direction and $\alpha_k&gt;0$ a step length. In one dimension, direction can be represented by $+1$ or $-1$. A derivative-free method chooses these using function values rather than requiring an analytic derivative. This removes a smoothness requirement for evaluation, but not the structural assumptions needed to infer what lies between observations.</p>
+<p>An <strong>interval of uncertainty</strong> $[a_k,b_k]$ is an interval known, under the method's assumptions, to contain a minimizer of interest. Its width is $L_k=b_k-a_k$. A <strong>bracket</strong> can also mean three points $a&lt;c&lt;b$ with $f(c)&lt;f(a)$ and $f(c)&lt;f(b)$. For a continuous function, its minimum on $[a,b]$ is attained and cannot occur solely at either endpoint. That bracket need not contain only one local minimum.</p>
+<p>Starting at a point and expanding steps until objective values rise is a way to seek a bracket. It does not solve the original optimization problem merely because a sampled value stopped improving. A function decreasing forever, such as $e^{-x}$, has no finite unconstrained minimizer and need not produce a finite bracket. Implementations need a maximum evaluation count, domain checks, and a distinct “bracket not found” outcome.</p>
+<p>For $g(x)=x(x-4)$, $g(1.9)=-3.99$ and $g(2)=-4$. Fixed-step calculations rounded prematurely to two significant figures can make these appear equal and stop at the wrong grid point. Completing the square gives $g(x)=(x-2)^2-4$, so the exact minimizer is 2. This is a specific arithmetic repair, not an argument against derivative-free search. Keeping adequate precision and reporting a bracket would prevent a false exactness claim.</p>
+<p>Accelerating step lengths can find a distant bracket with fewer evaluations than moving by a tiny fixed increment. Once a rise occurs, however, the result is an enclosing interval rather than proof that the last improving sample is the exact minimum. A second interval-reduction stage extracts more information from that bracket.</p>
+<h2 id="2-unimodality-licenses-elimination-1652">2. Unimodality licenses elimination <a href="https://www.youtube.com/watch?v=-x6eWf-x9SE&amp;t=1012s">16:52</a></h2>
+<p>For the core comparison proof, assume there is one minimizer $x_*\in[a,b]$, with $f$ strictly decreasing to its left and strictly increasing to its right. We call this <strong>strict unimodality</strong>. Continuity is useful for existence and objective interpretation but is not required for every order comparison once this shape and an attained minimizer are given.</p>
+<p>Choose two interior points $a&lt;x_1&lt;x_2&lt;b$. If $f(x_1)&lt;f(x_2)$, the minimizer cannot lie to the right of $x_2$. If it did, strict decrease on that side of the minimizer would require $f(x_1)&gt;f(x_2)$, a contradiction. Hence retaining $[a,x_2]$ is safe. Similarly, $f(x_1)&gt;f(x_2)$ permits retaining $[x_1,b]$.</p>
+<p>If the values are equal under strict unimodality, the minimizer lies between the points. Both points cannot lie strictly on the same monotone side. One may therefore retain $[x_1,x_2]$, or use a conservative one-sided retention containing that middle interval. The latter makes reuse and worst-case width accounting simpler.</p>
+<p>The strictness qualification matters for ties. Suppose a weakly unimodal function stays at value 1 from 0 to 0.5, then decreases to a unique value 0 at 0.75 and increases thereafter. Evaluations at 0.1 and 0.2 tie at 1, yet their interval does not contain the minimizer. Weak monotonicity with nonoptimal flat regions does not justify the strict-unimodal tie rule. A noisy or rounded equality is also not an exact mathematical equality.</p>
+<p>Multimodality breaks elimination more fundamentally. A comparison at two points does not exclude a deeper narrow valley in a discarded region. Splitting a domain into pieces only repairs the guarantee if each piece's unimodality and the coverage of all relevant pieces are established. A coarse plot or grid is evidence about sampled locations, not proof that no unsampled well exists.</p>
+<p>For the running quadratic, $f'(x)=2(x-1.3)$ proves strict decrease before 1.3 and strict increase after it. We use that derivative only to validate the teaching instance's assumptions. The search algorithm itself receives function values alone. Separating assumption verification from algorithm inputs prevents a hidden derivative oracle from contaminating the evaluation comparison.</p>
+<h2 id="3-a-grid-provides-a-location-interval-not-relative-objective-accuracy-0038">3. A grid provides a location interval, not relative objective accuracy <a href="https://www.youtube.com/watch?v=0-rEdv41l28&amp;t=38s">00:38</a></h2>
+<p>Divide $[a,b]$ into $n+1$ equal subintervals with spacing $h=(b-a)/(n+1)$, and evaluate the $n$ interior grid points. Under strict unimodality, if the smallest sampled value occurs at an interior grid point $x_j$, its neighboring interval $[x_{j-1},x_{j+1}]$ contains the true minimizer. The endpoints $a,b$ can serve as the outer neighbors for edge cases. The interior uncertainty width is $2h=2L_0/(n+1)$.</p>
+<p>Why does that interval contain the minimizer? If the minimizer were farther left than $x_{j-1}$, both neighbors $x_{j-1}$ and $x_j$ would lie on the increasing side, so the former would have smaller value. The right-side argument is symmetric. Ties require the shape qualification just discussed; a collection of equal sampled values is not always a sharply localized minimum.</p>
+<p>Taking the midpoint $\hat x=(a_k+b_k)/2$ of a valid final interval yields</p>
+<p>$$|\hat x-x_*|\le L_k/2.$$</p>
+<p>This is an absolute parameter-location bound. Requiring $L_k/2\le0.05L_0$ means the error is at most five percent of the <em>initial interval width</em>. It does not mean five percent of $|x_*|$, which may be zero, nor five percent relative error in the objective value. Those are different quantities with different units.</p>
+<p>To convert location error into objective error, one needs additional regularity. If $|f'(x)|\le M$ over the interval, the mean-value theorem gives $|f(\hat x)-f(x_*)|\le ML_k/2$. If an interior minimizer has $f'(x_*)=0$ and $|f''(x)|\le K$ between it and $\hat x$, Taylor's theorem gives $0\le f(\hat x)-f(x_*)\le KL_k^2/8$. Without such information a narrow parameter interval can contain a sharp objective change.</p>
+<p>A grid has the advantage that its evaluations can be performed independently. Its contraction per evaluation is poor compared with sequential reuse methods, but total wall time can differ if expensive experiments run in parallel. Compare number of evaluations, parallel capacity, elapsed time, and final certified width separately.</p>
+<h2 id="4-dichotomous-search-has-a-resolution-floor-1318">4. Dichotomous search has a resolution floor <a href="https://www.youtube.com/watch?v=0-rEdv41l28&amp;t=798s">13:18</a></h2>
+<p>At the midpoint $m=(a+b)/2$, evaluate $x_1=m-\delta/2$ and $x_2=m+\delta/2$, where $\delta&gt;0$ is a chosen probe separation smaller than the current width. Use the comparison rule to keep one side. The worst retained width is</p>
+<p>$$L_{k+1}=\tfrac12L_k+\tfrac12\delta.$$</p>
+<p>Subtract $\delta$ from both sides. Then $L_{k+1}-\delta=(L_k-\delta)/2$. Repeated substitution gives</p>
+<p>$$L_k=\delta+\frac{L_0-\delta}{2^k}.$$</p>
+<p>Each reduction uses two fresh function evaluations, so $k$ reductions cost $2k$ evaluations. For $L_0=1$ and $\delta=0.001$, three reductions give $L_3=0.001+0.999/8=0.125875$. The midpoint location error is at most 0.0629375. These statements refer to interval width and parameter error, not relative objective error.</p>
+<p>The limiting width is $\delta$. Choosing a fixed nonzero probe separation prevents arbitrarily fine localization by this recurrence. If the requested tolerance is below the corresponding half-width floor, one must reduce the separation or change methods. Making probes extremely close can also make their objective difference smaller than measurement or floating-point uncertainty.</p>
+<p>If errors satisfy $|\tilde f(x)-f(x)|\le\eta$ at each evaluation, an observed difference greater than $2\eta$ certifies its sign. A smaller difference may be unresolved. Shrinking the interval using an unreliable sign can remove the actual minimizer permanently. Repeating measurements or using explicit confidence intervals is a different statistical algorithm, whose evaluation budget must include those repetitions.</p>
+<h3 id="interval-halving-uses-three-points-3947">Interval halving uses three points <a href="https://www.youtube.com/watch?v=0-rEdv41l28&amp;t=2387s">39:47</a></h3>
+<p>Evaluate the midpoint and the quarter points. If the left quarter improves on the midpoint, retain the left half; if the right quarter improves, retain the right half. If both quarter values exceed the midpoint value, retain the middle half. Strict unimodality rules out conflicting patterns that would require two separated valleys.</p>
+<p>Every retained interval has width $L_k/2$. The old selected point becomes the midpoint of the new interval, so its value can be reused. Three initial evaluations permit the first reduction, and each subsequent reduction needs two new quarter-point values. Thus $k$ reductions use $2k+1$ evaluations and yield $L_k=L_0/2^k$. This is objective-value interval halving, not bisection of a derivative's sign or a root equation. The names overlap while the oracles and assumptions differ.</p>
+<h2 id="5-fibonacci-ratios-arrange-reuse-for-a-finite-horizon-0605">5. Fibonacci ratios arrange reuse for a finite horizon <a href="https://www.youtube.com/watch?v=OgQ4j5Xw8t0&amp;t=365s">06:05</a></h2>
+<p>Use the convention $F_0=0$, $F_1=1$, and $F_n=F_{n-1}+F_{n-2}$. The sequence begins $0,1,1,2,3,5,8,13,21$. Some accounts begin with $F_0=F_1=1$, shifting every subsequent index. An evaluation-budget formula is meaningless unless the indexing and terminal convention are stated together.</p>
+<p>For an interval of width $L$ and horizon index $N\ge4$, place probes at</p>
+<p>$$x_1=a+\frac{F_{N-2}}{F_N}L,\qquad
+x_2=a+\frac{F_{N-1}}{F_N}L.$$</p>
+<p>Their symmetry follows from $F_N=F_{N-1}+F_{N-2}$. Either one-sided retained interval has width $(F_{N-1}/F_N)L$. Suppose the left interval survives. Its old left probe becomes the right probe for the next smaller-index problem because</p>
+<p>$$\frac{F_{N-2}}{F_N}L
+=\frac{F_{N-2}}{F_{N-1}}
+\left(\frac{F_{N-1}}{F_N}L\right).$$</p>
+<p>The old value is reusable in exactly the required relative position. Only one new interior value is needed. The right-retention case is symmetric. This is the information-economy reason for the recurrence; the integers do not improve the objective by numerical coincidence.</p>
+<p>For $N=8$, the initial relative positions are $8/21$ and $13/21$. On $[-2,5]$, these are $2/3$ and $7/3$. Compare their values, retain the correct side, and use the next pair of Fibonacci ratios. The schedule changes with the remaining horizon, unlike the constant-ratio method developed below.</p>
+<p>Near the terminal stage the nominal probes can coincide because consecutive small Fibonacci numbers are equal. A fresh evaluation at the identical point supplies no comparison information. Standard finite-horizon procedures perturb the final probe and state a corresponding arbitrarily small terminal allowance. Writing an exact one-unit width formula while silently comparing one point with itself is not a valid guarantee.</p>
+<p>Our lab chooses a conservative alternative: stop before that coincident terminal comparison, when the width is $2L_0/F_N$. This variant is deliberately not claimed to attain the sharp finite-budget bound. It demonstrates sample reuse with an unambiguous enclosing interval. When comparing published Fibonacci formulas, count actual distinct evaluations and state whether the final perturbation is included; index symbols alone do not resolve off-by-one differences.</p>
+<h2 id="6-golden-section-search-chooses-a-reusable-fixed-ratio-0316">6. Golden-section search chooses a reusable fixed ratio <a href="https://www.youtube.com/watch?v=C_kVLY3DM20&amp;t=196s">03:16</a></h2>
+<p>Suppose we want to continue until a tolerance is met rather than choose a finite horizon beforehand. Put probes at fractions $1-\tau$ and $\tau$ of the interval, with $1/2&lt;\tau&lt;1$. Either one-sided retention has width $\tau L$. After retaining the left interval, the old left probe must become the new right probe if one value is to be reused at the same relative position. Therefore</p>
+<p>$$1-\tau=\tau^2.$$</p>
+<p>Solving $\tau^2+\tau-1=0$ and taking the positive root gives $\tau=(\sqrt5-1)/2\approx0.618033989$. Its reciprocal $\varphi=(1+\sqrt5)/2\approx1.618033989$ is the golden ratio. Distinguishing the two reciprocals prevents a proposed retained fraction from exceeding one.</p>
+<p>Start with $x_1=a+(1-\tau)L$ and $x_2=a+\tau L$. If $f(x_1)\le f(x_2)$ under the stated strict-unimodal model, set the right endpoint to $x_2$ and reuse the pair $(x_1,f(x_1))$ as the new right probe. Calculate one new left probe. If the comparison reverses, retain the right interval and symmetrically reuse the old right probe. Each reduction multiplies width by $\tau$ in this conservative tie convention.</p>
+<p>After $k$ reductions,</p>
+<p>$$L_k=\tau^kL_0.$$</p>
+<p>Two initial evaluations support the first reduction. Each further reduction costs one new evaluation, so completing $k\ge1$ reductions requires $k+1$ evaluations when no unnecessary final probe is computed. To ensure midpoint error at most $\epsilon_x&gt;0$, choose</p>
+<p>$$k\ge\frac{\log(2\epsilon_x/L_0)}{\log\tau},$$</p>
+<p>rounded up when $2\epsilon_x&lt;L_0$. The denominator is negative, so the direction of the inequality must be handled carefully. If the initial half-width is already small enough, no reduction is required.</p>
+<p>For the running interval, ten reductions use eleven evaluations and give width $7\tau^{10}\approx0.056914331$. The midpoint lies within about 0.028457166 of the actual minimizer. This is a worst-case location statement derived from the interval, independently of how close the midpoint happens to be on our quadratic.</p>
+<p>The finite Fibonacci ratios approach the fixed golden fractions as the horizon grows. Divide $F_N=F_{N-1}+F_{N-2}$ by $F_{N-1}$. If the consecutive ratio tends to $r&gt;0$, it satisfies $r=1+1/r$, giving $r=\varphi$. The fixed-ratio method is consequently the horizon-independent counterpart of the reuse schedule, rather than a guarantee that both finite evaluation counts are identical.</p>
+<h2 id="7-comparing-algorithms-requires-a-common-accounting-convention-3624">7. Comparing algorithms requires a common accounting convention <a href="https://www.youtube.com/watch?v=C_kVLY3DM20&amp;t=2184s">36:24</a></h2>
+<p>The contraction ratio $L_k/L_0$ is useful only when its cost index is clear. An iteration can mean one interval reduction, one new probe, or a batch of probes. Comparing $2^{-k}$ with $\tau^k$ at equal reduction counts makes interval halving appear superior, while ignoring that it generally needs two new values per later reduction. Equal oracle calls provide a different comparison.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Cost convention</th>
+<th>Guaranteed retained width under stated shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uniform interior grid</td>
+<td>$n$ interior evaluations</td>
+<td>at most $2L_0/(n+1)$ for an interior minimum bracket</td>
+</tr>
+<tr>
+<td>Dichotomous</td>
+<td>$2k$ evaluations</td>
+<td>$\delta+(L_0-\delta)2^{-k}$</td>
+</tr>
+<tr>
+<td>Interval halving</td>
+<td>$2k+1$ evaluations</td>
+<td>$L_0 2^{-k}$</td>
+</tr>
+<tr>
+<td>Golden section</td>
+<td>$k+1$ evaluations, $k\ge1$</td>
+<td>$L_0\tau^k$</td>
+</tr>
+<tr>
+<td>Conservative Fibonacci lab</td>
+<td>horizon index $N$, terminal coincidence omitted</td>
+<td>$2L_0/F_N$</td>
+</tr>
+</tbody>
+</table></div>
+<p>These are certificates under deterministic, valid comparisons and appropriate unimodality. They are not universal wall-clock rankings or claims of global optimization on arbitrary functions. Endpoint optima can be retained by monotone comparisons, but an API that searches for an interior bracket may behave differently from one that enforces finite bounds.</p>
+<p>The <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize_scalar.html">SciPy <code>minimize_scalar</code> documentation</a> makes this API distinction explicit: two initial bracket points can launch an expanding search, while the bounded method takes mandatory finite bounds. It also describes these routines as local minimizers and explains Brent's use of parabolic interpolation with interval safeguards. That hybrid is developed conceptually in chapter 11. The pure golden method here isolates the reusable comparison mechanism.</p>
+<h2 id="8-executable-checks-and-stopping-evidence">8. Executable checks and stopping evidence</h2>
+<p>The <a href="labs/ch10.py">chapter laboratory</a> implements golden-section search with an exact reduction count and a conservative Fibonacci bracket. It checks that every returned interval contains the known minimizer of the teaching quadratic, verifies contraction formulas over several horizon indices, and counts golden-section evaluations. It separately checks the dichotomous resolution formula and the corrected values at 1.9 and 2 for $x(x-4)$.</p>
+<p>The golden routine accepts finite ordered bounds, a positive integer reduction count, and finite objective evaluations. It assumes strict unimodality; it cannot discover or prove it from finitely many evaluations. It returns two bounds and the evaluation count and changes no files. The Fibonacci routine is a small teaching implementation for the supplied finite inputs, not a noise-aware optimization package.</p>
+<p>The most useful final report includes the surviving interval, its width, the selected estimate, the best measured objective, the number of evaluations, and the stopping reason. A tolerance exit means the interval criterion was met under the assumptions. It is different from exhausting the evaluation budget, encountering nonfinite values, or failing to bracket a minimum. Those outcomes should remain distinct even when all return a numerical point.</p>
+<h2 id="exercises">Exercises</h2>
+<ol>
+<li>Prove the elimination rule for two strictly ordered probes under strict unimodality. Give a weak-unimodal tie counterexample.</li>
+<li>Derive the grid location bound and explain why it does not imply relative objective error.</li>
+<li>Solve the dichotomous width recurrence and compute the width after three reductions with $L_0=1$, $\delta=0.001$.</li>
+<li>Derive the golden fraction from reuse and count evaluations needed for ten reductions.</li>
+<li>For Fibonacci convention $F_0=0,F_1=1$, calculate the initial probes for $N=8$ on $[-2,5]$. Explain the terminal coincidence problem.</li>
+<li>Design a stopping report for a noisy experimental objective. Identify which comparisons are certifiable under a known deterministic error bound $\eta$.</li>
+</ol>
+<details>
+<summary>Fully worked solutions</summary>
+<ol>
+<li>
+<p>Let $x_1&lt;x_2$ and suppose $f(x_1)&lt;f(x_2)$. If $x_*&gt;x_2$, strict decrease before the minimizer would give the reverse inequality. Thus $x_*\le x_2$ and $[a,x_2]$ retains it. Reverse the roles for the other strict comparison. Under strict unimodality, equality places the minimizer between the probes. A weakly decreasing plateau from 0 to 0.5 followed by a decrease to a unique minimum at 0.75 has equal values at 0.1 and 0.2; keeping only their interval would discard the minimizer.</p>
+</li>
+<li>
+<p>Grid spacing is $h=L_0/(n+1)$. An interior best sample must have the minimizer between its neighboring samples, since strict monotonicity would otherwise give a smaller neighboring value. This yields width $2h$ and midpoint error at most $h$. Objective differences require a slope or curvature bound; rescaling the objective by a huge positive constant changes objective error while leaving locations and every comparison unchanged.</p>
+</li>
+<li>
+<p>Subtract $\delta$ to obtain $L_{k+1}-\delta=(L_k-\delta)/2$. Hence $L_k=\delta+(L_0-\delta)/2^k$. At three reductions the width is $0.001+0.999/8=0.125875$. Six objective evaluations are used, and the midpoint location bound is half the width, 0.0629375. The fixed separation prevents the width from tending below 0.001.</p>
+</li>
+<li>
+<p>A retained left interval has width $\tau L$. For the old left probe at $(1-\tau)L$ to become the new right probe, it must equal $\tau(\tau L)$, giving $1-\tau=\tau^2$. The root in $(1/2,1)$ is $(\sqrt5-1)/2$. Two initial evaluations and nine later new values support ten reductions, for eleven total. The width is $L_0\tau^{10}$; counting two fresh values every time would miss the defining reuse benefit.</p>
+</li>
+<li>
+<p>The needed values are $F_6=8,F_7=13,F_8=21$. The first probe is $-2+7(8/21)=2/3$, the second $-2+7(13/21)=7/3$. After interval reduction, one probe remains at the next required ratio, so one value can be reused. At the smallest indices, ratios can place the proposed new probe at an old probe exactly. Re-evaluating that point yields no new exact comparison information. Perturb the terminal probe with an explicit allowance or stop earlier with a larger certified bracket, as the lab does.</p>
+</li>
+<li>
+<p>Report bounds, width, estimate, best observed value, evaluation count, noise/error convention, and termination reason. If each measured value differs from truth by at most $\eta$, a measured difference larger than $2\eta$ fixes the true ordering because errors can change the difference by at most $2\eta$. Smaller gaps are unresolved. A noisy tie should therefore trigger more evidence or a conservative decision, not the strict exact-equality elimination rule. Statistical repetition needs its own confidence and dependence assumptions; a deterministic error guarantee cannot be assumed from observed sample variance alone.</p>
+</li>
+</ol>
+</details>
+<h2 id="sources-and-scope">Sources and scope</h2>
+<p>Lectures <a href="https://www.youtube.com/watch?v=-x6eWf-x9SE">25</a>, <a href="https://www.youtube.com/watch?v=0-rEdv41l28">26</a>, <a href="https://www.youtube.com/watch?v=OgQ4j5Xw8t0">27</a>, and <a href="https://www.youtube.com/watch?v=C_kVLY3DM20">28</a> supply the progression from bracketing and exhaustive search through dichotomy, halving, Fibonacci schedules, and golden sections. The explicit comparison proofs, uncertainty semantics, terminal-horizon qualifications, noise example, and lab are original additions. Caption indexing conventions and rounded arithmetic are reconstructed with stated formulas rather than treated as exact board transcription.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch10.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Interval certificates for golden-section and conservative Fibonacci search.&quot;&quot;&quot;
+from math import isclose, isfinite, sqrt
+
+
+def golden(function, a, b, reductions):
+    &quot;&quot;&quot;Exact-comparison teaching search; assumes strict unimodality on [a,b].&quot;&quot;&quot;
+    if not isfinite(a) or not isfinite(b) or a &gt;= b:
+        raise ValueError(&quot;finite ordered bounds required&quot;)
+    if not isinstance(reductions, int) or reductions &lt; 1:
+        raise ValueError(&quot;a positive integer reduction count is required&quot;)
+    tau = (sqrt(5) - 1) / 2
+    x1, x2 = a + (1 - tau) * (b - a), a + tau * (b - a)
+    f1, f2 = function(x1), function(x2)
+    count = 2
+    for k in range(reductions):
+        if not isfinite(f1) or not isfinite(f2):
+            raise ValueError(&quot;finite function evaluations required&quot;)
+        if f1 &lt;= f2:
+            b = x2
+            x2, f2 = x1, f1
+            if k + 1 &lt; reductions:
+                x1 = a + (1 - tau) * (b - a)
+                f1 = function(x1)
+        else:
+            a = x1
+            x1, f1 = x2, f2
+            if k + 1 &lt; reductions:
+                x2 = a + tau * (b - a)
+                f2 = function(x2)
+        if k + 1 &lt; reductions:
+            count += 1
+    return a, b, count
+
+
+def fibonacci_bracket(function, a, b, index):
+    &quot;&quot;&quot;Stop at the two-unit bracket, before coincident terminal probes.
+
+    Fibonacci convention F0=0,F1=1. The final width is 2*(b-a)/F_index;
+    this conservative variant makes no one-unit terminal-width claim.
+    &quot;&quot;&quot;
+    if index &lt; 4 or int(index) != index or not a &lt; b:
+        raise ValueError(&quot;index &gt;= 4 and ordered bounds required&quot;)
+    values = [0, 1]
+    for _ in range(2, index + 1):
+        values.append(values[-1] + values[-2])
+    left = a + values[index - 2] / values[index] * (b - a)
+    right = a + values[index - 1] / values[index] * (b - a)
+    fleft, fright = function(left), function(right)
+    for remaining in range(index, 3, -1):
+        if fleft &lt;= fright:
+            b = right
+            right, fright = left, fleft
+            left = a + values[remaining - 3] / values[remaining - 1] * (b - a)
+            fleft = function(left)
+        else:
+            a = left
+            left, fleft = right, fright
+            right = a + values[remaining - 2] / values[remaining - 1] * (b - a)
+            fright = function(right)
+    return a, b, values[index]
+
+
+if __name__ == &quot;__main__&quot;:
+    function = lambda x: (x - 1.3) ** 2 + 2
+    a, b, count = golden(function, -2, 5, 10)
+    tau = (sqrt(5) - 1) / 2
+    assert a &lt;= 1.3 &lt;= b and count == 11
+    assert isclose(b - a, 7 * tau ** 10)
+    assert abs((a + b) / 2 - 1.3) &lt;= (b - a) / 2
+    for index in range(4, 13):
+        left, right, fib = fibonacci_bracket(function, -2, 5, index)
+        assert left &lt;= 1.3 &lt;= right
+        assert isclose(right - left, 14 / fib)
+    delta, length = 0.001, 1.0
+    for _ in range(3):
+        length = (length + delta) / 2
+    assert isclose(length, delta + (1 - delta) / 8)
+    assert isclose(1.9 * (1.9 - 4), -3.99)
+    assert 2 * (2 - 4) == -4
+    print(&quot;golden: evaluations=%d, width=%.9f, midpoint=%.9f&quot; %
+          (count, b - a, (a + b) / 2))
+    print(&quot;dichotomy: 3 reductions, 6 evaluations, width=%.9f&quot; % length)
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch09.html">← Equality constraints, KKT conditions, and sensitivity</a><a rel="next" href="ch11.html">Interpolation, direct search, and gradient descent →</a></div></main></div></body></html>

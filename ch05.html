@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Transportation, network bases, and assignment · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html" aria-current=page>05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>05. Transportation, network bases, and assignment</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=bibRfOvjoFs">Lecture 13</a>, <a href="https://www.youtube.com/watch?v=A_IZqdKlb9g">Lecture 14</a>, <a href="https://www.youtube.com/watch?v=FqY7wzi77aM">Lecture 15</a> · Original expanded exposition · 3,633 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Formulate balanced shipping and interpret dummy supplies or demands</li><li>Construct an initial transportation basis and improve it with cycle pivots</li><li>Use row and column potentials as optimality certificates</li><li>Explain why integer balances admit integer transportation and assignment optima</li><li>Trace the Hungarian reduced-cost adjustment</li></ul>
+<p><strong>Prerequisites:</strong> Chapters 1–4: LP geometry, bases, reduced costs, dual certificates, and integer restrictions.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch05.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-shipping-is-a-conservation-model-0018">1. Shipping is a conservation model 00:18</a></li><li><a href="#2-initial-tables-and-the-distinction-between-feasibility-and-quality-2310">2. Initial tables and the distinction between feasibility and quality 23:10</a></li><li><a href="#3-a-transportation-basis-is-a-tree-1354">3. A transportation basis is a tree 13:54</a></li><li><a href="#4-potentials-price-routes-and-cycles-improve-shipments-2101">4. Potentials price routes, and cycles improve shipments 21:01</a></li><li><a href="#5-degeneracy-imbalance-and-missing-routes-0112-1143">5. Degeneracy, imbalance, and missing routes 01:12 · 11:43</a></li><li><a href="#6-assignment-is-transportation-with-unit-balances-1515">6. Assignment is transportation with unit balances 15:15</a></li><li><a href="#six-worked-problems">Six worked problems</a></li><li><a href="#sources-and-scope">Sources and scope</a></li></ul></div>
+<article>
+<p>A distributor has enough stock in total and still can overspend by shipping each destination from its nearest warehouse independently. Every shipment consumes supply needed elsewhere. The transportation problem coordinates all these flows while exposing more structure than a general linear program: a basic column is an edge in a network, and an algebraic pivot becomes an alternating cycle of shipments.</p>
+<p>Our original teaching example has two warehouses with supplies $(4,5)$ and three destinations with demands $(3,2,4)$. The per-unit shipping costs are</p>
+<p>$$C=\begin{bmatrix}2&amp;5&amp;4\\3&amp;1&amp;6\end{bmatrix}.$$</p>
+<p>The optimum will ship four units from warehouse 1 to destination 3, and ship three and two units from warehouse 2 to destinations 1 and 2. Its total cost is 27. We will derive this answer from an initial feasible table and certify that no unexamined table is cheaper.</p>
+<h2 id="1-shipping-is-a-conservation-model-0018">1. Shipping is a conservation model <a href="https://www.youtube.com/watch?v=bibRfOvjoFs&amp;t=18s">00:18</a></h2>
+<p>Let $m$ be the number of sources and $n$ the number of destinations. The nonnegative variable $x_{ij}$ is the quantity shipped from source $i$ to destination $j$, in a common commodity unit. Let $a_i$ be the source's available supply, $b_j$ the destination's demand, and $c_{ij}$ the money cost per unit shipped on that route. For exact balanced shipping,</p>
+<p>$$\begin{aligned}
+\min_x\;&amp;\sum_{i=1}^{m}\sum_{j=1}^{n}c_{ij}x_{ij},\\
+\sum_{j=1}^{n}x_{ij}&amp;=a_i\quad(i=1,\ldots,m),\\
+\sum_{i=1}^{m}x_{ij}&amp;=b_j\quad(j=1,\ldots,n),\qquad x_{ij}\ge0.
+\end{aligned}$$</p>
+<p>Summing either family of equalities counts total shipments, so feasibility requires $\sum_i a_i=\sum_j b_j$. With every route available and nonnegative balanced supplies and demands, a feasible table can be constructed by successively allocating the minimum of an available supply and an unmet demand. If some routes are forbidden or capped, balance alone no longer ensures feasibility: a destination may have demand but no admissible incoming route.</p>
+<p>There are $mn$ variables and $m+n$ displayed balance equations, but one equation is redundant. The sum of source balances equals the sum of destination balances. For a complete source-destination graph, the remaining $m+n-1$ equations are independent. This is the algebraic reason a transportation basis has $m+n-1$ columns. A disconnected allowed-route graph has one balance redundancy per connected component and requires separate component balance checks.</p>
+<p>The cost has money units because each $c_{ij}$ multiplies a quantity. Supplying a route distance directly as a cost assumes a conversion rate and a travel policy. A return trip, minimum vehicle charge, or fixed activation cost can change that relationship. Fixed charges tied to whether a route is used require extra discrete decisions; the linear flow model prices each unit independently.</p>
+<h3 id="time-can-be-a-destination-index-1629">Time can be a destination index <a href="https://www.youtube.com/watch?v=bibRfOvjoFs&amp;t=989s">16:29</a></h3>
+<p>The same table can represent production in month $i$ meeting demand in month $j$. For production cost $p_i$, per-month holding cost $h\ge0$, and allowed backlog penalty $q\ge0$, define $c_{ij}=p_i+h(j-i)$ when $i\le j$, and $c_{ij}=p_i+q(i-j)$ when $i&gt;j$. The second case deliberately permits late delivery. If late delivery is forbidden, delete those routes rather than pretending a finite penalty forbids them.</p>
+<p>This construction explains why the physical meaning of a cell matters. A positive allocation from a later month to an earlier demand is a backlog, not inventory traveling backward in time. Storage capacity, deterioration, and service constraints require additional rows or a richer time-expanded network. The transportation table remains useful precisely while the chosen per-unit costs and balance equations describe the operation.</p>
+<h2 id="2-initial-tables-and-the-distinction-between-feasibility-and-quality-2310">2. Initial tables and the distinction between feasibility and quality <a href="https://www.youtube.com/watch?v=bibRfOvjoFs&amp;t=1390s">23:10</a></h2>
+<p>The <strong>northwest-corner rule</strong> begins at the upper-left active cell, allocates $\min(a_i,b_j)$ using the remaining supply and demand, and removes an exhausted row or column. It uses no cost information. In the example it produces</p>
+<p>$$X^{(0)}=\begin{bmatrix}3&amp;1&amp;0\\0&amp;1&amp;4\end{bmatrix},$$</p>
+<p>with cost $3(2)+1(5)+1(1)+4(6)=36$. Every row and column sum is correct, so it is feasible. Cost 36 is an upper bound on the minimum, not a certificate of optimality.</p>
+<p><strong>Row-minimum</strong> allocation processes the current row's cheapest available destination before moving to another row. <strong>Column-minimum</strong> does the analogous thing by destination. <strong>Least-cost</strong>, also called matrix-minimum, chooses the cheapest available cell in the whole remaining table. Each allocation is still limited by the remaining supply and demand. Ties require a specified rule if reproducibility matters.</p>
+<p>These rules can commit scarce supply to a locally attractive route and force an expensive shipment later. They construct starts; they do not prove that their costs are minimal. Changing the order of rows can change a northwest or row-minimum start without changing the underlying optimization problem. This dependence is a useful warning against interpreting a particular initial table as economically privileged.</p>
+<p><strong>Vogel's approximation method</strong>, VAM, uses an opportunity-cost heuristic. In every active row and column, calculate the difference between its two smallest available costs. Select a line with the largest difference and allocate as much as possible to its cheapest cell. Recompute penalties after updating availability; if only one active cell remains in a line, handle its forced allocation directly. This standard recomputation distinguishes the heuristic from a variant that fills an entire selected line before recalculating penalties.</p>
+<p>For our initial table the row penalties are two and two, and column penalties are one, four, and two. The largest penalty is destination 2, whose cheapest source is warehouse 2. Allocate two units there. Warehouse 2 then has three units left, destination 2 is complete, and the remaining comparison considers destinations 1 and 3. A suitable tie rule can reach the optimum directly, but the final reduced-cost test, not the heuristic's name, certifies the result.</p>
+<h2 id="3-a-transportation-basis-is-a-tree-1354">3. A transportation basis is a tree <a href="https://www.youtube.com/watch?v=A_IZqdKlb9g&amp;t=834s">13:54</a></h2>
+<p>Build a bipartite graph with one vertex for each source and one for each destination. A cell $(i,j)$ is an edge joining its source and destination. “Bipartite” means edges always connect the two different vertex classes. A cycle therefore has an even number of edges, alternating source and destination vertices.</p>
+<p>If the positive shipments contain a cycle, add a small amount $t$ on alternate cycle edges and subtract it on the others. Every source and destination on the cycle sees one increase and one decrease, so all balances are preserved. Choose $|t|$ smaller than every positive cycle shipment. Both perturbation signs remain feasible, and the original table is their midpoint. It is therefore not a vertex of the transportation polytope.</p>
+<p>Conversely, columns corresponding to a forest, a graph without cycles, are independent after the redundant balance row is removed. A leaf vertex has just one incident selected edge; any zero linear combination of the selected columns forces that edge's coefficient to vanish at the leaf balance. Remove it and repeat. This leaf elimination forces every coefficient to zero.</p>
+<p>A spanning tree on the complete graph's $m+n$ vertices has $m+n-1$ edges and supplies a basis. The positive support of a basic feasible solution can have fewer edges, in which case additional zero-valued basic edges connect its forest into a spanning tree. The basis is then <strong>degenerate</strong>. A count of positive entries alone is insufficient: independence also requires no cycle.</p>
+<p>This distinction repairs two tempting shortcuts. A positive cycle does not imply infeasibility or nonoptimality; it says that this table is not an extreme point. For a constant-cost problem many nonbasic feasible tables are also optimal. Conversely, a degenerate basic solution has a perfectly valid basis even though some basis shipments vanish. The representation and the economic optimum are separate questions.</p>
+<h3 id="integer-balances-give-integer-basic-shipments">Integer balances give integer basic shipments</h3>
+<p>Suppose all supplies and demands are integers. At a leaf of the basic tree, its only incident shipment equals that leaf's remaining balance and is therefore integer. Remove that edge and subtract its integer flow from the neighbor's balance. The remaining balances stay integer. Continuing through the tree proves every basic shipment is integer.</p>
+<p>Thus a feasible balanced transportation LP with integer balances has an integer optimal basic solution. It does not mean that every feasible or every optimal table is integer: convex combinations of integer optima can be fractional. The conclusion is existence of an integer optimum. Additional arbitrary constraints, such as a coupling budget across selected routes, can destroy this structure and require integer programming again. The <a href="https://math.mit.edu/~shor/18.310/lpnotes310.pdf">Goemans LP notes, §1.1.2</a> give the transportation formulation; the tree proof here explains the integrality mechanism.</p>
+<h2 id="4-potentials-price-routes-and-cycles-improve-shipments-2101">4. Potentials price routes, and cycles improve shipments <a href="https://www.youtube.com/watch?v=A_IZqdKlb9g&amp;t=1261s">21:01</a></h2>
+<p>Introduce unrestricted source and destination potentials $u_i,v_j$ with $u_i+v_j\le c_{ij}$. The transportation dual maximizes $\sum_i a_i u_i+\sum_j b_jv_j$. It is a lower bound on cost: multiply each route inequality by $x_{ij}\ge0$ and sum, then substitute the balance equations.</p>
+<p>On each basic edge set $u_i+v_j=c_{ij}$. Choosing one potential, such as $u_1=0$, determines all the others along the tree. Adding a constant to every $u_i$ and subtracting it from every $v_j$ preserves all sums and the dual objective because total supply equals total demand. This harmless freedom explains why an arbitrary starting potential is allowed.</p>
+<p>Define the <strong>reduced cost</strong> $\Delta_{ij}=c_{ij}-u_i-v_j$. For this minimization convention all reduced costs must be nonnegative at an optimal feasible basis. A negative nonbasic reduced cost identifies a potentially cheaper cycle direction. VAM's differences between two cheapest cells are not these dual potentials; the potentials come from the equations on the selected basis.</p>
+<p>For $X^{(0)}$, take $u_1=0$. Its four basic edges give $v_1=2$, $v_2=5$, $u_2=-4$, and $v_3=10$. The unoccupied edge $(1,3)$ has reduced cost $4-0-10=-6$. Add that edge to the tree. The unique cycle is $(1,3)^+,(1,2)^-,(2,2)^+,(2,3)^-$, where superscripts indicate increasing and decreasing flows.</p>
+<p>The allowable increment is the minimum on the subtracting edges: $t=\min(1,4)=1$. The next table is</p>
+<p>$$X^{(1)}=\begin{bmatrix}3&amp;0&amp;1\\0&amp;2&amp;3\end{bmatrix},$$</p>
+<p>with cost $36+1(-6)=30$. Each row and column remains balanced. The edge $(1,2)$ leaves the basis after reaching zero. The cycle may pass across unoccupied drawing positions, but its turning edges, other than the entering edge, belong to the current basis.</p>
+<p>At the new basis, $u=(0,2)$ and $v=(2,-1,4)$ satisfy its four equalities. Now $\Delta_{21}=3-2-2=-1$. Its cycle is $(2,1)^+,(1,1)^-,(1,3)^+,(2,3)^-$. The subtracting shipments are both three, so $t=3$ and the cost falls to 27. The table becomes</p>
+<p>$$X^*=\begin{bmatrix}0&amp;0&amp;4\\3&amp;2&amp;0\end{bmatrix}.$$</p>
+<p>Two edges reached zero, but a basis loses only one edge per pivot. Retain $(1,1)$ as a zero basic edge and remove $(2,3)$. The basis tree gives $u=(0,1)$ and $v=(2,0,4)$. Its nonbasic reduced costs are five at $(1,2)$ and one at $(2,3)$, both nonnegative. The dual value is $4(0)+5(1)+3(2)+2(0)+4(4)=27$, matching primal cost. This is the optimality certificate.</p>
+<h2 id="5-degeneracy-imbalance-and-missing-routes-0112-1143">5. Degeneracy, imbalance, and missing routes <a href="https://www.youtube.com/watch?v=FqY7wzi77aM&amp;t=72s">01:12</a> · <a href="https://www.youtube.com/watch?v=FqY7wzi77aM&amp;t=703s">11:43</a></h2>
+<p>A zero basic edge is bookkeeping, not a tiny physical shipment. Textbook tables sometimes label such an edge by a symbolic $\epsilon$. Adding a literal positive shipment without adjusting other cells would violate the balances. Retain the exact zero edge in the basis graph, or use a properly defined symbolic perturbation with a consistent limiting interpretation.</p>
+<p>A tied cycle ratio, as in the example, can create several zero flows. Keep enough zero edges to preserve an independent spanning tree. Choosing an arbitrary extra zero cell can form a cycle and make the potential equations ambiguous or inconsistent. Degenerate pivots may have zero cost change; anti-cycling rules or a bounded solver implementation remain necessary.</p>
+<p>If supply exceeds demand and unused stock is allowed, add a dummy destination whose demand is the surplus. A zero shipping cost to that destination models free unused capacity; a disposal or storage charge should instead appear as its cost. If demand exceeds supply, a dummy source models unmet demand or emergency procurement, depending on its interpretation and costs.</p>
+<p>A dummy source does not create real stock. When every demand must be fulfilled and no external supply exists, a shortage means the physical problem is infeasible. Adding a free dummy source and reporting its allocations as delivered goods would conceal that infeasibility. A meaningful relaxed model records shortages explicitly and prices them according to the actual policy.</p>
+<p>Forbidden routes are best omitted or fixed to zero. A finite “very large” route cost can still be chosen if all alternatives are worse or infeasible. If the resulting allocation uses a penalized forbidden route, it is not a valid schedule. This is the same distinction between logical restrictions and finite penalties encountered in artificial-variable and integer models.</p>
+<h2 id="6-assignment-is-transportation-with-unit-balances-1515">6. Assignment is transportation with unit balances <a href="https://www.youtube.com/watch?v=FqY7wzi77aM&amp;t=915s">15:15</a></h2>
+<p>For $n$ workers and $n$ jobs, $x_{ij}=1$ means worker $i$ performs job $j$. Require every row and column sum to equal one. The LP relaxation $x_{ij}\ge0$ is a unit-balance transportation problem. Its basic optimal solution is integer by the tree argument; row and column sums then force each entry to be zero or one. This explains why the ordinary assignment problem can be solved without a general integer search.</p>
+<p>For any row adjustments $u_i$ and column adjustments $v_j$, every complete assignment uses each row and column once. Therefore replacing $c_{ij}$ by $c_{ij}-u_i-v_j$ changes every assignment's total by the same constant $\sum_i u_i+\sum_jv_j$. The minimizers are unchanged. If the reduced matrix is nonnegative and a complete assignment uses only zeros, it attains that dual lower bound and is optimal.</p>
+<p>The <strong>Hungarian method</strong> develops a zero-cost matching while updating these potentials. A <strong>matching</strong> selects cells without repeating a row or column. Having at least one zero in every row and column does not ensure a complete zero matching: several rows can compete for the same column. Use augmenting paths to find a maximum matching in the zero graph rather than relying on arbitrary irreversible greedy choices.</p>
+<h3 id="a-complete-reduced-cost-adjustment-3140">A complete reduced-cost adjustment <a href="https://www.youtube.com/watch?v=FqY7wzi77aM&amp;t=1900s">31:40</a></h3>
+<p>Take the small cost matrix also used in <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linear_sum_assignment.html">SciPy's documented assignment example</a>:</p>
+<p>$$C=\begin{bmatrix}4&amp;1&amp;3\\2&amp;0&amp;5\\3&amp;2&amp;2\end{bmatrix}.$$</p>
+<p>Subtract row minima $(1,0,2)$, then column minima $(1,0,0)$ from the reduced matrix. The result is</p>
+<p>$$R=\begin{bmatrix}2&amp;0&amp;2\\1&amp;0&amp;5\\0&amp;0&amp;0\end{bmatrix}.$$</p>
+<p>The zero graph has maximum matching size two: the first two rows both need column 2. Its zeros are covered by column 2 and row 3. These two lines form a minimum cover in this example. A size-two matching consists of disjoint edges, so any cover needs at least two vertices to touch both; the displayed cover attains that lower bound. This verifies the required minimum directly without invoking the general bipartite matching theorem.</p>
+<p>The smallest uncovered reduced entry is one. Subtract it from every uncovered entry, add it at intersections of two cover lines, and leave singly covered entries unchanged. This produces</p>
+<p>$$R'=\begin{bmatrix}1&amp;0&amp;1\\0&amp;0&amp;4\\0&amp;1&amp;0\end{bmatrix}.$$</p>
+<p>The update has a dual interpretation. Increase $u_i$ by one for uncovered rows 1 and 2, and decrease $v_2$ by one for the covered column. The new potentials are $u=(2,1,2)$ and $v=(1,-1,0)$, and $C-u-v$ is exactly $R'$. All reduced costs remain nonnegative. Their total dual value rises from four to five.</p>
+<p>Now choose the zeros $(1,2),(2,1),(3,3)$. Their original costs are one, two, and two, totaling five. This equals the sum of the final potentials, so the matching and dual solution certify each other. Counting zeros would not give this certificate; the selected zeros must form a complete matching.</p>
+<p>For rectangular assignment, a dummy row or column can represent an idle worker or unfilled task, with a cost appropriate to that action. Modern rectangular assignment routines also handle unequal dimensions directly. Their output matches the smaller side; whether this meets the application's requirements depends on which jobs are allowed to remain unassigned. An assignment relaxation of a traveling-salesperson problem can contain separate subtours, so one-to-one matching alone does not enforce a single tour.</p>
+<p>The <a href="labs/ch05.py">chapter lab</a> checks all shipping balances and both cycle updates, computes basis potentials including the final zero edge, and compares cost 27 with a generic LP. It then checks the Hungarian arithmetic and compares the assignment with all six permutations and SciPy's assignment routine. These deterministic routines take finite arrays, return numerical tables or potentials, and perform no network or file operations. They are bounded teaching implementations, not a scalable transportation solver. The independent assignment routine's interface is documented by <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linear_sum_assignment.html">SciPy</a>.</p>
+<h2 id="six-worked-problems">Six worked problems</h2>
+<h3 id="exercise-1-the-redundant-balance">Exercise 1 — The redundant balance</h3>
+<p>Why can one destination equation be deleted from a connected balanced transportation model without changing its feasible set?</p>
+<details>
+<summary>Worked solution</summary>
+<p>Sum the source equations to obtain total shipments equal to total supply. Subtract the other destination equations. The remaining destination receives total supply minus the other demands, which equals its specified demand by balance. Hence that equation is implied. This argument assumes all source equations and all other destination equations are retained; deleting two arbitrary equations need not preserve the same information.</p>
+</details>
+<h3 id="exercise-2-a-cost-blind-start">Exercise 2 — A cost-blind start</h3>
+<p>Apply northwest allocation to the running table and calculate its cost.</p>
+<details>
+<summary>Worked solution</summary>
+<p>At $(1,1)$ allocate $\min(4,3)=3$, leaving source 1 with one. At $(1,2)$ allocate one, leaving destination 2 with one. At $(2,2)$ allocate one, leaving source 2 with four. At $(2,3)$ allocate the last four. The resulting rows are $(3,1,0)$ and $(0,1,4)$. Its cost is $6+5+1+24=36$. Every demand is met, but the negative reduced cost derived in Section 4 shows it is not optimal.</p>
+</details>
+<h3 id="exercise-3-a-zero-basis-edge">Exercise 3 — A zero basis edge</h3>
+<p>At the final shipping table, why retain a zero edge instead of adding a small real shipment to make four positive cells?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The complete graph has five vertices, so a basis tree has four edges. The three positive flows form a disconnected forest; a zero edge connects its components without changing balances. Adding an actual positive quantity changes one source total and one destination total, violating the exact requirements unless other flows are adjusted. Degeneracy is resolved in the basis representation, not by inventing physical stock.</p>
+</details>
+<h3 id="exercise-4-integer-existence-versus-all-point-integrality">Exercise 4 — Integer existence versus all-point integrality</h3>
+<p>Give a fractional optimal assignment table even though an integer optimal assignment exists.</p>
+<details>
+<summary>Worked solution</summary>
+<p>For a two-by-two all-zero cost matrix, both permutation matrices are optimal. Their average has every entry one-half, satisfies unit row and column sums, and is also optimal. The integrality statement guarantees an integer optimal vertex; it does not force every optimizer to be a permutation. A numerical solver returning an interior convex combination would still satisfy the LP model, while an executable assignment needs an actual matching.</p>
+</details>
+<h3 id="exercise-5-row-adjustments-preserve-ordering">Exercise 5 — Row adjustments preserve ordering</h3>
+<p>Subtract $(2,1,2)$ from the assignment rows and $(1,-1,0)$ from the columns. Why does every complete assignment lose exactly five cost units?</p>
+<details>
+<summary>Worked solution</summary>
+<p>Every complete assignment chooses one entry in each row, so it subtracts $2+1+2=5$ through row adjustments. It also chooses each column once, subtracting $1-1+0=0$ through column adjustments. The total change is five regardless of which permutation is selected. The zero matching in the reduced matrix therefore corresponds to original cost five, and nonnegative reduced entries prove no assignment has lower original cost.</p>
+</details>
+<h3 id="exercise-6-a-shortage-dummy">Exercise 6 — A shortage dummy</h3>
+<p>Total real supply is nine and required demand is eleven. What does a dummy source of supply two and zero route costs mean, and when is it inappropriate?</p>
+<details>
+<summary>Worked solution</summary>
+<p>It permits two units of demand to be satisfied mathematically without using real stock. If the dummy means unmet demand, it models a free shortage; if it means outside procurement, it models free emergency supply. Neither is appropriate when all demand must be physically fulfilled and no such supply exists. Then the original model is infeasible. A valid shortage model labels dummy allocations as shortages and includes their actual penalties or service restrictions.</p>
+</details>
+<h2 id="sources-and-scope">Sources and scope</h2>
+<p>Lectures <a href="https://www.youtube.com/watch?v=bibRfOvjoFs">13</a>, <a href="https://www.youtube.com/watch?v=A_IZqdKlb9g">14</a>, and <a href="https://www.youtube.com/watch?v=FqY7wzi77aM">15</a> supply transportation formulation, initialization methods, potential/cycle optimization, degeneracy, imbalance, and assignment. The shipping tables, cycle trace, integrality argument, and worked solutions are teaching additions. The Hungarian trace develops the explicitly linked SciPy example with its intermediate dual prices. Symbolic epsilon, reduced-cost signs, and complete zero matching are stated explicitly to avoid treating caption shorthand as an executable algorithm.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch05.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Transportation cycle pivots and assignment certificates.&quot;&quot;&quot;
+from itertools import permutations
+import json
+
+import numpy as np
+from scipy.optimize import linear_sum_assignment, linprog
+
+
+def potentials(cost, basis):
+    &quot;&quot;&quot;Solve tree-edge equations u_i + v_j = cost_ij, fixing u_0 = 0.&quot;&quot;&quot;
+    cost = np.asarray(cost, float)
+    m, n = cost.shape
+    if not np.isfinite(cost).all() or len(basis) != m + n - 1:
+        raise ValueError(&quot;Finite costs and a spanning-tree basis required&quot;)
+    matrix, rhs = [], []
+    for i, j in basis:
+        row = np.zeros(m + n)
+        row[i] = row[m + j] = 1
+        matrix.append(row)
+        rhs.append(cost[i, j])
+    row = np.zeros(m + n)
+    row[0] = 1
+    matrix.append(row)
+    rhs.append(0)
+    answer = np.linalg.solve(matrix, rhs)
+    return answer[:m], answer[m:]
+
+
+def main():
+    C = np.array([[2, 5, 4], [3, 1, 6]], float)
+    supply, demand = np.array([4, 5]), np.array([3, 2, 4])
+    first = np.array([[3, 1, 0], [0, 1, 4]], float)
+    second = first + np.array([[0, -1, 1], [0, 1, -1]])
+    final = second + 3 * np.array([[-1, 0, 1], [1, 0, -1]])
+    costs = []
+    for table in [first, second, final]:
+        assert np.all(table &gt;= 0)
+        assert np.array_equal(table.sum(axis=1), supply)
+        assert np.array_equal(table.sum(axis=0), demand)
+        costs.append(float(np.sum(C * table)))
+    assert costs == [36, 30, 27]
+    u, v = potentials(C, [(0, 0), (0, 2), (1, 0), (1, 1)])
+    assert np.allclose(u, [0, 1]) and np.allclose(v, [2, 0, 4])
+    assert np.all(C - u[:, None] - v &gt;= -1e-10)
+    assert np.isclose(supply @ u + demand @ v, 27)
+    rows = []
+    for i in range(2):
+        row = np.zeros((2, 3))
+        row[i, :] = 1
+        rows.append(row.ravel())
+    for j in range(3):
+        row = np.zeros((2, 3))
+        row[:, j] = 1
+        rows.append(row.ravel())
+    reference = linprog(C.ravel(), A_eq=rows,
+                        b_eq=np.concatenate((supply, demand)), method=&quot;highs&quot;)
+    assert reference.success and np.isclose(reference.fun, 27)
+    assignment = np.array([[4, 1, 3], [2, 0, 5], [3, 2, 2]], float)
+    reduced = assignment - np.array([1, 0, 2])[:, None] - [1, 0, 0]
+    assert np.array_equal(reduced, [[2, 0, 2], [1, 0, 5], [0, 0, 0]])
+    assignment_u, assignment_v = np.array([2, 1, 2]), np.array([1, -1, 0])
+    final_reduced = assignment - assignment_u[:, None] - assignment_v
+    assert np.array_equal(final_reduced, [[1, 0, 1], [0, 0, 4], [0, 1, 0]])
+    row, column = linear_sum_assignment(assignment)
+    optimum = float(assignment[row, column].sum())
+    enumerated = min(sum(assignment[i, p[i]] for i in range(3))
+                     for p in permutations(range(3)))
+    assert optimum == enumerated == 5
+    assert np.allclose(assignment_u.sum() + assignment_v.sum(), optimum)
+    print(json.dumps({&quot;shipping_costs&quot;: costs, &quot;shipping_optimum&quot;: final.tolist(),
+                      &quot;potentials&quot;: {&quot;u&quot;: u.tolist(), &quot;v&quot;: v.tolist()},
+                      &quot;assignment_columns_zero_based&quot;: column.tolist(),
+                      &quot;assignment_cost&quot;: optimum}))
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch04.html">← Integer programming: valid cuts and complete search</a><a rel="next" href="ch06.html">Project networks, critical paths, and uncertain deadlines →</a></div></main></div></body></html>

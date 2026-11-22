@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Stationary points, curvature, and global optimality · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html" aria-current=page>08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>08. Stationary points, curvature, and global optimality</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=eo2tOPV3AoE">Lecture 21</a>, <a href="https://www.youtube.com/watch?v=qzXPaWl-BzM">Lecture 22</a> · Original expanded exposition · 3,262 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Derive first- and second-order local optimality conditions</li><li>Classify degenerate stationary points without overusing the Hessian test</li><li>Distinguish positive definiteness from semidefiniteness and test them correctly</li><li>Prove convexity-based global optimality and separate uniqueness from existence</li></ul>
+<p><strong>Prerequisites:</strong> Multivariable differentiation, Taylor expansion, and symmetric-matrix eigenvalues.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch08.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-local-and-global-questions-have-different-quantifiers-1355">1. Local and global questions have different quantifiers 13:55</a></li><li><a href="#2-vanishing-derivatives-are-necessary-only-under-stated-conditions-2023">2. Vanishing derivatives are necessary only under stated conditions 20:23</a></li><li><a href="#3-taylor-expansion-classifies-nondegenerate-stationary-points-2615">3. Taylor expansion classifies nondegenerate stationary points 26:15</a></li><li><a href="#4-the-hessian-is-a-quadratic-form-in-every-direction-1242">4. The Hessian is a quadratic form in every direction 12:42</a></li><li><a href="#5-the-two-parameter-calibration-has-a-complete-certificate">5. The two-parameter calibration has a complete certificate</a></li><li><a href="#6-convexity-turns-a-local-certificate-into-a-global-one-4240">6. Convexity turns a local certificate into a global one 42:40</a></li><li><a href="#7-executable-diagnostics-and-their-limits">7. Executable diagnostics and their limits</a></li><li><a href="#exercises">Exercises</a></li><li><a href="#sources-and-scope">Sources and scope</a></li></ul></div>
+<article>
+<p>A calibration program reports that every first derivative is zero. That can mean it has found the best calibration, a local maximum of the error, or a saddle from which error decreases in some directions. The same stopping message can describe all three. Before choosing a numerical algorithm, we need to know what its derivative diagnostics actually certify.</p>
+<p>Consider a scalar parameter $x$ whose measurement depends on $x^2$. Matching a unit measurement gives the original teaching loss $q(x)=(x^2-1)^2$. It has an ambiguity between positive and negative calibration. A second construction uses two parameters $u,v$ and two residuals: $u+v-1$ and $u-v$. Its weighted loss is $f(u,v)=(u+v-1)^2+2(u-v)^2$. These small models let us contrast nonconvex ambiguity with a unique convex solution without confusing solver behavior with measurement information.</p>
+<h2 id="1-local-and-global-questions-have-different-quantifiers-1355">1. Local and global questions have different quantifiers <a href="https://www.youtube.com/watch?v=eo2tOPV3AoE&amp;t=835s">13:55</a></h2>
+<p>Let $D\subseteq\mathbb R^n$ be a domain and let $f:D\to\mathbb R$ be an objective to minimize. A point $x_*\in D$ is a <strong>local minimizer</strong> if there exists a radius $r&gt;0$ such that $f(x_*)\le f(x)$ for every feasible $x$ with $\|x-x_*\|_2&lt;r$. Here $\|z\|_2=(\sum_i z_i^2)^{1/2}$ is Euclidean length. A <strong>global minimizer</strong> satisfies the inequality for every $x\in D$. A strict local minimizer makes it strict for all nearby distinct points.</p>
+<p>The existence of one neighborhood is weaker than a claim about the whole domain. A local calibration can resist every sufficiently small perturbation and still be worse than another distant calibration. A global minimizer is necessarily local, but a local minimizer need not be global. Replacing $f$ with $-f$ converts minimization statements into maximization statements.</p>
+<p>For $q(x)=(x^2-1)^2$, nonnegativity gives $q(x)\ge0$ everywhere. Both $x=1$ and $x=-1$ attain zero, so both are global minima. The loss cannot tell the sign apart. This is an identification issue in the model, not an optimization defect. Adding a sign convention or another measurement would change the feasible domain or loss and could remove the ambiguity.</p>
+<p>An objective can have a finite infimum without attaining it. On the whole real line, $f(x)=e^x$ has infimum zero but no finite minimizing point. On the open interval $(0,1)$, $f(x)=x$ has the same problem. By contrast, a continuous function on a nonempty compact set attains both minimum and maximum. Compactness combines closedness and boundedness in finite-dimensional Euclidean space. Neither a derivative calculation nor strict convexity alone supplies this existence guarantee.</p>
+<p>Domains matter at endpoints. Minimizing $x$ on $[0,1]$ gives the endpoint zero, even though the derivative is one. The absence of constraints in a displayed problem often means the entire parameter space, but a physical range such as $[0,1]$ is itself a constraint. An interior theorem cannot silently be applied to a boundary optimum.</p>
+<h2 id="2-vanishing-derivatives-are-necessary-only-under-stated-conditions-2023">2. Vanishing derivatives are necessary only under stated conditions <a href="https://www.youtube.com/watch?v=eo2tOPV3AoE&amp;t=1223s">20:23</a></h2>
+<p>Suppose a scalar function is differentiable at an interior local minimum $x_*$. For sufficiently small $h$, the difference $f(x_*+h)-f(x_*)$ is nonnegative. Dividing by positive $h$ gives a nonnegative quotient, whereas dividing by negative $h$ gives a nonpositive quotient. If the two-sided derivative exists, its left and right limits agree; their only common permitted value is zero. Thus $f'(x_*)=0$.</p>
+<p>A <strong>stationary point</strong> is an interior point where the derivative, or multivariable gradient, vanishes. Stationarity is a property defined by derivatives. It is not a synonym for maximum or minimum. For $q$, differentiation gives $q'(x)=4x(x^2-1)$, so the stationary points are $-1,0,1$. At zero the loss is one, and every sufficiently small nonzero $x$ lowers it because $q(x)-q(0)=-2x^2+x^4&lt;0$ for $0&lt;|x|&lt;\sqrt2$. The stationary calibration zero is a strict local maximum.</p>
+<p>The differentiability hypothesis is essential. The function $|x|$ has a strict global minimum at zero but no ordinary derivative there. Its left derivative is $-1$ and right derivative is 1, exactly the one-sided pattern that blocks descent. Nonsmooth optimality uses other notions, such as subgradients for convex functions. Declaring the minimizer absent because the ordinary derivative fails would discard the right answer.</p>
+<p>An <strong>inflection point</strong> concerns a change of curvature, rather than a horizontal tangent. For $x^3$, zero is a stationary inflection point. For $x^3+x$, zero is still an inflection point because the second derivative $6x$ changes sign, but the first derivative there is one. The first-order necessary condition for an interior extremum does not claim that every inflection point is stationary.</p>
+<p>For several variables, let the gradient $\nabla f(x)$ be the column vector of first partial derivatives. If $f$ is differentiable near an interior local minimum $x_*$, restricting $f$ to each coordinate line yields zero partial derivatives, hence $\nabla f(x_*)=0$. Equivalently, if the gradient is nonzero, choose direction $d=-\nabla f(x_*)$. Differentiability gives</p>
+<p>$$f(x_*+\alpha d)-f(x_*)
+=\alpha\nabla f(x_*)^\top d+o(\alpha)
+=-\alpha\|\nabla f(x_*)\|_2^2+o(\alpha).$$</p>
+<p>For sufficiently small positive $\alpha$, the negative linear term dominates. This produces a nearby improvement, contradicting local minimality. The notation $o(\alpha)$ means a remainder whose ratio to $\alpha$ tends to zero. It is the comparison of orders, rather than simply discarding the remainder, that licenses the conclusion.</p>
+<h2 id="3-taylor-expansion-classifies-nondegenerate-stationary-points-2615">3. Taylor expansion classifies nondegenerate stationary points <a href="https://www.youtube.com/watch?v=eo2tOPV3AoE&amp;t=1575s">26:15</a></h2>
+<p>For a twice continuously differentiable scalar function near $x_*$,</p>
+<p>$$f(x_*+h)=f(x_*)+f'(x_*)h+\tfrac12 f''(x_*)h^2+o(h^2).$$</p>
+<p>At a stationary point, the linear term vanishes. If $f''(x_*)&gt;0$, the positive quadratic term dominates the smaller remainder for small nonzero $h$, proving a strict local minimum. If it is negative, the same argument proves a strict local maximum. If it is zero, the test is inconclusive. Inconclusive is a statement about the test, not a classification of the point.</p>
+<p>For $q$, $q''(x)=12x^2-4$. Its values at $-1,0,1$ are $8,-4,8$. These agree with the direct nonnegativity proof of the two minima and the local-maximum calculation at zero. The derivative test is local; the global-minimum certificate came from the square's nonnegativity.</p>
+<p>When the first nonzero derivative at a stationary point has order $k\ge2$, a sufficiently smooth Taylor expansion gives $f(x_*+h)-f(x_*)=f^{(k)}(x_*)h^k/k!+o(|h|^k)$. If $k$ is even, the derivative's sign determines a strict local minimum or maximum. If $k$ is odd, the leading term changes sign across zero, proving that the point is neither a local minimum nor a local maximum.</p>
+<p>For $x^4$, the first three derivatives vanish at zero and the fourth derivative is 24. It has a strict minimum even though the second-derivative test is inconclusive. For $x^3$, the first nonzero derivative has odd order three, and its values on the two sides have opposite signs. An odd first nonzero derivative therefore gives a definite non-extremum conclusion; it is stronger than merely saying “nothing can be determined.”</p>
+<p>Some smooth functions have every derivative zero at a point, so a search for a first nonzero derivative need not terminate. More generally, numerical derivatives near a flat point can be dominated by rounding or measurement noise. A symbolic zero, a small computed derivative, and an experimentally unresolved derivative have different evidentiary status.</p>
+<h2 id="4-the-hessian-is-a-quadratic-form-in-every-direction-1242">4. The Hessian is a quadratic form in every direction <a href="https://www.youtube.com/watch?v=qzXPaWl-BzM&amp;t=762s">12:42</a></h2>
+<p>The <strong>Hessian</strong> $H(x)=\nabla^2 f(x)$ is the matrix of second partial derivatives. Continuous second partial derivatives make it symmetric. For a displacement vector $h\in\mathbb R^n$, Taylor expansion at a stationary point gives</p>
+<p>$$f(x_*+h)-f(x_*)=\tfrac12h^\top H(x_*)h+o(\|h\|_2^2).$$</p>
+<p>A symmetric matrix $H$ is <strong>positive definite</strong> if $h^\top Hh&gt;0$ for every nonzero $h$, and <strong>positive semidefinite</strong> if the expression is nonnegative. Negative definiteness and semidefiniteness reverse the signs. <strong>Indefinite</strong> means there are directions with positive and negative quadratic-form values.</p>
+<p>The all-directions quantifier matters. A positive diagonal is insufficient for positive definiteness. For $H=\begin{bmatrix}1&amp;2\\2&amp;1\end{bmatrix}$, the quadratic form along $(1,1)$ is positive and along $(1,-1)$ negative. Cross terms can create a direction of descent that coordinate-wise checks miss.</p>
+<p>If $H(x_*)$ is positive definite, its smallest eigenvalue $\lambda_{\min}$ is positive and $h^\top Hh\ge\lambda_{\min}\|h\|_2^2$. The remainder is smaller than, for example, $(\lambda_{\min}/4)\|h\|_2^2$ sufficiently near the point. Consequently the total difference is positive for every sufficiently small nonzero displacement. This supplies the uniform bound needed to prove a strict local minimum, rather than assuming that each individual Hessian entry retains a convenient sign.</p>
+<p>An indefinite Hessian at a stationary point proves a <strong>saddle point</strong>: choose eigenvectors with positive and negative eigenvalues and take sufficiently small displacements along each. The objective lies both above and below its stationary value in every sufficiently small neighborhood. A negative-definite Hessian similarly proves a strict local maximum.</p>
+<p>Semidefiniteness at a stationary point is necessary for a twice-differentiable local minimum, but is not sufficient. Restricting to a line in any direction shows that $h^\top H(x_*)h$ cannot be negative at a local minimum. Zero-curvature directions remain undecided. The three functions $u^4+v^4$, $-u^4-v^4$, and $u^4-v^4$ all have zero Hessian at the origin, yet exhibit a strict minimum, strict maximum, and saddle, respectively.</p>
+<h3 id="leading-principal-minors-cannot-be-used-carelessly-3017">Leading principal minors cannot be used carelessly <a href="https://www.youtube.com/watch?v=qzXPaWl-BzM&amp;t=1817s">30:17</a></h3>
+<p>For a symmetric matrix, Sylvester's criterion states that positive leading principal minors characterize positive definiteness. A leading principal minor is the determinant of the first $k$ rows and columns. Negative definiteness requires alternating signs, starting negative. Positive semidefiniteness instead requires every principal minor to be nonnegative, not only the leading ones. A principal minor can choose any common subset of rows and columns.</p>
+<p>The matrix $\operatorname{diag}(0,-1)$ exposes the difference. Its leading minors are zero and zero, both nonnegative, yet its quadratic form is $-v^2$, which is negative when $v\ne0$. Checking only leading minors would falsely classify it as positive semidefinite. Symmetric eigenvalue computation is often a more convenient numerical diagnostic, while values close to zero still require tolerance and conditioning judgment.</p>
+<p>The form $(u+v)^2$ has matrix $\begin{bmatrix}1&amp;1\\1&amp;1\end{bmatrix}$. Its zero directions satisfy $u=-v$, not $u=v$. Such sign details determine whether a calibration ambiguity is correctly identified. A nonzero vector in the Hessian's null space signals absent quadratic curvature, not automatically a flat objective at higher order.</p>
+<h2 id="5-the-two-parameter-calibration-has-a-complete-certificate">5. The two-parameter calibration has a complete certificate</h2>
+<p>Expand the running convex loss:</p>
+<p>$$f(u,v)=3u^2-2uv+3v^2-2u-2v+1.$$</p>
+<p>The gradient is $(6u-2v-2,\,6v-2u-2)^\top$, and the Hessian is the constant matrix $H=\begin{bmatrix}6&amp;-2\\-2&amp;6\end{bmatrix}$. Solving the two gradient equations gives $u=v=1/2$. The Hessian has eigenvalues 4 along $(1,1)$ and 8 along $(1,-1)$, so it is positive definite.</p>
+<p>The residual representation gives a stronger immediate conclusion: $f\ge0$, and both residuals vanish only when $u+v=1$ and $u-v=0$. Hence $(1/2,1/2)$ is the unique global minimizer with loss zero. The two proofs agree for different reasons: positive curvature explains local stability, while the sum-of-squares equality conditions prove global optimality and uniqueness directly.</p>
+<p>Since the loss is exactly quadratic, the Taylor relation has no remainder:</p>
+<p>$$f(x+h)-f(x)=\nabla f(x)^\top h+\tfrac12h^\top Hh,$$</p>
+<p>where $x=(u,v)^\top$. At the optimum, moving by $h$ increases loss by a value between $2\|h\|_2^2$ and $4\|h\|_2^2$. This interprets the eigenvalues as directional error sensitivity. It does not turn parameter sensitivity into a confidence interval; statistical uncertainty would require a model of measurement errors.</p>
+<h2 id="6-convexity-turns-a-local-certificate-into-a-global-one-4240">6. Convexity turns a local certificate into a global one <a href="https://www.youtube.com/watch?v=qzXPaWl-BzM&amp;t=2560s">42:40</a></h2>
+<p>A function on a convex domain is <strong>convex</strong> if $f(\theta x+(1-\theta)y)\le\theta f(x)+(1-\theta)f(y)$ for every pair of domain points and $0\le\theta\le1$. Strict convexity makes the inequality strict for distinct points and interior weights. The domain must also be convex; checking curvature separately on disconnected pieces is not a replacement.</p>
+<p>Suppose a convex function has a local minimizer $x_*$ but there is another domain point $y$ with $f(y)&lt;f(x_*)$. For any small positive $\theta$, the point $(1-\theta)x_*+\theta y$ is feasible and arbitrarily near $x_*$. Convexity gives its value at most $(1-\theta)f(x_*)+\theta f(y)&lt;f(x_*)$, contradicting local minimality. Thus every local minimum of a convex function is global. Strictness is unnecessary for this conclusion.</p>
+<p>Strict convexity supplies uniqueness when a minimizer exists. If distinct $x_*,y_*$ were both global minimizers, their midpoint would have a strictly smaller value. But strict convexity does not establish existence: $e^x$ is strictly convex on the real line and has no minimizer. A useful optimization claim must keep existence, globality, and uniqueness as separate statements.</p>
+<p>For differentiable convex $f$, the tangent inequality is</p>
+<p>$$f(y)\ge f(x)+\nabla f(x)^\top(y-x).$$</p>
+<p>It follows by applying the convexity definition along the segment from $x$ to $y$, dividing the chord inequality by its segment parameter, and taking the derivative at zero. If $\nabla f(x_*)=0$, it immediately certifies global minimality. For a twice-differentiable function on an open convex domain, convexity is equivalent to a positive-semidefinite Hessian everywhere. This is an everywhere condition, not a Hessian check at one stationary point.</p>
+<p><a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf#page=85">Boyd and Vandenberghe, §3.1.4, printed p. 71</a> explicitly distinguish positive-definite Hessians as a sufficient condition for strict convexity from the false converse. The function $x^4$ is strictly convex, yet its second derivative vanishes at zero. Our fourth-order analysis explains why uniqueness and strict growth can persist there despite absent quadratic curvature.</p>
+<p>One can see the forward implication by restricting to any line segment. A positive-semidefinite Hessian gives nonnegative second derivative along that segment, hence convexity of the restriction. Positive definiteness makes the directional second derivative strictly positive along every nonconstant segment, which yields strict convexity. These statements assume the required derivatives exist across the segment.</p>
+<h2 id="7-executable-diagnostics-and-their-limits">7. Executable diagnostics and their limits</h2>
+<p>Run <a href="labs/ch08.py">the chapter laboratory</a>. It computes the calibration optimum by a linear solve, verifies the Hessian eigenvalues $(4,8)$, compares analytic gradients with central finite differences, and checks the exact quadratic Taylor identity at three distinct parameter vectors. It also checks the scalar double-well classification and the semidefinite leading-minor counterexample.</p>
+<p>The finite-difference routine accepts a finite one-dimensional parameter array and a positive finite step. It returns an approximate gradient without changing files or its input. The chosen smooth quadratic makes the central difference exact in real arithmetic, leaving floating-point error as the principal discrepancy. On a general function, truncation error decreases with a smaller step while cancellation error can increase; arbitrary reduction of the step is not a sound verification strategy.</p>
+<p>The lab prints <code>calibration optimum=(0.5,0.5), loss=0, Hessian eigenvalues=(4,8)</code>. That output checks a specific mathematical construction. It does not establish that a measured calibration objective is globally convex, that finite differences are accurate under observation noise, or that a small reported gradient excludes a remote better solution. These are the boundaries a numerical optimizer must preserve in its status report.</p>
+<h2 id="exercises">Exercises</h2>
+<ol>
+<li>Derive the stationary points of $q(x)=(x^2-1)^2$ and classify them locally and globally.</li>
+<li>Explain why $|x|$ at zero and $x$ on $[0,1]$ are not counterexamples to the correctly stated first-order necessary condition.</li>
+<li>Give a strict minimum, strict maximum, and saddle with the same zero Hessian at the origin. Prove the classifications directly.</li>
+<li>Show why the leading principal minors of $\operatorname{diag}(0,-1)$ do not establish positive semidefiniteness. Contrast the positive-definite test.</li>
+<li>Derive the two-parameter calibration optimum and prove uniqueness without invoking a numerical solver.</li>
+<li>Prove that strict convexity implies at most one minimizer. Give a strictly convex function that does not attain its infimum.</li>
+</ol>
+<details>
+<summary>Fully worked solutions</summary>
+<ol>
+<li>
+<p>Differentiation gives $q'(x)=4x(x^2-1)$, whose zeros are $-1,0,1$. The second derivative $12x^2-4$ is positive at the outer two and negative at zero. Thus the outer points are strict local minima and zero a strict local maximum. Since $q$ is a square, its value is at least zero everywhere; both outer points attain zero and are global minima. The local maximum is not global because $q(x)$ grows without bound as $|x|$ grows.</p>
+</li>
+<li>
+<p>The theorem assumes differentiability and an interior minimizer in an open neighborhood. The absolute-value function lacks a derivative at zero. The interval problem has its minimizer at a constrained boundary. Feasible perturbations there are one-sided, so the proof cannot use both positive and negative increments. Each example violates a hypothesis rather than the conclusion of the theorem.</p>
+</li>
+<li>
+<p>Use $f_1=u^4+v^4$, $f_2=-u^4-v^4$, and $f_3=u^4-v^4$. Each gradient and Hessian vanishes at the origin. Every nonzero point has $f_1&gt;0$, so the origin is a strict global minimum of $f_1$. The sign reverses for $f_2$. For $f_3$, points $(h,0)$ have positive value and points $(0,h)$ negative value for every nonzero $h$, however small; the origin is a saddle. The identical Hessians cannot distinguish the fourth-order behavior.</p>
+</li>
+<li>
+<p>The leading one-by-one determinant is zero and the full determinant is zero. But the principal minor using only the second row and column is $-1$, and the vector $(0,1)$ gives quadratic form $-1$. Semidefiniteness fails. For a symmetric positive-definite matrix, strict positivity of every leading minor is sufficient and necessary; replacing those strict inequalities by non-strict ones is not a valid semidefinite criterion.</p>
+</li>
+<li>
+<p>Both squared residuals must vanish to attain zero: $u+v=1$ and $u-v=0$. Adding yields $2u=1$, so $u=v=1/2$. Nonnegativity of both terms proves no smaller value exists, and uniqueness of this linear system proves no other point attains zero. Alternatively, solving the gradient equations gives the same point and the constant positive-definite Hessian establishes strict convexity.</p>
+</li>
+<li>
+<p>Suppose two distinct minimizing points have the same minimum value $m$. Strict convexity at their midpoint gives a value strictly smaller than $(m+m)/2=m$, a contradiction. This proves at most one minimizer, conditional on existence. The function $e^x$ is strictly convex because its second derivative is positive everywhere. It approaches zero as $x\to-\infty$ but is positive at every finite $x$, so it has no attaining minimizer.</p>
+</li>
+</ol>
+</details>
+<h2 id="sources-and-scope">Sources and scope</h2>
+<p>Lectures <a href="https://www.youtube.com/watch?v=eo2tOPV3AoE">21</a> and <a href="https://www.youtube.com/watch?v=qzXPaWl-BzM">22</a> provide the progression from scalar necessary/sufficient conditions through multivariable Taylor expansion, quadratic forms, and convexity. This edition distinguishes interior and boundary points, stationary and nonstationary inflections, inconclusive semidefinite tests, and strict convexity versus positive-definite Hessians. The calibration cases, proofs, counterexamples, and numerical lab are original teaching material. Caption reading does not provide a complete board-equation audit.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch08.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Derivative diagnostics checked by finite differences and exact examples.&quot;&quot;&quot;
+import numpy as np
+
+
+def loss(z):
+    u, v = np.asarray(z, float)
+    return (u + v - 1) ** 2 + 2 * (u - v) ** 2
+
+
+def gradient(z):
+    u, v = np.asarray(z, float)
+    return np.array([6 * u - 2 * v - 2, 6 * v - 2 * u - 2])
+
+
+def central_gradient(function, point, step=1e-5):
+    point = np.asarray(point, float)
+    if point.ndim != 1 or not np.isfinite(point).all():
+        raise ValueError(&quot;a finite one-dimensional parameter array is required&quot;)
+    if not np.isfinite(step) or step &lt;= 0:
+        raise ValueError(&quot;step must be finite and positive&quot;)
+    directions = np.eye(len(point)) * step
+    return np.array([(function(point + d) - function(point - d)) / (2 * step)
+                     for d in directions])
+
+
+if __name__ == &quot;__main__&quot;:
+    hessian = np.array([[6, -2], [-2, 6]], float)
+    optimum = np.linalg.solve(hessian, [2, 2])
+    assert np.allclose(optimum, [0.5, 0.5])
+    assert loss(optimum) == 0
+    assert np.allclose(np.linalg.eigvalsh(hessian), [4, 8])
+    for point in ([0, 0], [2, -1], [0.3, 0.8]):
+        assert np.allclose(central_gradient(loss, point), gradient(point))
+        direction = np.array([0.2, -0.1])
+        difference = loss(np.array(point) + direction) - loss(point)
+        taylor = gradient(point) @ direction + direction @ hessian @ direction / 2
+        assert np.isclose(difference, taylor)
+    stationary = [-1, 0, 1]
+    assert [(x * x - 1) ** 2 for x in stationary] == [0, 1, 0]
+    assert [12 * x * x - 4 for x in stationary] == [8, -4, 8]
+    bad = np.diag([0.0, -1.0])
+    assert bad[0, 0] == 0 and np.linalg.det(bad) == 0
+    assert np.linalg.eigvalsh(bad).min() == -1
+    # Identical zero Hessians at the origin, three distinct local behaviors.
+    epsilon = 0.01
+    assert epsilon ** 4 &gt; 0
+    assert -epsilon ** 4 &lt; 0
+    assert epsilon ** 4 - 0 ** 4 &gt; 0 and 0 ** 4 - epsilon ** 4 &lt; 0
+    print(&quot;calibration optimum=(0.5,0.5), loss=0, Hessian eigenvalues=(4,8)&quot;)
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch07.html">← Shortest paths and tours: local certificates and global connectivity</a><a rel="next" href="ch09.html">Equality constraints, KKT conditions, and sensitivity →</a></div></main></div></body></html>

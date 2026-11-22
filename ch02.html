@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Simplex, artificial variables, and exceptional cases · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html" aria-current=page>02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>02. Simplex, artificial variables, and exceptional cases</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=RcPhmPhjMbc">Lecture 4</a>, <a href="https://www.youtube.com/watch?v=DUFcNysR-w8">Lecture 5</a>, <a href="https://www.youtube.com/watch?v=OUduOnhO94k">Lecture 6</a>, <a href="https://www.youtube.com/watch?v=kt2TNZ_AIlI">Lecture 7</a> · Original expanded exposition · 3,498 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Derive reduced costs and the primal ratio test from a basis</li><li>Trace a complete simplex solve and construct an unbounded ray</li><li>Separate feasibility from profit using a two-phase auxiliary problem</li><li>Diagnose degeneracy, cycling, and alternate optima</li></ul>
+<p><strong>Prerequisites:</strong> Chapter 1: LP models, rank, vertices, and basic feasible solutions.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch02.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-a-basis-determines-both-quantities-and-marginal-gains-3807">1. A basis determines both quantities and marginal gains 38:07</a></li><li><a href="#2-the-ratio-test-is-a-feasibility-calculation-4627">2. The ratio test is a feasibility calculation 46:27</a></li><li><a href="#3-artificial-variables-create-a-computational-start-1415">3. Artificial variables create a computational start 14:15</a></li><li><a href="#4-two-phases-separate-feasibility-from-economics-1322">4. Two phases separate feasibility from economics 13:22</a></li><li><a href="#5-exceptional-outcomes-are-distinct-mathematical-statements-0036">5. Exceptional outcomes are distinct mathematical statements 00:36</a></li><li><a href="#6-tie-rules-and-numerical-boundaries-3749">6. Tie rules and numerical boundaries 37:49</a></li><li><a href="#six-worked-problems">Six worked problems</a></li><li><a href="#sources-and-scope">Sources and scope</a></li></ul></div>
+<article>
+<p>The workshop from Chapter 1 has four feasible vertices, so exhaustive inspection is practical. A factory with hundreds of products and resources can have an enormous number of possible bases. Simplex replaces blind enumeration with a local algebraic question: which currently unused variable can improve the objective, and how far can it increase before some existing basic quantity reaches zero?</p>
+<p>Keep the same original teaching model: maximize $3x_1+2x_2$ subject to $x_1+x_2\le4$, $2x_1+x_2\le5$, and $x\ge0$. Adding slacks $s_1,s_2\ge0$ gives $Mz=b$ with $z=(x_1,x_2,s_1,s_2)^\top$ and</p>
+<p>$$M=\begin{bmatrix}1&amp;1&amp;1&amp;0\\2&amp;1&amp;0&amp;1\end{bmatrix},\qquad
+b=(4,5)^\top,\qquad c=(3,2,0,0)^\top.$$</p>
+<p>The two slack columns form an initial basis. Their values are four and five, so the origin in production coordinates is feasible. This convenient start relies on nonnegative right-hand sides. Artificial-variable methods handle systems where a feasible starting basis is not already available.</p>
+<h2 id="1-a-basis-determines-both-quantities-and-marginal-gains-3807">1. A basis determines both quantities and marginal gains <a href="https://www.youtube.com/watch?v=RcPhmPhjMbc&amp;t=2287s">38:07</a></h2>
+<p>Let $M\in\mathbb R^{m\times n}$ have row rank $m$, and partition its columns into a nonsingular basis matrix $B$ and a matrix $N$ of the remaining columns. Write the matching variables as $z_B$ and $z_N$. The equations become $Bz_B+Nz_N=b$, hence</p>
+<p>$$z_B=B^{-1}b-B^{-1}Nz_N.$$</p>
+<p>Here $B^{-1}b=\beta$ is the current basic solution. We assume $\beta\ge0$ for primal simplex. An inverse expresses the mathematics compactly; a numerical implementation normally solves linear systems using a factorization rather than forming an inverse explicitly.</p>
+<p>Partition the profit vector in the same way. Substitution into $c^\top z$ gives</p>
+<p>$$c^\top z=c_B^\top B^{-1}b+
+\bigl(c_N^\top-c_B^\top B^{-1}N\bigr)z_N.$$</p>
+<p>Define $y$ by $B^\top y=c_B$. For each column $m_j$ of $M$, the <strong>reduced cost</strong> is $r_j=c_j-y^\top m_j$. Basic columns have zero reduced cost because of the defining equation for $y$. At a feasible basis, positive reduced cost means that increasing a nonbasic variable improves this maximization objective as long as the basic variables remain nonnegative.</p>
+<p>The recordings often use $Z_j-C_j=y^\top m_j-c_j=-r_j$. Their most-negative entering rule is our most-positive rule. Both are consistent when the objective is a maximization. A table copied from a minimization convention can reverse the conclusion unless the sign convention is translated first.</p>
+<p>If every nonbasic reduced cost is nonpositive, the displayed objective identity proves optimality. Every feasible nonbasic vector is nonnegative, so $r_N^\top z_N\le0$. No feasible point exceeds the current objective. This is a global certificate, despite being computed from one basis. It works because the constraints and objective are linear, not because a local search principle holds for arbitrary nonlinear optimization.</p>
+<h2 id="2-the-ratio-test-is-a-feasibility-calculation-4627">2. The ratio test is a feasibility calculation <a href="https://www.youtube.com/watch?v=RcPhmPhjMbc&amp;t=2787s">46:27</a></h2>
+<p>Choose a nonbasic index $j$ with $r_j&gt;0$ and increase $z_j$ from zero to $t\ge0$, leaving other nonbasic variables zero. Define $d=B^{-1}m_j$. The new basic vector is $\beta-td$. For each $d_i&gt;0$, nonnegativity requires $t\le\beta_i/d_i$. If $d_i=0$, that coordinate does not change; if $d_i&lt;0$, it increases and does not restrict a positive step.</p>
+<p>The largest feasible step is therefore</p>
+<p>$$t_* = \min_{i:d_i&gt;0}\frac{\beta_i}{d_i}.$$</p>
+<p>At least one minimizing basic coordinate reaches zero and can leave the basis. The chosen column replaces that leaving column. The change in profit is exactly $r_jt_*$. A zero numerator is allowed and gives a zero-length step; rejecting zero ratios would incorrectly discard a valid degenerate pivot.</p>
+<p>If there is no positive entry of $d$, every $t\ge0$ is feasible. Define a full direction $h$ by $h_j=1$, $h_B=-d$, and all other coordinates zero. Then $Mh=0$, $z+th\ge0$, and $c^\top h=r_j&gt;0$. The vector $h$ is an <strong>unbounded improving ray</strong>, a constructive certificate that this maximization has no finite upper bound. The condition is that all entries of $d$ are nonpositive, not that one denominator happens to be negative.</p>
+<h3 id="a-complete-workshop-trace">A complete workshop trace</h3>
+<p>Initially $B=I$, so $\beta=(4,5)$, $y=(0,0)$, and the production reduced costs are $(3,2)$. Enter $x_1$. Its transformed column is $d=(1,2)$, with ratios four and $5/2$. The second slack leaves, and the new plan is $(x_1,x_2)=(5/2,0)$, with $s_1=3/2,s_2=0$ and profit $15/2$.</p>
+<p>At the basis ordered as $(s_1,x_1)$,</p>
+<p>$$B=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix},\quad
+\beta=(3/2,5/2)^\top,\quad y=(0,3/2)^\top.$$</p>
+<p>The reduced cost of $x_2$ is $2-3/2=1/2$. Solving $Bd=m_2$ gives $d=(1/2,1/2)$. The ratios are three and five, so $s_1$ leaves after $t_*=3$. Production becomes $(1,3)$ and profit increases by $(1/2)3=3/2$, reaching nine.</p>
+<p>The final basis is the two production columns. Solving $B^\top y=c_B$ yields $y=(1,1)$. Slack reduced costs are $-1,-1$, so every feasible departure from this basis through a positive slack decreases profit. The original model's unique optimum is recovered without enumerating all bases. The dual interpretation of $y$ will be developed in Chapter 3.</p>
+<h3 id="a-tableau-pivot-is-substitution-not-a-new-model">A tableau pivot is substitution, not a new model</h3>
+<p>A <strong>dictionary</strong> expresses basic variables as affine functions of nonbasic variables. In a pivot row, write $z_p=\beta_p-d_pz_j-\sum_{k\ne j}H_{pk}z_k$, where $d_p\ne0$. Solving that equation for the entering coordinate gives</p>
+<p>$$z_j=\frac{\beta_p}{d_p}-\frac{z_p}{d_p}
+-\sum_{k\ne j}\frac{H_{pk}}{d_p}z_k.$$</p>
+<p>Substitute this expression into every other row and the objective. These are equivalent equations for exactly the same affine system. What changes is the set of coordinates temporarily set to zero to select a basic solution. Normalizing a tableau pivot to one and eliminating its other column entries implements precisely this substitution.</p>
+<p>For the first workshop pivot, the second capacity gives $x_1=5/2-x_2/2-s_2/2$. Substitution into the first gives $s_1=3/2-x_2/2+s_2/2$, and substitution into the objective gives profit $15/2+x_2/2-3s_2/2$. The coefficient of $x_2$ is the previously computed reduced cost one-half. Increasing it by three consumes the remaining $s_1=3/2$, exactly as the ratio calculation predicted. The table is therefore an encoded sequence of ordinary substitutions, each checked against nonnegativity.</p>
+<p>This interpretation also explains why a pivot with a very small divisor can be numerically hazardous. It magnifies coefficients when solving the selected row, and subsequent subtractions can cancel nearly equal numbers. A nonzero pivot in exact arithmetic is not automatically a well-conditioned numerical pivot. Production implementations balance sparsity, stability, and progress; the educational routine keeps the choices explicit.</p>
+<h2 id="3-artificial-variables-create-a-computational-start-1415">3. Artificial variables create a computational start <a href="https://www.youtube.com/watch?v=DUFcNysR-w8&amp;t=855s">14:15</a></h2>
+<p>A surplus variable does not automatically supply a feasible basis. In $x_1+x_2\ge2$, writing $x_1+x_2-s=2$ and setting production to zero forces $s=-2$. The algebraic slack construction is valid, but that particular starting point violates nonnegativity.</p>
+<p>Introduce an <strong>artificial variable</strong> $a\ge0$ and write $x_1+x_2-s+a=2$. Setting the original variables and surplus to zero gives $a=2$, an initial basic solution of the enlarged system. Artificial variables have no intended physical role. The enlarged system is not equivalent to the original unless their values are required to vanish.</p>
+<p>The <strong>Big M method</strong> adds a penalty to discourage these variables. For a maximization it uses $c^\top z-M\sum_i a_i$ with $M&gt;0$. A symbolic treatment compares first the coefficient multiplying $M$ and then the finite part. This expresses a priority: eliminate artificial infeasibility before optimizing the original profit.</p>
+<p>A fixed numerical penalty is different. Consider minimizing $100x+Ma$ subject to $x+a=1$, $x,a\ge0$. The original problem requires $a=0$, so $x=1$ costs 100. With $M=10$, the enlarged problem instead chooses $x=0,a=1$ and reports cost ten. For this example $M&gt;100$ forces $a=0$, while $M=100$ makes every mixture optimal. There is no universal numerical constant that is “larger than every finite coefficient.” Large penalties also create poorly scaled arithmetic, so feasibility should not be inferred merely from the appearance of a large number in the input.</p>
+<p>An equality row may already have a usable basic column and need no artificial variable. Adding artificial columns is a systematic initialization device, not a theorem that every equality mathematically requires a new physical variable. Before adding them, normalize negative right-hand sides and remove exact redundant equations when they can be identified reliably.</p>
+<h2 id="4-two-phases-separate-feasibility-from-economics-1322">4. Two phases separate feasibility from economics <a href="https://www.youtube.com/watch?v=OUduOnhO94k&amp;t=802s">13:22</a></h2>
+<p>The <strong>two-phase method</strong> gives feasibility its own objective. After adding artificial variables, phase I minimizes $w=\sum_i a_i$, or equivalently maximizes $-w$. All non-artificial variables have zero phase-I cost. Since every artificial variable is nonnegative, $w\ge0$. The original constraints are feasible exactly when the auxiliary problem has optimum zero.</p>
+<p>The proof is short but decisive. Any feasible original point can be embedded in the enlarged system with every $a_i=0$, giving $w=0$. Conversely, if phase I attains zero, nonnegativity forces every $a_i$ individually to vanish; the remaining variables satisfy the original equations. An optimal positive $w$ therefore certifies original infeasibility. Merely seeing positive artificial variables at an intermediate iterate proves nothing.</p>
+<p>For a worked construction, minimize $x_1+2x_2$ subject to</p>
+<p>$$x_1+x_2\ge2,\qquad x_1+3x_2\ge3,\qquad x\ge0.$$</p>
+<p>Add surpluses $s_1,s_2$ and artificials $a_1,a_2$. In the order $(x_1,x_2,s_1,s_2,a_1,a_2)$, the equations are</p>
+<p>$$\begin{bmatrix}1&amp;1&amp;-1&amp;0&amp;1&amp;0\\1&amp;3&amp;0&amp;-1&amp;0&amp;1\end{bmatrix}z
+=\begin{bmatrix}2\\3\end{bmatrix}.$$</p>
+<p>The initial artificial basis has $(a_1,a_2)=(2,3)$ and phase-I maximum $-5$. Using smallest-index positive reduced cost, $x_1$ enters and $a_1$ leaves at step two. The remaining $a_2$ equals one. Next $x_2$ enters; its transformed column is $(1,2)$, so the ratios are two and one-half. The second artificial variable leaves, producing $(x_1,x_2)=(3/2,1/2)$ and $w=0$.</p>
+<p>Phase II removes artificial columns and restores the original objective. Because our simplex routine maximizes, its phase-II cost is $(-1,-2,0,0)$. At this basis the two surplus reduced costs are $-1/2$, so the point is optimal for the maximized negative cost. The minimum cost is $3/2+2(1/2)=5/2$. A direct bound checks it: multiply each original constraint by one-half and add to get $x_1+2x_2\ge5/2$.</p>
+<h3 id="zero-valued-artificial-basics-need-cleanup">Zero-valued artificial basics need cleanup</h3>
+<p>Phase-I optimum zero does not guarantee that all artificial columns have left the basis. An artificial basic variable can remain at zero in a degenerate solution. If its row contains a nonzero coefficient of a non-artificial nonbasic variable, pivot that variable in; a zero-length pivot preserves feasibility. If no such coefficient remains, the row expresses a redundant equality after artificial columns are removed. Delete that redundant row and the artificial column, then restore phase-II costs and recompute reduced costs.</p>
+<p>Carrying artificial columns into phase II without restricting their values can silently reintroduce infeasibility. Deleting a basic column without repairing the basis instead makes the algebra singular. Both problems are initialization errors rather than failures of the LP model.</p>
+<h2 id="5-exceptional-outcomes-are-distinct-mathematical-statements-0036">5. Exceptional outcomes are distinct mathematical statements <a href="https://www.youtube.com/watch?v=kt2TNZ_AIlI&amp;t=36s">00:36</a></h2>
+<p>An LP can be infeasible, unbounded in its chosen objective, or have a finite attained optimum. Among finite optima, the optimizer can be unique or multiple. Among basic representations, degeneracy is another independent property. The phrase “no solution” hides these differences and should be replaced by the actual classification.</p>
+<p>For an optimal feasible basis, strictly negative reduced costs for every nonbasic variable imply uniqueness. The objective identity forces every nonbasic variable to be zero at any optimum, after which the basis equations fix the same basic coordinates. The converse need not hold: a zero reduced cost can be blocked by zero-length feasible steps.</p>
+<p>For a counterexample, maximize $z_1+z_2$ subject to $z_1+z_2+s_1=1$, $z_2+s_2=0$, and nonnegativity. The only optimal production point is $(z_1,z_2)=(1,0)$. At basis $(z_1,s_2)$, the reduced cost of $z_2$ is zero, but the second basic variable is zero and the ratio test permits no positive movement. Thus a zero reduced cost identifies a candidate optimal direction, not necessarily a distinct optimum. If a positive feasible step exists, its endpoint is a different optimum, and every convex combination of the two is optimal.</p>
+<p>A <strong>degenerate</strong> basic feasible solution has at least one zero basic coordinate. This can arise from a tied minimum ratio, but it is defined by the coordinates, not by a particular algorithmic event. It does not require a globally redundant constraint. For example, at the origin of the cone $x_1\ge0,x_2\ge0,x_1+x_2\le0$, the feasible set is a singleton; a chosen equality/slack representation can be degenerate even though the restrictions have different roles. More generally several essential facets can meet at one vertex.</p>
+<p>At a degenerate pivot the basis can change with no change to the point or objective. <strong>Cycling</strong> means returning to a previous basis and repeating indefinitely under the chosen pivot rules. Degeneracy permits cycling but does not force it. A repeated objective value alone is not a cycle: a finite sequence of zero-length pivots may be necessary before an improving step becomes available.</p>
+<h2 id="6-tie-rules-and-numerical-boundaries-3749">6. Tie rules and numerical boundaries <a href="https://www.youtube.com/watch?v=kt2TNZ_AIlI&amp;t=2269s">37:49</a></h2>
+<p>The lecture develops perturbation-based tie breaking. Conceptually, replace the right-hand side by $b+(\epsilon,\epsilon^2,\ldots)^\top$ for a symbolic positive infinitesimal, expressed relative to the initial basis. Ratio comparisons become lexicographic comparisons of the leading nonzero coefficient. This is a symbolic ordering rule, not permission to add arbitrary floating-point noise to capacities. Numerical noise can change the model and fail to reproduce the symbolic comparison.</p>
+<p>An alternative is <strong>Bland's rule</strong>: choose the smallest-index nonbasic variable with positive reduced cost, and among tied limiting ratios choose the leaving basic variable with smallest original index. Under exact arithmetic this rule prevents cycling; the finite-termination theorem is cited rather than proved here. The <a href="https://math.mit.edu/~shor/18.310/lpnotes310.pdf">MIT simplex notes</a> provide a primary teaching reference for the algorithm and anti-cycling discussion. The practical price is that the chosen gain need not be the largest available one.</p>
+<p>Floating-point implementations require tolerances for feasibility, positive reduced costs, and ratio ties. Too loose a tolerance can treat an improving direction as zero; too tight a tolerance can amplify roundoff near singular bases. Scaling rows and variables can help, but it does not eliminate the need to inspect residuals. A returned status should be accompanied by checks of $Mz-b$, nonnegativity, and objective certificates when the decision is consequential.</p>
+<p>The <a href="labs/ch02.py">chapter lab</a> implements a small revised primal simplex routine. Inputs are finite arrays $M,b,c$ and a feasible nonsingular basis; the output includes status, solution, final basis, and a pivot trace. It rejects an infeasible starting basis and raises on iteration exhaustion. It solves basis systems afresh to keep the mathematics inspectable. It is neither a sparse production solver nor a general automatic two-phase front end; the phase-I example is assembled explicitly and has no leftover artificial basics.</p>
+<p>The executable checks reproduce workshop profits $0,15/2,9$, the two-phase cost $5/2$, a ray certificate for an unbounded example, and the zero-reduced-cost uniqueness counterexample. SciPy's <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html">HiGHS interface</a> supplies independent objective checks. A successful numerical trace supports those finite examples; the algebra above supplies the general optimality and ray arguments.</p>
+<h3 id="progress-iteration-counts-and-a-stopping-certificate">Progress, iteration counts, and a stopping certificate</h3>
+<p>In a nondegenerate pivot, a positive reduced cost and positive step imply strictly increasing profit. Because there are finitely many bases, strict progress prevents revisiting a basis and yields finite termination unless an improving ray is found. Degenerate steps remove this simple argument; an anti-cycling rule supplies the missing control. A limit on iterations is operational protection, but reaching that limit is not an optimality certificate.</p>
+<p>Nor does finite termination mean that inspecting a small number of bases is guaranteed for every input. The number of candidate bases grows combinatorially, and simplex pivot rules can have difficult instances. This does not contradict their usefulness on many practical problems. Worst-case bounds, observed runtime, and a certificate for one returned solution answer different questions and should be reported separately.</p>
+<p>At termination, reconstruct the original variables before checking the original inequalities. A tiny equality residual after adding artificials can coexist with a nonzero artificial value and therefore original infeasibility. Similarly, a feasible vector with positive reduced costs has no claimed optimality from this tableau. The complete primal-simplex stopping test combines primal feasibility with the correctly signed reduced-cost inequalities; any one condition alone is insufficient.</p>
+<h2 id="six-worked-problems">Six worked problems</h2>
+<h3 id="exercise-1-derive-the-profit-change">Exercise 1 — Derive the profit change</h3>
+<p>Why does increasing one nonbasic variable by $t$ change the objective by $r_jt$?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The basic change is $-tB^{-1}m_j$. Its profit contribution is $-tc_B^\top B^{-1}m_j$, while the entering coordinate adds $tc_j$. Their sum is $t(c_j-y^\top m_j)=tr_j$, since $B^\top y=c_B$. This calculation requires a fixed basis and the induced feasible direction, rather than changing the entering coordinate alone while leaving all resources unbalanced.</p>
+</details>
+<h3 id="exercise-2-a-ratio-tie">Exercise 2 — A ratio tie</h3>
+<p>Suppose $\beta=(0,4,6)$ and $d=(2,2,-1)$. Find the permissible step and explain the new objective when $r_j=3$.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Only positive entries of $d$ restrict the step. Their ratios are zero and two, so $t_*=0$. The third coordinate increases and imposes no upper bound. Profit changes by $3(0)=0$. The pivot can change the basis but not the current feasible point. Ignoring the zero ratio and stepping by two would make the first basic coordinate negative.</p>
+</details>
+<h3 id="exercise-3-construct-an-unbounded-ray">Exercise 3 — Construct an unbounded ray</h3>
+<p>Maximize $x_1+2x_2$ subject to $x_1-x_2\le1$, $x\ge0$. Exhibit a feasible point and an improving ray.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The origin is feasible. The direction $h=(0,1)$ preserves the inequality because $h_1-h_2=-1\le0$, and remains nonnegative for every positive step. Its profit gain per step is two, so $(0,t)$ has value $2t$ with no finite upper bound. The equality-form slack grows as $1+t$, matching the absence of a positive limiting transformed coefficient.</p>
+</details>
+<h3 id="exercise-4-an-infeasibility-certificate">Exercise 4 — An infeasibility certificate</h3>
+<p>Why is $x\ge3$, $x\le2$ infeasible, and what must phase I report in exact arithmetic?</p>
+<details>
+<summary>Worked solution</summary>
+<p>Subtracting the two bounds requires $3\le x\le2$, a contradiction. In the enlarged equality system an artificial variable can absorb the discrepancy, but it cannot vanish together with all other artificials. Phase-I minimum is therefore strictly positive. The precise positive value depends on the auxiliary construction and row scaling; the decisive feasibility statement is whether its optimal value is zero.</p>
+</details>
+<h3 id="exercise-5-a-numerical-big-m-failure">Exercise 5 — A numerical Big M failure</h3>
+<p>Solve $\min 100x+Ma$ subject to $x+a=1$ and nonnegativity for $M=10$, $M=100$, and $M=200$.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Write $a=1-x$ and $0\le x\le1$. The objective becomes $M+(100-M)x$. At ten its slope is 90, so $x=0,a=1$. At 100 the slope is zero, so every feasible mixture is optimal, including infeasible original decisions. At 200 the slope is negative, so $x=1,a=0$. A penalty must be compared with opportunity costs in the actual instance; “large” is not an absolute guarantee.</p>
+</details>
+<h3 id="exercise-6-zero-reduced-cost-and-uniqueness">Exercise 6 — Zero reduced cost and uniqueness</h3>
+<p>Check the zero-reduced-cost example from Section 5 and explain why it does not contradict the alternate-optimum construction.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The equation $z_2+s_2=0$ and nonnegativity force both variables to zero. Then $z_1+s_1=1$, so maximizing $z_1+z_2$ uniquely sets $z_1=1,s_1=0$. With basis $(z_1,s_2)$, $B=I$, $c_B=(1,0)$, and the $z_2$ column is $(1,1)$, giving reduced cost $1-(1,0)\cdot(1,1)=0$. Its transformed second coefficient is positive while $s_2=0$, giving step zero. The alternate-optimum argument requires a positive feasible step or another distinct feasible optimal point. A candidate algebraic direction blocked at length zero provides neither.</p>
+</details>
+<h2 id="sources-and-scope">Sources and scope</h2>
+<p>Lectures <a href="https://www.youtube.com/watch?v=RcPhmPhjMbc">4</a>, <a href="https://www.youtube.com/watch?v=DUFcNysR-w8">5</a>, <a href="https://www.youtube.com/watch?v=OUduOnhO94k">6</a>, and <a href="https://www.youtube.com/watch?v=kt2TNZ_AIlI">7</a> supply simplex, Big M, two phases, and special-case order. Derivations, workshop trace, auxiliary example, and counterexamples are original teaching constructions. The source's shorthand about zero reduced costs and degeneracy is qualified explicitly. Full visual verification of its tableaux is outside this caption-based edition.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch02.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Small revised primal simplex; explicit two-phase teaching construction.&quot;&quot;&quot;
+import json
+
+import numpy as np
+from scipy.optimize import linprog
+
+
+def simplex(M, b, c, basis, tolerance=1e-10, limit=100):
+    &quot;&quot;&quot;Maximize c @ z from a feasible basis; Bland ties, no file effects.&quot;&quot;&quot;
+    M, b, c = (np.asarray(value, float) for value in (M, b, c))
+    m, n = M.shape
+    basis = list(basis)
+    if b.shape != (m,) or c.shape != (n,) or len(basis) != m:
+        raise ValueError(&quot;Incompatible shapes or basis length&quot;)
+    if len(set(basis)) != m or any(j &lt; 0 or j &gt;= n for j in basis):
+        raise ValueError(&quot;Invalid basis indices&quot;)
+    if not all(np.isfinite(a).all() for a in (M, b, c)):
+        raise ValueError(&quot;Coefficients must be finite&quot;)
+    trace = []
+    for _ in range(limit):
+        B = M[:, basis]
+        beta = np.linalg.solve(B, b)
+        if beta.min() &lt; -tolerance:
+            raise ValueError(&quot;Initial or updated basis is not primal feasible&quot;)
+        y = np.linalg.solve(B.T, c[basis])
+        reduced = c - M.T @ y
+        z = np.zeros(n)
+        z[basis] = beta
+        trace.append({&quot;basis&quot;: basis.copy(), &quot;objective&quot;: float(c @ z)})
+        eligible = [j for j in range(n)
+                    if j not in basis and reduced[j] &gt; tolerance]
+        if not eligible:
+            return {&quot;status&quot;: &quot;optimal&quot;, &quot;z&quot;: z, &quot;basis&quot;: basis,
+                    &quot;trace&quot;: trace, &quot;reduced&quot;: reduced}
+        entering = min(eligible)
+        direction = np.linalg.solve(B, M[:, entering])
+        rows = np.flatnonzero(direction &gt; tolerance)
+        if not len(rows):
+            ray = np.zeros(n)
+            ray[entering], ray[basis] = 1, -direction
+            return {&quot;status&quot;: &quot;unbounded&quot;, &quot;z&quot;: z, &quot;ray&quot;: ray,
+                    &quot;basis&quot;: basis, &quot;trace&quot;: trace}
+        ratios = beta[rows] / direction[rows]
+        tied = rows[np.isclose(ratios, ratios.min(), atol=tolerance, rtol=0)]
+        leaving = min(tied, key=lambda row: basis[row])
+        basis[leaving] = entering
+    raise RuntimeError(&quot;Iteration limit reached&quot;)
+
+
+def main():
+    M = np.array([[1, 1, 1, 0], [2, 1, 0, 1]], float)
+    b, c = np.array([4, 5]), np.array([3, 2, 0, 0])
+    workshop = simplex(M, b, c, [2, 3])
+    assert workshop[&quot;status&quot;] == &quot;optimal&quot;
+    assert np.allclose(workshop[&quot;z&quot;], [1, 3, 0, 0])
+    assert np.allclose([t[&quot;objective&quot;] for t in workshop[&quot;trace&quot;]],
+                       [0, 7.5, 9])
+    reference = linprog(-c[:2], A_ub=M[:, :2], b_ub=b, method=&quot;highs&quot;)
+    assert reference.success and np.isclose(-reference.fun, 9)
+    auxiliary = np.array([[1, 1, -1, 0, 1, 0],
+                          [1, 3, 0, -1, 0, 1]], float)
+    phase1 = simplex(auxiliary, [2, 3], [0, 0, 0, 0, -1, -1], [4, 5])
+    assert phase1[&quot;status&quot;] == &quot;optimal&quot;
+    assert np.allclose(phase1[&quot;z&quot;][4:], 0)
+    assert all(j &lt; 4 for j in phase1[&quot;basis&quot;])
+    phase2 = simplex(auxiliary[:, :4], [2, 3], [-1, -2, 0, 0],
+                     phase1[&quot;basis&quot;])
+    assert np.allclose(phase2[&quot;z&quot;][:2], [1.5, 0.5])
+    assert np.isclose(np.dot([1, 2], phase2[&quot;z&quot;][:2]), 2.5)
+    unbounded = simplex([[1, -1, 1]], [1], [1, 2, 0], [2])
+    assert unbounded[&quot;status&quot;] == &quot;unbounded&quot;
+    assert np.allclose(np.array([[1, -1, 1]]) @ unbounded[&quot;ray&quot;], 0)
+    assert np.dot([1, 2, 0], unbounded[&quot;ray&quot;]) &gt; 0
+    unique = simplex([[1, 1, 1, 0], [0, 1, 0, 1]], [1, 0],
+                     [1, 1, 0, 0], [0, 3])
+    assert unique[&quot;status&quot;] == &quot;optimal&quot;
+    assert np.isclose(unique[&quot;reduced&quot;][1], 0)
+    assert np.allclose(unique[&quot;z&quot;], [1, 0, 0, 0])
+    print(json.dumps({&quot;workshop_trace&quot;: workshop[&quot;trace&quot;],
+                      &quot;two_phase_cost&quot;: 2.5,
+                      &quot;unbounded_ray&quot;: unbounded[&quot;ray&quot;].tolist(),
+                      &quot;zero_reduced_cost_unique&quot;: True}))
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch01.html">← Modeling decisions and the geometry of linear programming</a><a rel="next" href="ch03.html">Dual certificates, dual simplex, and sensitivity →</a></div></main></div></body></html>

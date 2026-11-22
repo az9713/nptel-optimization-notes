@@ -1,0 +1,131 @@
+{
+  "chapter": 5,
+  "method": "Sequential English caption reading",
+  "lectures": [
+    {
+      "lecture": 13,
+      "coverage_seconds": [
+        18.84,
+        3461.809
+      ],
+      "topics": [
+        {
+          "start": 18.84,
+          "topic": "Transportation model and balance"
+        },
+        {
+          "start": 989.88,
+          "topic": "Production across months, inventory and backlog costs"
+        },
+        {
+          "start": 1390.45,
+          "topic": "Northwest initial basis"
+        },
+        {
+          "start": 2017.55,
+          "topic": "Row and column minimum methods"
+        },
+        {
+          "start": 2883.63,
+          "topic": "Matrix-minimum method"
+        },
+        {
+          "start": 3179.68,
+          "topic": "Vogel approximation"
+        }
+      ],
+      "repairs": [
+        "Balanced total alone is sufficient only when routes are unrestricted and supplies/demands nonnegative",
+        "Initial allocation heuristics do not certify optimality"
+      ],
+      "transcript_sha256": "289870379eb3fcbe091ac3cca7afa2d3917d3d2c1e01cb5cc73cd11dde0eebde"
+    },
+    {
+      "lecture": 14,
+      "coverage_seconds": [
+        17.08,
+        3451.229
+      ],
+      "topics": [
+        {
+          "start": 37.68,
+          "topic": "VAM example"
+        },
+        {
+          "start": 834.04,
+          "topic": "Basic cells, loops and degeneracy"
+        },
+        {
+          "start": 1261.09,
+          "topic": "Transportation dual potentials"
+        },
+        {
+          "start": 1471.08,
+          "topic": "Reduced-cost and cycle algorithm"
+        },
+        {
+          "start": 1813.1,
+          "topic": "Optimality certificate example"
+        },
+        {
+          "start": 2696.22,
+          "topic": "Negative reduced-cost cycle improvement"
+        }
+      ],
+      "repairs": [
+        "VAM penalties differ from dual potentials",
+        "Reduced costs tested at nonbasic cells",
+        "A loop in positive support means non-extreme, not necessarily nonoptimal",
+        "Cycle step is limited by subtracting cells only"
+      ],
+      "transcript_sha256": "193f2f4dd80510279829455e915a72f32ade3e9f572107e2145f326605028fba"
+    },
+    {
+      "lecture": 15,
+      "coverage_seconds": [
+        19.04,
+        3498.26
+      ],
+      "topics": [
+        {
+          "start": 72.42,
+          "topic": "Transportation degeneracy and symbolic epsilon"
+        },
+        {
+          "start": 703.77,
+          "topic": "Unbalanced transportation with dummies"
+        },
+        {
+          "start": 915.83,
+          "topic": "Assignment model"
+        },
+        {
+          "start": 1374.41,
+          "topic": "Row-column reduction theorem"
+        },
+        {
+          "start": 1900.29,
+          "topic": "Hungarian procedure"
+        },
+        {
+          "start": 2451.73,
+          "topic": "Worked assignment and line-cover adjustment"
+        },
+        {
+          "start": 3234,
+          "topic": "Rectangular assignment"
+        }
+      ],
+      "repairs": [
+        "Keep exact zero basis edges rather than adding physical epsilon flow",
+        "Dummy supply represents shortage or outside procurement, not actual stock",
+        "Use maximum zero matching; greedy zero assignment need not be complete",
+        "Reduced-cost updates need consistent marked-row and marked-column rules"
+      ],
+      "transcript_sha256": "98d674544fb6a0377a97916380b9b79500d6646cc67c70131695b9940883447e"
+    }
+  ],
+  "audio_audit": "not performed",
+  "visual_audit": "not performed",
+  "coverage_convention": "First caption start through final caption end; full sequential textual reading, not audiovisual verification"
+}

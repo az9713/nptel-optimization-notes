@@ -1,0 +1,6 @@
+{
+  "title": "Separable programming and controlled linear approximations",
+  "lectures": [34],
+  "objectives": ["Recognize additive separability and its coordinate dependence", "Build adjacent-weight piecewise linear models", "Distinguish an interpolation graph from its convex hull", "Bound approximation error and recheck nonlinear feasibility"],
+  "prerequisites": "Linear programming, convex combinations, one-variable interpolation, and convexity."
+}

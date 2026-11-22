@@ -1,0 +1,143 @@
+{
+  "chapter": 11,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 29,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.289,
+        2927.36
+      ],
+      "transcript_sha256": "4391624ab834ca1e6094794da0da335095e363027f55c6106226dae94fe485c5",
+      "topics": [
+        {
+          "start": 17,
+          "topic": "Quadratic interpolation"
+        },
+        {
+          "start": 541,
+          "topic": "Bracket update algorithm"
+        },
+        {
+          "start": 1025,
+          "topic": "Two values and a derivative"
+        },
+        {
+          "start": 1495,
+          "topic": "Quadratic example"
+        },
+        {
+          "start": 1971,
+          "topic": "Cubic interpolation"
+        },
+        {
+          "start": 2608,
+          "topic": "Cubic example"
+        }
+      ]
+    },
+    {
+      "lecture": 30,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.66,
+        3561.53
+      ],
+      "transcript_sha256": "f5dff272f524512ffe7ce1aeeea8c7e31cec4306117f8978935f94b74f949ab5",
+      "topics": [
+        {
+          "start": 17,
+          "topic": "Gradient versus direct search"
+        },
+        {
+          "start": 325,
+          "topic": "Random jumping"
+        },
+        {
+          "start": 673,
+          "topic": "Grid search"
+        },
+        {
+          "start": 896,
+          "topic": "Nonlinear simplex"
+        },
+        {
+          "start": 1416,
+          "topic": "Initial regular simplex"
+        },
+        {
+          "start": 1583,
+          "topic": "Centroid"
+        },
+        {
+          "start": 1693,
+          "topic": "Reflection"
+        },
+        {
+          "start": 1892,
+          "topic": "Expansion"
+        },
+        {
+          "start": 2191,
+          "topic": "Contraction"
+        },
+        {
+          "start": 2792,
+          "topic": "Worked quadratic"
+        },
+        {
+          "start": 2933,
+          "topic": "Stopping diagnostics"
+        }
+      ]
+    },
+    {
+      "lecture": 31,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        20.02,
+        3201.049
+      ],
+      "transcript_sha256": "5a18775f08012ab2fb438327fb18221ce96c8b1eb5c2c624a33c495331d70732",
+      "topics": [
+        {
+          "start": 20,
+          "topic": "Indirect search and smoothness"
+        },
+        {
+          "start": 366,
+          "topic": "Gradient direction"
+        },
+        {
+          "start": 616,
+          "topic": "Steepest descent update"
+        },
+        {
+          "start": 913,
+          "topic": "Quadratic exact line search"
+        },
+        {
+          "start": 1522,
+          "topic": "Two-variable example with sign corrections"
+        },
+        {
+          "start": 2352,
+          "topic": "Three-variable example"
+        },
+        {
+          "start": 2973,
+          "topic": "Finite differences and announced continuation"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Quadratic or cubic stationary points are not automatically minima of the original function",
+    "Hessian rather than Jacobian in the second derivative test",
+    "Finite differences do not create derivatives at kinks or discontinuities",
+    "Conjugate gradient recurrence is announced but not developed in lecture31"
+  ],
+  "visual_audit": "not performed by chapter author; any root visual checks recorded separately",
+  "audio_audit": "not performed"
+}

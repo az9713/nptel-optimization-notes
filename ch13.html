@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Separable programming and controlled linear approximations · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html" aria-current=page>13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>13. Separable programming and controlled linear approximations</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=XRsTbvKvCuc">Lecture 34</a> · Original expanded exposition · 3,010 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Recognize additive separability and its coordinate dependence</li><li>Build adjacent-weight piecewise linear models</li><li>Distinguish an interpolation graph from its convex hull</li><li>Bound approximation error and recheck nonlinear feasibility</li></ul>
+<p><strong>Prerequisites:</strong> Linear programming, convex combinations, one-variable interpolation, and convexity.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch13.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-separability-is-a-property-of-a-complete-formulation-0017">1. Separability is a property of a complete formulation 00:17</a></li><li><a href="#2-a-segment-is-represented-by-two-adjacent-weights-1000">2. A segment is represented by two adjacent weights 10:00</a></li><li><a href="#3-convexity-sometimes-removes-adjacency-but-the-optimization-direction-matters-2532">3. Convexity sometimes removes adjacency, but the optimization direction matters 25:32</a></li><li><a href="#4-build-and-solve-a-complete-resource-model-4634">4. Build and solve a complete resource model 46:34</a></li><li><a href="#5-approximation-error-must-be-translated-into-feasibility-5638">5. Approximation error must be translated into feasibility 56:38</a></li><li><a href="#6-incremental-forms-need-sequential-filling-3508">6. Incremental forms need sequential filling 35:08</a></li><li><a href="#six-worked-problems">Six worked problems</a></li><li><a href="#sources-and-evidence">Sources and evidence</a></li></ul></div>
+<article>
+<p>A production planner has a nonlinear electricity cost for each machine, but the plant's total cost is the sum of those machine costs. The total may be nonlinear without containing interactions between machine settings. This structure creates an opportunity: approximate each one-dimensional curve carefully, then use linear optimization to coordinate the machines. The opportunity disappears if the approximation quietly allows a machine to operate at two incompatible settings simultaneously.</p>
+<p>Let $x_i\in[\ell_i,u_i]$ be machine $i$'s setting, for $i=1,\ldots,n$. A <strong>separable function</strong> has the additive form $f(x)=\sum_i f_i(x_i)$, where each summand depends on only one coordinate. A separable program has this structure in the objective and in every constraint function. Constraints can still couple the decisions through sums: $\sum_i g_{ji}(x_i)\le b_j$ shares a resource among machines even though each contribution is univariate.</p>
+<p>The chapter develops a controlled approximation of these contributions. Linear programming then solves the approximation. Recovering the nonlinear decision and checking its true performance are separate steps.</p>
+<h2 id="1-separability-is-a-property-of-a-complete-formulation-0017">1. Separability is a property of a complete formulation <a href="https://www.youtube.com/watch?v=XRsTbvKvCuc&amp;t=17s">00:17</a></h2>
+<p>The function $x_1^2-2x_1+x_2^3-3x_2$ is separable: take $f_1(t)=t^2-2t$ and $f_2(t)=t^3-3t$. The function $x_1^2+x_2^2+\sin(x_1+x_2)$ is not generally separable in these coordinates. Its mixed second derivative is $-\sin(x_1+x_2)$, whereas a twice differentiable sum $f_1(x_1)+f_2(x_2)$ has mixed derivative zero. A nonzero mixed derivative therefore disproves additive separability on an open region.</p>
+<p>The zero-mixed-derivative test also has a converse on a rectangular connected domain under suitable smoothness. If every mixed derivative vanishes, each partial derivative $\partial f/\partial x_i$ depends only on $x_i$. Integrate those one-variable derivatives from a fixed reference point. The result reconstructs $f$ as a constant plus a sum of univariate functions. Domain shape and connectedness are part of this argument; a local derivative observation should not be promoted automatically to a global coordinate representation on an arbitrary set.</p>
+<p>Sometimes changing coordinates helps. Define $y_1=(x_1+x_2)/2$ and $y_2=(x_1-x_2)/2$. Then $x_1x_2=y_1^2-y_2^2$, an additive expression in the new variables. But the entire optimization problem must be transformed. Bounds $0\le x_1,x_2\le2$ become $0\le y_1+y_2\le2$ and $0\le y_1-y_2\le2$, which couple $y_1,y_2$. Other nonlinear terms may cease to be separable. Simplifying one objective term does not prove that every objective and constraint has the required structure.</p>
+<p>Finite variable bounds are needed for a finite breakpoint construction. They should come from the physical model or a justified bound, not from a convenient plotting range that excludes an optimizer. A tighter valid bound reduces the number of segments needed at a chosen accuracy. A bound inferred from another constraint should be proved and carried into the approximation explicitly.</p>
+<h2 id="2-a-segment-is-represented-by-two-adjacent-weights-1000">2. A segment is represented by two adjacent weights <a href="https://www.youtube.com/watch?v=XRsTbvKvCuc&amp;t=600s">10:00</a></h2>
+<p>For a scalar variable $x\in[\ell,u]$, choose breakpoints $t_0=\ell&lt;t_1&lt;\cdots&lt;t_r=u$. Let $v_k=f(t_k)$ be the known value at breakpoint $k$. If $x\in[t_k,t_{k+1}]$, define</p>
+<p>$$\lambda_k=\frac{t_{k+1}-x}{t_{k+1}-t_k},\qquad
+\lambda_{k+1}=\frac{x-t_k}{t_{k+1}-t_k}.$$</p>
+<p>Both weights are nonnegative and sum to one. They reconstruct $x=\lambda_k t_k+\lambda_{k+1}t_{k+1}$. The piecewise linear interpolant is</p>
+<p>$$\widehat f(x)=\lambda_kv_k+\lambda_{k+1}v_{k+1}.$$</p>
+<p>The same weights interpolate every function of this variable. If both cost and resource consumption depend on $x$, using different unrelated weights for the same physical $x$ would permit inconsistent operating mixtures. Share the variable's breakpoint representation across the objective and its constraints.</p>
+<p>For $f(x)=x^2$ on breakpoints $(0,1,2)$, the point $x=1.4$ uses weights $.6,.4$ on the adjacent nodes one and two. Its interpolated value is $.6(1)+.4(4)=2.2$, while the true value is 1.96. The interpolation overestimates this convex function. The error .24 is a calculable consequence of curvature and segment width, not a solver error.</p>
+<p>For a uniform representation across the whole interval, introduce $\lambda_0,\ldots,\lambda_r$ and write</p>
+<p>$$x=\sum_{k=0}^r\lambda_kt_k,\qquad
+\widehat f=\sum_{k=0}^r\lambda_kv_k,\qquad
+\sum_{k=0}^r\lambda_k=1,\qquad \lambda_k\ge0.$$</p>
+<p>Then impose an <strong>adjacency restriction</strong>: at most two weights may be positive, and if two are positive their indices must be consecutive. This is called an SOS2 restriction, a special ordered set of type two. <a href="https://docs.gurobi.com/projects/optimizer/en/current/concepts/modeling/constraints.html">Gurobi's constraint documentation</a> specifies this exact contiguity contract and its tolerance considerations. No particular commercial solver is needed by our lab, which enumerates the possible adjacent cells directly.</p>
+<p>The adjacency restriction does not follow from the other displayed equations. At $x=1$, weights $(1/2,0,1/2)$ satisfy all their linear conditions. They interpolate $x^2$ to two rather than one. This is a point in the convex hull of the sampled graph, not a point on its piecewise linear graph. The distinction is the central modeling issue in separable programming.</p>
+<h2 id="3-convexity-sometimes-removes-adjacency-but-the-optimization-direction-matters-2532">3. Convexity sometimes removes adjacency, but the optimization direction matters <a href="https://www.youtube.com/watch?v=XRsTbvKvCuc&amp;t=1532s">25:32</a></h2>
+<p>If $f$ is convex, the slopes of its successive chords are nondecreasing. Its piecewise linear interpolant is therefore convex. For a fixed $x$, minimizing $\sum_k\lambda_kv_k$ over all nonnegative weights with $\sum\lambda_k=1$ and $\sum\lambda_kt_k=x$ returns the lower boundary of the convex hull of graph samples. For convex sampled values, that lower boundary consists of the adjacent segments. Thus a minimization can recover adjacency without explicitly imposing it when the rest of the formulation supports the same lower-envelope choice.</p>
+<p>This argument is conditional. If a graph equality is required in a context that rewards artificially large function values, nonadjacent mixing may change the feasible set. One cannot delete adjacency from arbitrary convex-looking models without checking how the function enters the objective and each constraint. For a concave function minimized through this construction, the relaxation can be decisively wrong.</p>
+<p>Take $f(x)=-(x-1)^2$ on $(0,1,2)$ and require $x=1$. The adjacent graph value is zero. The nonadjacent weights $(1/2,0,1/2)$ give $\widehat f=-1$, pretending that a machine at setting one has the mean cost of two endpoint settings. If randomizing operation between endpoints is physically allowed and costs are truly time-averaged, that mixture may describe a different valid model. If $x$ is a fixed setting, it is a relaxation error.</p>
+<p>For convex piecewise linear functions, an alternative representation avoids graph weights: the epigraph is the intersection of half-spaces above the affine segment extensions. If slopes are $s_k=(v_{k+1}-v_k)/(t_{k+1}-t_k)$, impose $z\ge v_k+s_k(x-t_k)$ for every segment and minimize a positive coefficient of $z$. This returns $z=\widehat f(x)$. It is a convex epigraph formulation; reversing the inequalities or maximizing $z$ changes the reasoning.</p>
+<p>The classical restricted-simplex treatment enforces allowable adjacent basic variables. A restriction on basis entry is an algorithmic mechanism for respecting the graph, not a general proof of global optimality for every nonconvex separable problem. Exact graph formulations may require mixed-integer logic, SOS2 machinery or enumeration. Convexity of the original objective and feasible region provides stronger global conclusions than separability alone.</p>
+<h2 id="4-build-and-solve-a-complete-resource-model-4634">4. Build and solve a complete resource model <a href="https://www.youtube.com/watch?v=XRsTbvKvCuc&amp;t=2794s">46:34</a></h2>
+<p>Consider the original teaching problem</p>
+<p>$$\min\;x_1^2-4x_1-x_2
+\quad\text{subject to}\quad
+2x_1^2+8x_2^2\le30,\qquad 0\le x_1,x_2\le2.$$</p>
+<p>The objective is the sum of $f_1(x_1)=x_1^2-4x_1$ and $f_2(x_2)=-x_2$. Resource contributions are $g_1(x_1)=2x_1^2$ and $g_2(x_2)=8x_2^2$. This model shares the lecture's illustrative functional structure, while the arithmetic below is recomputed independently rather than copied from uncertain captioned tableaux.</p>
+<p>Use breakpoints $(0,1,2)$ for both variables. The tabulated values are</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Breakpoint $t$</th>
+<th style="text-align: right;">$f_1(t)$</th>
+<th style="text-align: right;">$f_2(t)$</th>
+<th style="text-align: right;">$g_1(t)$</th>
+<th style="text-align: right;">$g_2(t)$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>1</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align: right;">-4</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">32</td>
+</tr>
+</tbody>
+</table></div>
+<p>Let $\lambda_{ik}$ be the weight on node $k$ for variable $i$. Minimize</p>
+<p>$$-3\lambda_{11}-4\lambda_{12}-\lambda_{21}-2\lambda_{22}$$</p>
+<p>subject to</p>
+<p>$$2\lambda_{11}+8\lambda_{12}+8\lambda_{21}+32\lambda_{22}\le30,
+\quad \sum_{k=0}^2\lambda_{ik}=1\;(i=1,2),\quad\lambda_{ik}\ge0,$$</p>
+<p>with adjacency for each variable. Recover $x_i=\lambda_{i1}+2\lambda_{i2}$. The LP solution inside any selected pair of adjacent intervals describes an actual piece of each interpolated graph. Enumerating all four interval pairs gives a global solution of this finite approximation, even if the original functions had nonconvex pieces.</p>
+<p>In this coarse approximation, the optimum is $x_1=2$, $x_2=19/12$, with interpolated objective $-67/12$. At $x_1=2$, resource use is eight. On the segment $1\le x_2\le2$, interpolated resource is $8+24(x_2-1)$, so its remaining allowance 22 gives $x_2=1+14/24=19/12$. The second-variable weights are $\lambda_{21}=5/12$ and $\lambda_{22}=7/12$, which are adjacent and sum to one.</p>
+<p>To see why the first coordinate reaches two in the coarse model, inspect marginal improvements on its two intervals. Moving $x_1$ from zero to one improves the objective at rate three for resource rate two; moving from one to two improves it at rate one for resource rate six. Moving $x_2$ within its second interval improves at rate one for resource rate 24. Filling the first variable's second segment is therefore preferable before further filling the second variable's second segment. The LP enumeration checks this allocation argument against every cell.</p>
+<h2 id="5-approximation-error-must-be-translated-into-feasibility-5638">5. Approximation error must be translated into feasibility <a href="https://www.youtube.com/watch?v=XRsTbvKvCuc&amp;t=3398s">56:38</a></h2>
+<p>If $f$ is twice continuously differentiable on a segment $[a,b]$ and $|f''(x)|\le M$, linear interpolation obeys</p>
+<p>$$|f(x)-\widehat f(x)|\le\frac{M}{2}(x-a)(b-x)
+\le\frac{M(b-a)^2}{8}.$$</p>
+<p>The interpolation remainder is $f''(\xi)(x-a)(x-b)/2$ for an intermediate $\xi$. Its magnitude is bounded by the first expression; the product $(x-a)(b-x)$ is maximized at the midpoint. This is an error estimate for a smooth scalar function, not a bound on optimizer movement. A nearly flat objective can have small value error and large location error.</p>
+<p>For the convex resource contributions above, interpolation lies above the true functions. Hence $\widehat g_1(x_1)+\widehat g_2(x_2)\le30$ implies original feasibility. The coarse solution's true resource is $8+8(19/12)^2$, which is below 30. The conservatism can waste capacity; a finer grid can exploit more of the true feasible region. Nested refinement adds graph points on the true convex curves, decreases chord overestimates, and can improve the minimizing approximation in this model.</p>
+<p>For a concave resource function, interpolation lies below the true function, so approximate feasibility need not imply real feasibility. With $g(x)=\sqrt x$ on $[0,1]$, the chord is $\widehat g(x)=x$. At $x=.25$, a bound $\widehat g\le.3$ is satisfied, but the true value $.5$ violates the limit. The direction of approximation is operationally consequential.</p>
+<p>If only a uniform error bound $|g_i-\widehat g_i|\le\epsilon_i$ is known, enforce $\sum_i\widehat g_i(x_i)\le b-\sum_i\epsilon_i$ for a conservative sufficient condition. This follows by adding $g_i(x_i)\le\widehat g_i(x_i)+\epsilon_i$. It may be overly conservative, but it makes the guarantee explicit. An approximate objective should likewise be evaluated again using the original functions before reporting the achieved value.</p>
+<p>An objective-value error estimate is possible when the feasible set is held fixed. If $|f-\widehat f|\le\epsilon$ everywhere on that set, $\widehat x$ globally minimizes $\widehat f$, and $x_*$ globally minimizes $f$, then</p>
+<p>$$f(\widehat x)\le\widehat f(\widehat x)+\epsilon
+\le\widehat f(x_*)+\epsilon\le f(x_*)+2\epsilon.$$</p>
+<p>If constraints are approximated too, $x_*$ may not remain feasible for the approximate problem, so this proof cannot be reused unchanged. Separate objective approximation error, feasible-set approximation and numerical LP tolerance. They are three different contributions to the final answer.</p>
+<h2 id="6-incremental-forms-need-sequential-filling-3508">6. Incremental forms need sequential filling <a href="https://www.youtube.com/watch?v=XRsTbvKvCuc&amp;t=2108s">35:08</a></h2>
+<p>Another representation uses segment increments. Let $\Delta_k=t_k-t_{k-1}&gt;0$ and $s_k=[f(t_k)-f(t_{k-1})]/\Delta_k$. Introduce an amount $z_k\in[0,\Delta_k]$ traversed in segment $k$. Then</p>
+<p>$$x=t_0+\sum_{k=1}^r z_k,
+\qquad \widehat f=f(t_0)+\sum_{k=1}^r s_kz_k.$$</p>
+<p>To represent the graph for arbitrary sampled functions, all earlier segments must be full before a later segment is used. At most one segment is partially filled; later segments are empty. Saying that at most one increment is positive would be incorrect: reaching the final interval requires positive full increments in every earlier interval.</p>
+<p>For $x^2$ on $(0,1,2)$, slopes are one and three. At $x=1.4$, the correct increments are $(1,.4)$, giving value $1+3(.4)=2.2$. The vector $(.4,1)$ has the same total increment but produces value $3.4$ and violates sequential filling. When minimizing a convex cost with no conflicting incentives, increasing slopes encourage the correct fill order automatically. With several resource functions sharing the same increments, inspect the complete objective and constraints before relying on that incentive.</p>
+<p>Unequal spacing and adaptive refinement are useful when curvature varies strongly. The interpolation error bound suggests shorter intervals where $M$ is large. Refinement around the recovered solution can be efficient, but a local refinement strategy for a nonconvex model can miss a better distant basin. Global lower bounds or broader grid checks are needed to make a global claim.</p>
+<p>The <a href="labs/ch13.py">laboratory</a> enumerates adjacent cells and solves the corresponding small LPs, then refines a nested grid. It checks the coarse analytic solution, original nonlinear feasibility, and the direction of improvement. An independent nonlinear solver provides a numerical comparison; its result is not treated as a formal global proof. The model is convex, so a properly verified KKT certificate could supply that stronger conclusion. Inputs must be a finite strictly increasing grid covering $[0,2]$; invalid grids and absence of a feasible cell raise errors. The script changes no files.</p>
+<h2 id="six-worked-problems">Six worked problems</h2>
+<h3 id="exercise-1-recognize-an-interaction">Exercise 1 — Recognize an interaction</h3>
+<p>Is $f(x,y)=x^2+y^2+xy$ additively separable in $(x,y)$?</p>
+<details>
+<summary>Worked solution</summary>
+<p>Its mixed derivative is one throughout the plane. Any twice differentiable additive form $u(x)+v(y)$ has mixed derivative zero, so this form is impossible. Diagonalizing its quadratic form can make the objective separable in rotated coordinates, but all constraints must then be transformed too. Separability of the objective alone is not the full programming requirement.</p>
+</details>
+<h3 id="exercise-2-construct-adjacent-weights">Exercise 2 — Construct adjacent weights</h3>
+<p>Interpolate $x^2$ at $x=1.4$ using nodes zero, one and two.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The point belongs to $[1,2]$, so the only positive weights are $\lambda_1=(2-1.4)/(2-1)=.6$ and $\lambda_2=.4$. Their weighted coordinate is $.6+2(.4)=1.4$, and weighted value is $.6+4(.4)=2.2$. The actual square is 1.96, giving error .24. With $M=2$ and unit width, the bound $M/8=.25$ contains the observed error.</p>
+</details>
+<h3 id="exercise-3-expose-a-relaxation">Exercise 3 — Expose a relaxation</h3>
+<p>For $f(x)=-(x-1)^2$ and the same nodes, fix $x=1$. Why does dropping adjacency change minimization?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The actual graph value is zero. Mixing endpoints with weights $(.5,0,.5)$ satisfies the coordinate equation but gives value $-.5-.5=-1$. A minimizer can exploit this invented lower value. Adjacency excludes that mixture while permitting the exact node weight $(0,1,0)$. The unrestricted linear model is a convex-hull relaxation of the sampled graph, not its graph representation.</p>
+</details>
+<h3 id="exercise-4-refine-an-accuracy-requirement">Exercise 4 — Refine an accuracy requirement</h3>
+<p>A contribution has $|f''|\le8$. What maximum segment width guarantees interpolation error at most $.01$?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The bound is $8h^2/8=h^2$. Therefore require $h\le.1$. On an interval of length two, at least 20 equal segments suffice under the stated curvature bound. This bounds each function value's error. If five such contributions are added, their worst-case absolute errors sum to at most $.05$; each contribution's target must be tightened if the total target is $.01$.</p>
+</details>
+<h3 id="exercise-5-recover-the-coarse-resource-allocation">Exercise 5 — Recover the coarse resource allocation</h3>
+<p>At $x_1=2$ in the worked model, derive $x_2$ and its breakpoint weights.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The first resource contribution is eight. The second interpolant on $[1,2]$ is $8+24(x_2-1)$. Making the total equal 30 gives $8+8+24x_2-24=30$, hence $x_2=38/24=19/12$. The weights are $2-x_2=5/12$ and $x_2-1=7/12$. Their resource average is $8(5/12)+32(7/12)=22$, which combines with eight to exhaust the interpolated budget. The objective is $-4-19/12=-67/12$.</p>
+</details>
+<h3 id="exercise-6-fix-an-incremental-rule">Exercise 6 — Fix an incremental rule</h3>
+<p>For breakpoints $(0,1,2,3)$, describe valid increments at $x=2.4$ and explain why only one positive increment is the wrong restriction.</p>
+<details>
+<summary>Worked solution</summary>
+<p>The valid increment vector is $(1,1,.4)$. Two earlier segments are fully traversed and the last is partially traversed. There are three positive increments but only one partial increment. Restricting the number of positive increments to one would prevent representing every point above one. The graph restriction is ordered filling, not sparsity of all increments.</p>
+</details>
+<h2 id="sources-and-evidence">Sources and evidence</h2>
+<p>Lecture 34 supplies additive separability, variable transformations, lambda and incremental forms, adjacency and a resource example. The approximation-error proof, convex-hull counterexample and conservative-feasibility construction are original teaching extensions. The SOS2 reference is integrated beside the exact modeling contract. The notes correct ambiguous caption wording about increments and recompute the resource example; they do not claim transcription of every tableau entry.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch13.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Piecewise linear separable optimization, including adjacency checks.&quot;&quot;&quot;
+import itertools
+import json
+
+import numpy as np
+from scipy.optimize import linprog, minimize
+
+
+def solve_grid(grid):
+    &quot;&quot;&quot;Globally solve all adjacent cells for the chapter&#x27;s two-variable model.&quot;&quot;&quot;
+    grid = np.asarray(grid, float)
+    if grid.ndim != 1 or len(grid) &lt; 2 or not np.isfinite(grid).all():
+        raise ValueError(&#x27;A finite one-dimensional grid is required&#x27;)
+    if np.any(np.diff(grid) &lt;= 0) or grid[0] != 0 or grid[-1] != 2:
+        raise ValueError(&#x27;Use a strictly increasing grid covering [0, 2]&#x27;)
+    best = None
+    for i, j in itertools.product(range(len(grid) - 1), repeat=2):
+        nodes = np.r_[grid[i:i + 2], grid[j:j + 2]]
+        objective = np.r_[nodes[:2] ** 2 - 4 * nodes[:2], -nodes[2:]]
+        resource = np.r_[2 * nodes[:2] ** 2, 8 * nodes[2:] ** 2]
+        # The cell LP has fractions alpha,beta in [0,1] and one resource row.
+        base = resource[0] + resource[2]
+        slopes = np.array([resource[1] - resource[0],
+                           resource[3] - resource[2]])
+        candidates = [np.array(z, float) for z in itertools.product([0, 1], repeat=2)]
+        for axis in range(2):
+            other = 1 - axis
+            if slopes[axis] != 0:
+                for fixed in [0., 1.]:
+                    z = np.zeros(2)
+                    z[other] = fixed
+                    z[axis] = (30 - base - slopes[other] * fixed) / slopes[axis]
+                    candidates.append(z)
+        for z in candidates:
+            if np.any(z &lt; 0) or np.any(z &gt; 1) or base + slopes @ z &gt; 30 + 1e-10:
+                continue
+            weights = np.array([1 - z[0], z[0], 1 - z[1], z[1]])
+            value = float(objective @ weights)
+            if best is None or value &lt; best[&#x27;value&#x27;]:
+                x = [nodes[:2] @ weights[:2], nodes[2:] @ weights[2:]]
+                best = dict(value=value, point=x)
+    if best is None:
+        raise ValueError(&#x27;No feasible interpolated cell&#x27;)
+    return best
+
+
+def main():
+    coarse = solve_grid([0, 1, 2])
+    fine = solve_grid(np.linspace(0, 2, 41))
+    assert np.allclose(coarse[&#x27;point&#x27;], [2, 19 / 12])
+    assert np.isclose(coarse[&#x27;value&#x27;], -67 / 12)
+    # Independent LP reference, valid here because all sampled curves are convex.
+    reference = linprog([0, -3, -4, 0, -1, -2],
+                        A_ub=[[0, 2, 8, 0, 8, 32]], b_ub=[30],
+                        A_eq=[[1, 1, 1, 0, 0, 0], [0, 0, 0, 1, 1, 1]],
+                        b_eq=[1, 1], bounds=(0, None), method=&#x27;highs&#x27;)
+    assert reference.success and np.isclose(reference.fun, coarse[&#x27;value&#x27;])
+    result = minimize(lambda x: x[0] ** 2 - 4 * x[0] - x[1],
+                      [1.8, 1.7], bounds=[(0, 2), (0, 2)],
+                      constraints=[dict(type=&#x27;ineq&#x27;, fun=lambda x:
+                                        30 - 2 * x[0] ** 2 - 8 * x[1] ** 2)],
+                      method=&#x27;SLSQP&#x27;, options={&#x27;ftol&#x27;: 1e-12})
+    assert result.success
+    assert 2 * fine[&#x27;point&#x27;][0] ** 2 + 8 * fine[&#x27;point&#x27;][1] ** 2 &lt;= 30 + 1e-8
+    assert coarse[&#x27;value&#x27;] &gt;= fine[&#x27;value&#x27;] &gt;= result.fun - 1e-8
+    assert fine[&#x27;value&#x27;] - result.fun &lt; .002
+    # Nonadjacent interpolation of a concave function invents a lower value.
+    nodes = np.array([0., 1., 2.])
+    values = -(nodes - 1) ** 2
+    weights = np.array([.5, 0., .5])
+    assert np.isclose(nodes @ weights, 1)
+    assert values @ weights == -1 and values[1] == 0
+    print(json.dumps(dict(coarse=coarse, fine=fine,
+                          nonlinear_point=result.x.tolist(),
+                          nonlinear_value=float(result.fun))))
+
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch12.html">← Feasible directions, cutting planes, and penalty paths</a><a rel="next" href="ch14.html">Geometric programming: positive models and dual certificates →</a></div></main></div></body></html>

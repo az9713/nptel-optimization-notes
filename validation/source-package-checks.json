@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "tool": "analyze-sources/scripts/validate_package.py",
+  "strict": true,
+  "html_files_checked": 21,
+  "errors": 0,
+  "warnings": 0,
+  "scope": "Source/artifact interfaces, HTML safety, local links and remote rendering dependencies; scientific review and execution are separate."
+}

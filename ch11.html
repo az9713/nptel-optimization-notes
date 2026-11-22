@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Interpolation, direct search, and gradient descent · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html" aria-current=page>11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html">14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>11. Interpolation, direct search, and gradient descent</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=_Fg4vGx1oi8">Lecture 29</a>, <a href="https://www.youtube.com/watch?v=dPQKltPBLfc">Lecture 30</a>, <a href="https://www.youtube.com/watch?v=7KxlpQIbKUw">Lecture 31</a> · Original expanded exposition · 3,136 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Construct quadratic and cubic local models</li><li>Trace a nonlinear simplex update</li><li>Derive exact line search for a positive definite quadratic</li><li>Diagnose misleading stopping tests and finite differences</li></ul>
+<p><strong>Prerequisites:</strong> One-variable minimization, gradients, Hessians, positive definite matrices, and Chapter 10 bracketing.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch11.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-a-parabola-supplies-a-proposal-not-a-certificate-0017">1. A parabola supplies a proposal, not a certificate 00:17</a></li><li><a href="#2-derivative-information-changes-the-interpolation-equations-1705-3251">2. Derivative information changes the interpolation equations 17:05 · 32:51</a></li><li><a href="#3-search-without-derivatives-still-needs-an-evidence-model-0017">3. Search without derivatives still needs an evidence model 00:17</a></li><li><a href="#4-a-nonlinear-simplex-explores-through-geometric-moves-1456">4. A nonlinear simplex explores through geometric moves 14:56</a></li><li><a href="#5-a-gradient-determines-direction-while-curvature-determines-distance-0606">5. A gradient determines direction, while curvature determines distance 06:06</a></li><li><a href="#6-approximate-derivatives-and-stopping-require-separate-checks-4933">6. Approximate derivatives and stopping require separate checks 49:33</a></li><li><a href="#limitations-and-six-worked-problems">Limitations and six worked problems</a></li><li><a href="#sources-and-evidence">Sources and evidence</a></li></ul></div>
+<article>
+<p>A calibration routine can evaluate the loss of a proposed setting without providing derivatives. A second implementation may supply accurate gradients but charge much more for each evaluation. These are different computational problems even when both implementations describe the same objective. An optimizer must decide which information to purchase, how to turn it into a candidate, and which observation justifies stopping.</p>
+<p>Use the original teaching model</p>
+<p>$$f(x)=2x_1^2+2x_1x_2+x_2^2+x_1-x_2,
+\qquad x=(x_1,x_2)^\top\in\mathbb R^2.$$</p>
+<p>The coordinates are dimensionless calibration settings and $f$ is a dimensionless loss. The matrix of second derivatives is $H=\begin{bmatrix}4&amp;2\\2&amp;2\end{bmatrix}$. Its leading principal minors are four and four, so it is positive definite. This makes the example globally tractable; it also lets us distinguish an algorithm's limitations from failure caused by several local minima. We will compare derivative-free proposals with gradient steps and verify the final result independently.</p>
+<h2 id="1-a-parabola-supplies-a-proposal-not-a-certificate-0017">1. A parabola supplies a proposal, not a certificate <a href="https://www.youtube.com/watch?v=_Fg4vGx1oi8&amp;t=17s">00:17</a></h2>
+<p>A <strong>line search</strong> minimizes a scalar function $\phi(t)=f(x+td)$ along a fixed direction $d$, starting from a current vector $x$. Chapter 10 used comparisons to discard portions of a scalar interval. Interpolation instead constructs an easily minimized surrogate whose values agree with observations. The surrogate is a model of the objective, not the objective itself.</p>
+<p>Take three distinct scalar points $a&lt;b&lt;c$ and observed losses $\phi_a,\phi_b,\phi_c$. Write a quadratic in coordinates centered at $b$:</p>
+<p>$$q(t)=A(t-b)^2+B(t-b)+\phi_b.$$</p>
+<p>The two remaining interpolation conditions are</p>
+<p>$$A(a-b)^2+B(a-b)=\phi_a-\phi_b,
+\qquad A(c-b)^2+B(c-b)=\phi_c-\phi_b.$$</p>
+<p>Dividing by the nonzero offsets and subtracting eliminates $B$. Thus</p>
+<p>$$A=\frac{(\phi_c-\phi_b)/(c-b)-(\phi_a-\phi_b)/(a-b)}{c-a},
+\quad B=\frac{\phi_a-\phi_b}{a-b}-A(a-b).$$</p>
+<p>If $A&gt;0$, the unconstrained surrogate minimizer is $t_q=b-B/(2A)$. If $A=0$, there is no strict quadratic minimum; if $A&lt;0$, its stationary point is a maximum. Even when $A&gt;0$, the candidate may lie outside the current interval or almost coincide with a point already evaluated. Each case requires a safeguard rather than acceptance of a formula merely because it produced a finite number.</p>
+<p>For $\phi(t)=(t-2)^2+1$, choose nodes $(0,1,3)$ with values $(5,2,2)$. The equations give $A=1$, $B=-2$, and $t_q=2$. Here interpolation recovers the exact function because the function is already quadratic. For an arbitrary smooth loss, agreement at three points does not bound the discrepancy elsewhere. A narrow unobserved dip can coexist with the same three observations.</p>
+<p>A <strong>minimum bracket</strong> has $a&lt;b&lt;c$ with $\phi(b)&lt;\phi(a)$ and $\phi(b)&lt;\phi(c)$. Continuity ensures a minimum of the closed interval occurs inside it. Strict unimodality supplies stronger elimination rules and identifies a unique basin. If a new point $t$ satisfies $a&lt;t&lt;b$ and $\phi(t)&lt;\phi(b)$, replace the triple by $(a,t,b)$; if $\phi(t)&gt;\phi(b)$, replace it by $(t,b,c)$. The right-hand cases are symmetric. Equal observed values need a stated tie policy, particularly with noise or plateaus.</p>
+<p>An implementation should accept interpolation only when the candidate is well inside the bracket and makes adequate progress. Otherwise it can take a golden-section step. The <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize_scalar.html">SciPy scalar minimization documentation</a> describes Brent's combination of parabolic proposals and golden-section progress. Its solvers are local minimizers; a pair of starting points is not the same as an imposed finite bound. Endpoint values also matter when the optimization domain includes endpoints.</p>
+<h2 id="2-derivative-information-changes-the-interpolation-equations-1705-3251">2. Derivative information changes the interpolation equations <a href="https://www.youtube.com/watch?v=_Fg4vGx1oi8&amp;t=1025s">17:05</a> · <a href="https://www.youtube.com/watch?v=_Fg4vGx1oi8&amp;t=1971s">32:51</a></h2>
+<p>Two values and one derivative also determine a quadratic. Let $h=b-a\ne0$, let $\phi(a),\phi(b)$ be known, and let $g_a=\phi'(a)$. In shifted coordinates,</p>
+<p>$$q(a+s)=\phi(a)+g_as+Cs^2,
+\qquad C=\frac{\phi(b)-\phi(a)-g_ah}{h^2}.$$</p>
+<p>When $C&gt;0$, the candidate is $a-g_a/(2C)$. This expression follows directly from $q'(a+s)=g_a+2Cs$; it is easier to audit than a long formula with several nearly cancelling uncentered powers. Small $h$ can nevertheless make the numerator a difference of similar quantities, so centered coordinates do not eliminate floating-point sensitivity.</p>
+<p>If both endpoint derivatives are available, construct a <strong>cubic Hermite interpolant</strong>, a cubic matching the two endpoint values and slopes. Let</p>
+<p>$$q(a+s)=\phi_a+g_as+Cs^2+Ds^3,$$</p>
+<p>and define $\Delta=\phi_b-\phi_a-g_ah$ and $\Gamma=g_b-g_a$. The remaining conditions give $Ch^2+Dh^3=\Delta$ and $2Ch+3Dh^2=\Gamma$. Solving these two equations yields</p>
+<p>$$C=\frac{3\Delta-\Gamma h}{h^2},
+\qquad D=\frac{\Gamma h-2\Delta}{h^3}.$$</p>
+<p>A stationary surrogate point solves $g_a+2Cs+3Ds^2=0$. A real root is a strict local minimum only if $2C+6Ds&gt;0$. There can be two roots, one root, or no real roots; an admissible root must also belong to the interval. For a bounded subproblem, compare admissible stationary candidates with the interval endpoints. A cubic is generally unbounded on the whole real line, so calling one of its roots its global minimum would be false.</p>
+<p>For a concrete check, consider $\phi(t)=(t-1)^2+0.1(t-1)^3$ on $[0,2]$. Endpoint values are $0.9$ and $1.1$, and slopes are $-1.7$ and $2.3$. Because the function is cubic, Hermite interpolation recovers it exactly. Its derivative factors as $(t-1)[2+0.3(t-1)]$. The only stationary point inside $[0,2]$ is one, where the second derivative is two and the loss is zero. The other root lies outside the permitted interval.</p>
+<p>The recording presents interpolation as potentially faster than interval elimination. That is an empirical possibility when local curvature is informative, not a universal evaluation-complexity ordering. Inaccurate derivatives, flat curvature, poor brackets, and evaluation noise can make a higher-order proposal less useful. Counting iteration numbers alone also ignores the price of derivative evaluations.</p>
+<h2 id="3-search-without-derivatives-still-needs-an-evidence-model-0017">3. Search without derivatives still needs an evidence model <a href="https://www.youtube.com/watch?v=dPQKltPBLfc&amp;t=17s">00:17</a></h2>
+<p>For a box $\ell_i\le x_i\le u_i$, <strong>random search</strong> draws coordinates $x_i=\ell_i+r_i(u_i-\ell_i)$ with independent uniform $r_i\in[0,1]$, evaluates the resulting points, and retains the best observed value. No differentiability is needed. This makes the method usable for discontinuous evaluators, but a finite sample does not certify a global optimum.</p>
+<p>If a satisfactory subset occupies a fraction $p$ of the box volume, independent uniform samples miss it $N$ times with probability $(1-p)^N$. Thus the chance of at least one hit is $1-(1-p)^N$. The relevant quantity is the satisfactory region's volume, not merely whether a global minimizer exists. An isolated exceptional point in a discontinuous objective has zero sampling probability, so arbitrary discontinuous global optimization cannot be rescued by indefinite ordinary random sampling.</p>
+<p>A <strong>grid search</strong> evaluates a Cartesian product of coordinate grids. With $k$ levels in each of $n$ coordinates, it uses $k^n$ evaluations. This exponential dependence is the elementary form of the dimensionality problem. A grid is useful for a coarse start in small dimension and for visualizing the basin of our two-setting calibration; it becomes expensive when many settings vary independently.</p>
+<p>Additional regularity can turn coverage into a bound. If $|f(u)-f(v)|\le L\|u-v\|_2$ for every pair in a compact box, and every point lies within distance $h$ of some evaluated grid point, the best grid value exceeds the true minimum by at most $Lh$. To prove it, choose a minimizer $x_*$ and a nearby grid point $z$: $f(z)\le f(x_*)+Lh$. Without a known Lipschitz constant or another regularity condition, a dense-looking plot supplies no such quantitative certificate.</p>
+<h2 id="4-a-nonlinear-simplex-explores-through-geometric-moves-1456">4. A nonlinear simplex explores through geometric moves <a href="https://www.youtube.com/watch?v=dPQKltPBLfc&amp;t=896s">14:56</a></h2>
+<p>A <strong>simplex</strong> in $\mathbb R^n$ is the convex hull of $n+1$ affinely independent points. In two dimensions it is a nondegenerate triangle. The nonlinear simplex search discussed here is a derivative-free search over moving points. It is distinct from the linear programming simplex algorithm, whose basis changes preserve an LP's constraints.</p>
+<p>Order the vertices by objective value, and let $x_h$ be the worst one. The centroid of the other $n$ points is $\bar x$. A reflection candidate is $x_r=\bar x+\alpha(\bar x-x_h)$, with reflection coefficient $\alpha&gt;0$. If reflection improves even the best old value, an expansion tries $x_e=\bar x+\gamma(x_r-\bar x)$ for $\gamma&gt;1$. Expansion should replace reflection only if its evaluated value is better. A favorable direction is a hypothesis to test, not evidence that every longer step improves the objective.</p>
+<p>When reflection is poor, contraction tries a point between the centroid and either the reflected or old worst point. A contraction coefficient in $(0,1)$ makes this interpolation. A fully specified Nelder–Mead implementation also needs a shrink step when contraction fails, a comparison policy, evaluation caching, tolerances, and iteration limits. These details affect the algorithm; the lecture's geometric explanation alone is not a complete production implementation.</p>
+<p>For our calibration model, initialize vertices $(4,4),(5,4),(4,5)$. Their losses are $80,107,96$, so the worst is $(5,4)$. The centroid of the remaining pair is $(4,4.5)$. With $\alpha=1$, reflection gives $(3,5)$, whose loss is 71. With $\gamma=2$, expansion gives $(2,5.5)$, whose loss is 56.75. This is an accepted expansion because it improves reflection as well as the original vertices. The lab computes these values from the defined objective.</p>
+<p>Small spread of vertex losses is a useful stopping diagnostic, but does not establish stationarity. On $f(x_1,x_2)=x_1$, all points on the vertical line $x_1=1$ have the same loss, even though the gradient is $(1,0)$ and moving left improves the objective. A collapsing or badly shaped simplex can create a related failure. The <a href="https://arxiv.org/abs/1104.0350">restricted Nelder–Mead convergence paper</a> explains why general convergence claims require explicit assumptions and an exact algorithm variant. The lab's successful solve of this quadratic is one numerical check, not such a theorem.</p>
+<h2 id="5-a-gradient-determines-direction-while-curvature-determines-distance-0606">5. A gradient determines direction, while curvature determines distance <a href="https://www.youtube.com/watch?v=7KxlpQIbKUw&amp;t=366s">06:06</a></h2>
+<p>For a differentiable function, the directional derivative along a unit Euclidean vector $d$ is $\nabla f(x)^\top d$. Cauchy–Schwarz bounds it below by $-\|\nabla f(x)\|_2$, attained when $d=-\nabla f(x)/\|\nabla f(x)\|_2$ if the gradient is nonzero. This proves the local steepest-descent direction for the Euclidean norm. A different measure of step length changes the answer; “steepest” is incomplete without specifying the geometry.</p>
+<p>For $f(x)=\tfrac12x^\top Hx+b^\top x+c$, with symmetric positive definite $H$, let $g=Hx+b$ and choose direction $-g$. Expanding the quadratic along the line gives</p>
+<p>$$f(x-\alpha g)=f(x)-\alpha g^\top g
++\tfrac12\alpha^2g^\top Hg.$$</p>
+<p>The scalar second derivative is positive when $g\ne0$. Differentiating in $\alpha$ therefore gives the exact minimizing step</p>
+<p>$$\alpha_* = \frac{g^\top g}{g^\top Hg}.$$</p>
+<p>This formula depends on a quadratic with constant Hessian. Reusing it with an arbitrary matrix in a nonquadratic problem is a different method requiring its own line-search control. For our model, $b=(1,-1)^\top$. Starting at $x^{(0)}=(0,0)$ gives $g^{(0)}=(1,-1)$ and $\alpha_0=1$, hence $x^{(1)}=(-1,1)$. At that point $g^{(1)}=(-1,-1)$, so $\alpha_1=1/5$ and $x^{(2)}=(-4/5,6/5)$. Losses are $0,-1,-1.2$, approaching the independently solved minimum $-1.25$ at $(-1,3/2)$.</p>
+<p>Exact line search makes consecutive gradients orthogonal: the new gradient has zero inner product with the previous search direction, which is a negative multiple of the old gradient. Orthogonality does not imply fast progress along a narrow elongated valley. <a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf">Boyd and Vandenberghe, Chapter 9</a> develops the role of curvature and the norm in descent; the exact steps above are derived here.</p>
+<h2 id="6-approximate-derivatives-and-stopping-require-separate-checks-4933">6. Approximate derivatives and stopping require separate checks <a href="https://www.youtube.com/watch?v=7KxlpQIbKUw&amp;t=2973s">49:33</a></h2>
+<p>When a smooth evaluator supplies values only, the forward difference in coordinate $i$ is $[f(x+he_i)-f(x)]/h$, where $e_i$ is the $i$th coordinate unit vector. Taylor expansion gives derivative error of order $h$ under bounded second derivatives. The centered difference $[f(x+he_i)-f(x-he_i)]/(2h)$ has order-$h^2$ truncation error under sufficient smoothness, because its even terms cancel.</p>
+<p>Making $h$ arbitrarily small does not guarantee greater accuracy. If each value has absolute error about $\delta$, subtraction and division can introduce error of scale $\delta/h$. Balance truncation and evaluation error, and compare several step sizes. At the kink of $|x|$, a centered difference at zero is zero for every $h$, although the ordinary derivative does not exist. Finite differences approximate derivatives where the relevant smoothness holds; they do not make a discontinuous or nonsmooth function differentiable.</p>
+<p>Small iterate changes can mean convergence, a tiny step size, clipping, or floating-point stagnation. Small loss changes can mean flat scaling or a poor direction. A small gradient establishes approximate stationarity under a verified gradient model. For a strongly convex function with curvature lower bound $m&gt;0$, it also gives $f(x)-f(x_*)\le\|g\|_2^2/(2m)$; without strong convexity, this objective-gap interpretation is unavailable.</p>
+<p>To derive this bound, strong convexity gives $f(y)\ge f(x)+g^\top(y-x)+(m/2)\|y-x\|_2^2$ for all domain points $x,y$, with $g=\nabla f(x)$. Set $y=x_*$ and complete the square in $y-x$. The quadratic expression is bounded below by $-\|g\|_2^2/(2m)$, attained over the full displacement space at $y-x=-g/m$. Hence $f(x_*)\ge f(x)-\|g\|_2^2/(2m)$. This proves the stated objective-gap bound without assuming the displacement realizing that auxiliary quadratic minimum is itself the true optimum. The recording mentions conjugate gradients as a continuation but does not develop their recurrence; no missing lecture is reconstructed here.</p>
+<p>The <a href="labs/ch11.py">laboratory</a> validates a quadratic interpolant, traces reflection and expansion, performs exact-line-search steepest descent, and compares with SciPy's derivative-free result. Inputs are finite arrays of the stated dimensions. The interpolation helper rejects unordered points and nonpositive fitted curvature. The script performs no file or network operations; optimization assertions check the analytic optimum rather than relying on a success flag alone.</p>
+<h2 id="limitations-and-six-worked-problems">Limitations and six worked problems</h2>
+<p>Our smooth quadratic has a unique global minimum. Derivative-free search is not thereby globally reliable for arbitrary functions, and a derivative-based routine still needs a descent and stopping contract. Evaluation budgets, derivative accuracy, coordinate scaling, and constraints belong in the method choice.</p>
+<h3 id="exercise-1-interpolation-data">Exercise 1 — Interpolation data</h3>
+<p>Recover the minimum of the quadratic interpolating $(0,5),(1,2),(3,2)$.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Writing $q(t)=at^2+bt+c$ gives $c=5$, $a+b=-3$, and $9a+3b=-3$. Subtracting three times the second relation from the third gives $6a=6$, hence $a=1,b=-4$. The positive quadratic coefficient makes $t=2$ its strict global minimum; $q(2)=1$. This certifies the interpolant, and certifies the original function only when the model is exact or an independent error bound is supplied.</p>
+</details>
+<h3 id="exercise-2-a-bad-stationary-proposal">Exercise 2 — A bad stationary proposal</h3>
+<p>What does interpolation of $\phi(t)=-t^2$ at $(-1,0,1)$ produce? How should a bounded minimizer treat it?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The interpolant is the function itself, with second derivative $-2$. Its stationary point zero is a maximum. Over $[-1,1]$, both endpoints minimize the loss at $-1$. An algorithm that blindly solves $q'=0$ returns the worst interior candidate. Curvature classification and endpoint comparison are separate necessary parts of the bounded subproblem.</p>
+</details>
+<h3 id="exercise-3-evaluate-a-geometric-move">Exercise 3 — Evaluate a geometric move</h3>
+<p>Trace reflection and expansion from the calibration simplex above.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Reject the vertex with value 107. Averaging $(4,4)$ and $(4,5)$ gives $(4,4.5)$. Reflection yields $2(4,4.5)-(5,4)=(3,5)$ and loss $18+30+25+3-5=71$. Expansion yields $(4,4.5)+2[(-1,.5)]=(2,5.5)$ and loss $8+22+30.25+2-5.5=56.75$. Since 56.75 is less than 71, expansion replaces the worst old point. Repeated extension without evaluating these values would not be justified.</p>
+</details>
+<h3 id="exercise-4-exact-line-search">Exercise 4 — Exact line search</h3>
+<p>For $f(x)=\tfrac12x^\top Hx+b^\top x$, derive the optimal step along an arbitrary nonzero direction $d$ with $g^\top d&lt;0$.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Expansion gives $f(x+\alpha d)=f(x)+\alpha g^\top d+\alpha^2d^\top Hd/2$. Positive definiteness gives $d^\top Hd&gt;0$. Setting the derivative to zero yields $\alpha_*=-g^\top d/(d^\top Hd)&gt;0$. Substituting $d=-g$ recovers $g^\top g/(g^\top Hg)$. If $H$ is indefinite, the denominator may be zero or negative and the same stationary formula need not identify a minimum.</p>
+</details>
+<h3 id="exercise-5-sampling-evidence">Exercise 5 — Sampling evidence</h3>
+<p>A satisfactory region occupies 1% of a search box. What is the probability that 100 independent uniform samples hit it at least once?</p>
+<details>
+<summary>Worked solution</summary>
+<p>Each miss has probability .99. Independence makes 100 misses have probability $.99^{100}$, so a hit has probability $1-.99^{100}$, approximately .634. This concerns the stated satisfactory volume. It does not give a 63.4% probability of hitting an isolated exact minimizer, nor does it apply unchanged to dependent samples or a nonuniform proposal distribution.</p>
+</details>
+<h3 id="exercise-6-distinguish-smoothness-from-arithmetic">Exercise 6 — Distinguish smoothness from arithmetic</h3>
+<p>Explain why a zero centered difference at zero for $|x|$ cannot be used as proof of smooth stationarity.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Both sampled values are $h$ for positive $h$, so their difference is zero. But the right derivative is one and the left derivative is minus one. The symmetric quotient hides the kink by cancelling two different one-sided behaviors. The point is a genuine minimizer, but its justification is $|x|\ge0=|0|$, or a nonsmooth optimality condition, rather than the differentiable theorem $f'=0$.</p>
+</details>
+<h2 id="sources-and-evidence">Sources and evidence</h2>
+<p>Lectures 29–31 supply interpolation, direct-search categories, simplex moves, steepest descent, and finite differences. The surrogate derivations, safeguards, probability bound, and calibration calculations are original exposition. The caption's “Jacobian” at the second-derivative test is interpreted as the Hessian. The primary research boundary for Nelder–Mead and SciPy's documented solver behavior are linked beside the corresponding claims. Complete board-equation transcription and audio review are not asserted.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch11.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Interpolation and descent: deterministic teaching checks, no I/O effects.&quot;&quot;&quot;
+import json
+
+import numpy as np
+from scipy.optimize import minimize, minimize_scalar
+
+
+def quadratic_vertex(points, values):
+    points = np.asarray(points, dtype=float)
+    values = np.asarray(values, dtype=float)
+    if points.shape != (3,) or values.shape != (3,):
+        raise ValueError(&#x27;Three points and three values are required&#x27;)
+    if not np.isfinite(points).all() or not np.isfinite(values).all():
+        raise ValueError(&#x27;Inputs must be finite&#x27;)
+    if not points[0] &lt; points[1] &lt; points[2]:
+        raise ValueError(&#x27;Points must be distinct and increasing&#x27;)
+    origin = points[1]
+    a, b, _ = np.polyfit(points - origin, values, 2)
+    if a &lt;= 0:
+        raise ValueError(&#x27;The interpolating parabola has no strict minimum&#x27;)
+    return float(origin - b / (2 * a))
+
+
+def objective(x):
+    a, b = x
+    return 2 * a * a + 2 * a * b + b * b + a - b
+
+
+def main():
+    vertex = quadratic_vertex([0, 1, 3], [5, 2, 2])
+    assert np.isclose(vertex, 2)
+    hessian = np.array([[4., 2.], [2., 2.]])
+    linear = np.array([1., -1.])
+    x = np.zeros(2)
+    trace = [x.copy()]
+    previous = objective(x)
+    for _ in range(100):
+        gradient = hessian @ x + linear
+        if np.linalg.norm(gradient) &lt; 1e-10:
+            break
+        alpha = (gradient @ gradient) / (gradient @ hessian @ gradient)
+        x = x - alpha * gradient
+        assert objective(x) &lt;= previous + 1e-12
+        previous = objective(x)
+        trace.append(x.copy())
+    assert np.allclose(trace[1], [-1, 1])
+    assert np.allclose(trace[2], [-.8, 1.2])
+    assert np.allclose(x, [-1, 1.5], atol=1e-8)
+    assert np.isclose(objective(x), -1.25)
+    simplex = np.array([[4., 4.], [5., 4.], [4., 5.]])
+    centroid = (simplex[0] + simplex[2]) / 2
+    reflection = 2 * centroid - simplex[1]
+    expansion = centroid + 2 * (reflection - centroid)
+    assert np.allclose([objective(z) for z in simplex], [80, 107, 96])
+    assert np.isclose(objective(reflection), 71)
+    assert np.isclose(objective(expansion), 56.75)
+    result = minimize(objective, [4., 4.], method=&#x27;Nelder-Mead&#x27;,
+                      options={&#x27;xatol&#x27;: 1e-10, &#x27;fatol&#x27;: 1e-12})
+    assert result.success and np.allclose(result.x, [-1, 1.5], atol=1e-7)
+    scalar = minimize_scalar(lambda z: (z - 2) ** 2 + 1,
+                             bounds=(0, 3), method=&#x27;bounded&#x27;)
+    assert scalar.success and np.isclose(scalar.x, vertex)
+    print(json.dumps(dict(vertex=vertex, optimum=x.tolist(),
+                          value=objective(x), first_two_steps=[
+                              z.tolist() for z in trace[1:3]],
+                          reflection_value=objective(reflection),
+                          expansion_value=objective(expansion))))
+
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch10.html">← Interval elimination, Fibonacci search, and golden sections</a><a rel="next" href="ch12.html">Feasible directions, cutting planes, and penalty paths →</a></div></main></div></body></html>

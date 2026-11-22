@@ -1,0 +1,104 @@
+{
+  "chapter": 12,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 32,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.9,
+        3583.88
+      ],
+      "transcript_sha256": "5e075d8c28132aa18aaa9386a8ef861606708728a2ab9d4aac1cd83869e933b2",
+      "topics": [
+        {
+          "start": 17,
+          "topic": "Constrained problem and active set"
+        },
+        {
+          "start": 322,
+          "topic": "Kelley cutting planes"
+        },
+        {
+          "start": 1110,
+          "topic": "Cutting-plane example"
+        },
+        {
+          "start": 1586,
+          "topic": "Feasible directions"
+        },
+        {
+          "start": 2321,
+          "topic": "Direction subproblem"
+        },
+        {
+          "start": 2977,
+          "topic": "Algorithm"
+        },
+        {
+          "start": 3144,
+          "topic": "Worked feasible-direction example"
+        }
+      ]
+    },
+    {
+      "lecture": 33,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.869,
+        3201.22
+      ],
+      "transcript_sha256": "7a75f320f9886cae600cef2c146a34997d40cd608a41628607f5a02ab8d02d92",
+      "topics": [
+        {
+          "start": 17,
+          "topic": "Penalty construction"
+        },
+        {
+          "start": 532,
+          "topic": "Inverse and logarithmic barriers"
+        },
+        {
+          "start": 666,
+          "topic": "Scalar x>=5 example"
+        },
+        {
+          "start": 1135,
+          "topic": "Interior iteration"
+        },
+        {
+          "start": 1386,
+          "topic": "Log-barrier example"
+        },
+        {
+          "start": 1790,
+          "topic": "Limiting argument"
+        },
+        {
+          "start": 2011,
+          "topic": "Exterior iteration"
+        },
+        {
+          "start": 2214,
+          "topic": "Exterior example"
+        },
+        {
+          "start": 2403,
+          "topic": "Extrapolation"
+        },
+        {
+          "start": 2683,
+          "topic": "Starting point and active penalties"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Tangential linearized directions need not give feasible straight steps",
+    "Convex objective cutting planes require an epigraph model for a lower bound",
+    "Exterior squared penalties may remain infeasible at every finite parameter",
+    "Barrier convergence and objective gaps require explicit convexity and inner-solve assumptions"
+  ],
+  "visual_audit": "not performed by chapter author; any root visual checks recorded separately",
+  "audio_audit": "not performed"
+}

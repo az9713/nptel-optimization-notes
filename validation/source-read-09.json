@@ -1,0 +1,86 @@
+{
+  "chapter": 9,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 23,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        19.02,
+        3830.67
+      ],
+      "transcript_sha256": "4256e5a38b0e96831cc76227bd4b38090ebcb7428f664b54fbb323e5cd4b3418",
+      "topics": [
+        {
+          "start": 128,
+          "topic": "Equality geometry"
+        },
+        {
+          "start": 1030,
+          "topic": "Direct substitution"
+        },
+        {
+          "start": 1471,
+          "topic": "Lagrange multipliers"
+        },
+        {
+          "start": 2206,
+          "topic": "Second-order and bordered matrix discussion"
+        },
+        {
+          "start": 3000,
+          "topic": "Sensitivity and economic interpretation"
+        }
+      ]
+    },
+    {
+      "lecture": 24,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        19.09,
+        3791.17
+      ],
+      "transcript_sha256": "73622ff5609cb1c5638a1e8f0d0ad62986edee95a191a6b1ed38b2176937962c",
+      "topics": [
+        {
+          "start": 19,
+          "topic": "Inequality model"
+        },
+        {
+          "start": 144,
+          "topic": "Squared slack construction"
+        },
+        {
+          "start": 421,
+          "topic": "Complementarity"
+        },
+        {
+          "start": 1337,
+          "topic": "Feasible directions and regularity"
+        },
+        {
+          "start": 2291,
+          "topic": "Complete multiplier conditions"
+        },
+        {
+          "start": 2401,
+          "topic": "Convex sufficiency"
+        },
+        {
+          "start": 3025,
+          "topic": "Active-set example"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Lagrangian is not jointly minimized over primal and multiplier variables",
+    "Bordered KKT matrix need not be positive definite; reduced tangent curvature is tested",
+    "KKT necessity needs a constraint qualification",
+    "Active inequality multipliers can equal zero",
+    "Convex sufficiency requires appropriate objective, inequalities and affine equalities",
+    "Equality right-hand-side changes are not automatically relaxations"
+  ],
+  "visual_audit": "not performed by chapter author",
+  "audio_audit": "not performed"
+}

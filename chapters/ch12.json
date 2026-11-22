@@ -1,0 +1,6 @@
+{
+  "title": "Feasible directions, cutting planes, and penalty paths",
+  "lectures": [32, 33],
+  "objectives": ["Distinguish linearized feasibility from feasible motion", "Build globally valid convex cutting planes", "Derive exterior-penalty and interior-barrier limits", "Use primal and dual residuals to stop constrained optimization"],
+  "prerequisites": "Gradients, convexity, LP duality, KKT conditions, and Chapter 11 line search."
+}

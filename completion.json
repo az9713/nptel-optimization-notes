@@ -1,0 +1,26 @@
+{
+  "edition": "NPTEL Optimization — independent study edition",
+  "edition_date": "2026-11-21",
+  "notes_status": "complete",
+  "chapters": 16,
+  "recordings": 40,
+  "source_hours": 38.40361111111111,
+  "worked_exercises": 96,
+  "python_laboratories": 16,
+  "source_caption_tracks_read": 40,
+  "source_visual_review": "not performed",
+  "source_audio_review": "not performed",
+  "scientific_review": "Separate AI authors and editors; accepted current file digests in three chapter review receipts and a course coherence receipt",
+  "human_expert_certification": false,
+  "formal_proof_verification": false,
+  "package_validation": "validation/package-checks.json",
+  "reader_validation": "validation/browser-checks.json",
+  "review_and_rebuild_validation": "validation/release-checks.json",
+  "source_package_validation": "validation/source-package-checks.json",
+  "cleanup_evidence": "validation/cleanup.json",
+  "publication": {
+    "repository": "https://github.com/az9713/nptel-optimization-notes",
+    "reader": "https://az9713.github.io/nptel-optimization-notes/",
+    "served_file_verification": "validation/publication-checks.json"
+  }
+}

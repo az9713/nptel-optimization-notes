@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Independent NPTEL Optimization study edition: 40 lectures, derivations, solved problems and executable labs.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>Geometric programming: positive models and dual certificates · NPTEL Optimization</title><link rel="stylesheet" href="assets/reader.css">
+<script src="assets/math-config.js" defer></script><script src="assets/mathjax-tex-svg.js" defer></script>
+<script src="assets/reader.js" defer></script></head><body>
+<a class="skip" href="#main">Skip to main content</a><div class="shell">
+<aside><a class="brand" href="index.html">Optimization</a><p>Models, algorithms, decisions<br>Independent NPTEL study edition</p>
+<button id="menu" aria-expanded="false" aria-controls="navigation">Contents</button>
+<nav id="navigation" aria-label="Book"><a href="index.html">Overview and chapter finder</a>
+<a href="source-map.html">40 recordings and source map</a><a href="study-guide.html">Study guide and method map</a>
+<a href="numerical-lab.html">Interactive optimization lab</a><a href="references.html">References and evidence limits</a><a href="ch01.html">01 · Modeling decisions and the geometry of linear programming</a><a href="ch02.html">02 · Simplex, artificial variables, and exceptional cases</a><a href="ch03.html">03 · Dual certificates, dual simplex, and sensitivity</a><a href="ch04.html">04 · Integer programming: valid cuts and complete search</a><a href="ch05.html">05 · Transportation, network bases, and assignment</a><a href="ch06.html">06 · Project networks, critical paths, and uncertain deadlines</a><a href="ch07.html">07 · Shortest paths and tours: local certificates and global connectivity</a><a href="ch08.html">08 · Stationary points, curvature, and global optimality</a><a href="ch09.html">09 · Equality constraints, KKT conditions, and sensitivity</a><a href="ch10.html">10 · Interval elimination, Fibonacci search, and golden sections</a><a href="ch11.html">11 · Interpolation, direct search, and gradient descent</a><a href="ch12.html">12 · Feasible directions, cutting planes, and penalty paths</a><a href="ch13.html">13 · Separable programming and controlled linear approximations</a><a href="ch14.html" aria-current=page>14 · Geometric programming: positive models and dual certificates</a><a href="ch15.html">15 · Dynamic programming: state, recursion, and resource allocation</a><a href="ch16.html">16 · Multiple objectives, AHP, and TOPSIS</a></nav></aside>
+<main id="main"><div class="eyebrow">NPTEL · IIT Kharagpur · Optimization</div><h1>14. Geometric programming: positive models and dual certificates</h1>
+<p class="meta"><a href="https://www.youtube.com/watch?v=mt7tbgl-nfY">Lecture 35</a>, <a href="https://www.youtube.com/watch?v=q3m_ECTUTtY">Lecture 36</a> · Original expanded exposition · 2,880 source words</p>
+<div class="objectives"><strong>What you will learn</strong><ul><li>Recognize monomials and posynomials on a positive domain</li><li>Derive the logarithmic convex transformation</li><li>Construct arithmetic–geometric mean dual bounds</li><li>Distinguish ordinary GP from reversed-posynomial generalizations</li></ul>
+<p><strong>Prerequisites:</strong> Logarithms, convexity, Lagrange multipliers, and weak duality.</p></div>
+<div class="toolbar"><button id="solutions" type="button">Open solutions and code</button><button id="print" type="button">Print / save PDF</button>
+<a href="chapters/ch14.md">Editable chapter source</a></div><div class="toc"><strong>In this chapter</strong><ul><li><a href="#1-positivity-is-a-mathematical-requirement-0019">1. Positivity is a mathematical requirement 00:19</a></li><li><a href="#2-logarithms-expose-a-convex-optimization-problem-3121">2. Logarithms expose a convex optimization problem 31:21</a></li><li><a href="#3-the-arithmeticgeometric-mean-inequality-supplies-a-lower-bound-4129">3. The arithmetic–geometric mean inequality supplies a lower bound 41:29</a></li><li><a href="#4-recovering-a-design-and-interpreting-degree-of-difficulty-1432-2021">4. Recovering a design and interpreting degree of difficulty 14:32 · 20:21</a></li><li><a href="#5-constraints-add-dual-groups-and-multipliers-0019">5. Constraints add dual groups and multipliers 00:19</a></li><li><a href="#6-reversed-posynomial-inequalities-change-the-problem-class-3630">6. Reversed posynomial inequalities change the problem class 36:30</a></li><li><a href="#six-worked-problems">Six worked problems</a></li><li><a href="#sources-and-evidence">Sources and evidence</a></li></ul></div>
+<article>
+<p>A design objective can contain products, ratios and fractional powers and still belong to a globally tractable optimization class. The decisive issue is the algebraic pattern, not whether the printed expression looks nonlinear. Geometric programming exploits positive sums of positive power-law terms. The positive domain makes logarithms available, and those logarithms expose convexity.</p>
+<p>Use a dimensionless design with two positive variables $x,y$ and objective</p>
+<p>$$f(x,y)=x+y+\frac1{xy},\qquad x&gt;0,\ y&gt;0.$$</p>
+<p>The first two terms charge for increasing the two design resources. The last term penalizes making their product too small. These terms create an interior balance. Later impose $x\le1/2$ and see how a physical limit changes the optimum and its dual certificate. This is an original teaching construction; it avoids treating uncertain caption exponents as verified engineering data.</p>
+<h2 id="1-positivity-is-a-mathematical-requirement-0019">1. Positivity is a mathematical requirement <a href="https://www.youtube.com/watch?v=mt7tbgl-nfY&amp;t=19s">00:19</a></h2>
+<p>A <strong>monomial</strong> in the geometric-programming sense is</p>
+<p>$$m(x)=c\prod_{i=1}^n x_i^{a_i},\qquad
+c&gt;0,\quad x_i&gt;0,\quad a_i\in\mathbb R.$$</p>
+<p>Real exponents may be negative or fractional. This differs from the polynomial-algebra convention of nonnegative integer exponents. A <strong>posynomial</strong> is a finite sum of such monomials, each with a positive coefficient. The word does not mean merely “a polynomial with a positive value.” The expression $x-y+3$ may be positive on a chosen box yet has a negative coefficient and is not a posynomial in the stated variables.</p>
+<p>Strict positivity matters. The term $x^{-1/2}$ is not defined as a finite real number at zero. The logarithmic coordinate $\log x$ also excludes zero. Replacing the domain by $x\ge0$ without qualification changes both the function and its transformation. If a physical variable can vanish, its zero boundary must be handled separately or the model must use a justified positive offset.</p>
+<p>Monomials are closed under multiplication, division and real powers. Posynomials are closed under addition, multiplication and positive scaling, and division by a monomial preserves posynomial structure. Division by a general posynomial does not generally do so. These algebraic facts follow by collecting exponents and positive coefficients, and determine whether a proposed rearrangement preserves the problem class.</p>
+<p>A <strong>standard geometric program</strong>, or GP, minimizes a posynomial $f_0(x)$ subject to posynomial inequalities $f_k(x)\le1$ and monomial equalities $h_\ell(x)=1$, all on $x_i&gt;0$. A positive constant on the right can be absorbed into the coefficients. A posynomial bounded above by a monomial can be divided by that monomial. A lower bound on a monomial can be inverted. These transformations preserve GP structure because the denominator has a single power-law term.</p>
+<p>The distinction among allowed inequality directions and equality forms is explicit in <a href="https://web.stanford.edu/~boyd/papers/pdf/gp_tutorial.pdf">Boyd, Kim, Vandenberghe and Hassibi, §2</a>. The name of the class is less important than verifying that every expression actually satisfies its positive-coefficient and domain contract.</p>
+<p>For a dimensional physical model, logarithms should be applied to ratios $x_i/x_{i,\mathrm{ref}}$ against fixed positive reference units. Writing $\log x_i$ conventionally assumes numerical values in chosen units. Changing those units changes the coefficients consistently; it should not change the modeled physical design. A power law fitted empirically also carries a range of validity that algebra cannot extend automatically.</p>
+<h2 id="2-logarithms-expose-a-convex-optimization-problem-3121">2. Logarithms expose a convex optimization problem <a href="https://www.youtube.com/watch?v=mt7tbgl-nfY&amp;t=1881s">31:21</a></h2>
+<p>Set $z_i=\log x_i$, so $x_i=e^{z_i}$ and $z\in\mathbb R^n$. A monomial becomes $m(e^z)=\exp(\log c+a^\top z)$. Taking its logarithm gives an affine function. For a posynomial $f(x)=\sum_{j=1}^N c_jx^{a_j}$, define</p>
+<p>$$F(z)=\log f(e^z)
+=\log\sum_{j=1}^N\exp(a_j^\top z+\log c_j).$$</p>
+<p>Here $a_j\in\mathbb R^n$ is the exponent vector for term $j$, and $x^{a_j}$ abbreviates $\prod_i x_i^{a_{ij}}$. The logarithm is increasing, so minimizing $F$ is equivalent to minimizing $f$. Inequalities $f_k(x)\le1$ become $F_k(z)\le0$, while monomial equalities become affine equations.</p>
+<p>The convexity mechanism can be proved directly. Let</p>
+<p>$$w_j(z)=\frac{\exp(a_j^\top z+\log c_j)}
+{\sum_r\exp(a_r^\top z+\log c_r)},\qquad
+\bar a=\sum_jw_ja_j.$$</p>
+<p>These positive weights sum to one. Differentiation yields $\nabla F=\bar a$ and</p>
+<p>$$\nabla^2F=\sum_j w_j(a_j-\bar a)(a_j-\bar a)^\top.$$</p>
+<p>For every vector $v$, the corresponding quadratic form is $\sum_jw_j[v^\top(a_j-\bar a)]^2\ge0$. Thus the Hessian is positive semidefinite. A logarithmic GP is a convex problem even when its original posynomial is not convex in ordinary coordinates. This proof also reveals possible flat directions: if every exponent has the same projection along $v$, the variance in that direction is zero.</p>
+<p>For the running objective, $F(u,v)=\log(e^u+e^v+e^{-u-v})$, where $u=\log x$ and $v=\log y$. At $u=v=0$, all three terms are one and their exponent vectors $(1,0),(0,1),(-1,-1)$ average to zero. Therefore the transformed gradient vanishes, establishing a global minimum by convexity. Its value in original units is three at $x=y=1$.</p>
+<p>Convexity does not by itself prove attainment or uniqueness. Minimizing the monomial $x$ over $x&gt;0$ has infimum zero but no minimizer. A posynomial depending only on $xy$ can have a continuum of minimizers with that product fixed. Check growth, feasible bounds and effective exponent rank before asserting a finite unique design.</p>
+<p>For numerical evaluation, compute log-sum-exp by subtracting the largest exponent: if $s_j=a_j^\top z+\log c_j$ and $s_{\max}=\max_js_j$, then $F=s_{\max}+\log\sum_j e^{s_j-s_{\max}}$. This identity avoids overflow from a large common exponent. It changes numerical representation, not the mathematical problem.</p>
+<h2 id="3-the-arithmeticgeometric-mean-inequality-supplies-a-lower-bound-4129">3. The arithmetic–geometric mean inequality supplies a lower bound <a href="https://www.youtube.com/watch?v=mt7tbgl-nfY&amp;t=2489s">41:29</a></h2>
+<p>For positive $r_j$ and nonnegative weights $\delta_j$ summing to one, weighted arithmetic–geometric mean gives $\sum_j\delta_jr_j\ge\prod_jr_j^{\delta_j}$. One proof uses $\log t\le t-1$ for $t&gt;0$, obtained by differentiating $t-1-\log t$ and identifying its minimum at one. Apply this inequality to normalized ratios and sum with the weights. Equality holds when all positively weighted $r_j$ coincide.</p>
+<p>Let $U_j(x)=c_jx^{a_j}$ be the objective's monomial terms. For positive $\delta_j$ summing to one, use $r_j=U_j/\delta_j$:</p>
+<p>$$f(x)=\sum_j\delta_j\frac{U_j(x)}{\delta_j}
+\ge\prod_j\left(\frac{c_j}{\delta_j}\right)^{\delta_j}
+\prod_i x_i^{\sum_j a_{ij}\delta_j}.$$</p>
+<p>If the <strong>exponent-balance equations</strong> $\sum_j a_{ij}\delta_j=0$ hold for every variable, all powers of $x_i$ cancel. The remaining product</p>
+<p>$$D(\delta)=\prod_j\left(\frac{c_j}{\delta_j}\right)^{\delta_j}$$</p>
+<p>is a global lower bound on $f$. Maximizing this bound over feasible weights gives the classical unconstrained GP dual. Zero weights can be included by continuous limits, with factors interpreted through $\delta\log(c/\delta)\to0$ as $\delta\downarrow0$.</p>
+<p>At an attained positive stationary point $x_*$, define $\delta_j=U_j(x_*)/f(x_*)$. Normalization holds because the terms sum to the objective. Multiplying $\partial f/\partial x_i=0$ by $x_i$ gives $\sum_j a_{ij}U_j(x_*)=0$, hence exponent balance. Moreover $U_j(x_*)/\delta_j=f(x_*)$ for every term, so the arithmetic–geometric mean bound is tight. This constructs a matching lower bound and proves global optimality rather than merely observing a stationary point.</p>
+<p>For $f=x+y+1/(xy)$, exponent balance requires $\delta_1=\delta_3$ and $\delta_2=\delta_3$. Together with normalization, all weights equal $1/3$. The bound is $3^{1/3}3^{1/3}3^{1/3}=3$. At $(1,1)$ the objective attains three, yielding a complete primal-dual certificate. No numerical optimizer is required for that proof.</p>
+<h2 id="4-recovering-a-design-and-interpreting-degree-of-difficulty-1432-2021">4. Recovering a design and interpreting degree of difficulty <a href="https://www.youtube.com/watch?v=mt7tbgl-nfY&amp;t=872s">14:32</a> · <a href="https://www.youtube.com/watch?v=mt7tbgl-nfY&amp;t=1221s">20:21</a></h2>
+<p>When optimal dual weights are positive and the lower bound is tight, $U_j(x_*)=\delta_jf_*$. Taking logarithms gives linear equations</p>
+<p>$$a_j^\top z_* = \log\left(\frac{\delta_jf_*}{c_j}\right).$$</p>
+<p>Solve these for logarithmic coordinates, then exponentiate. The system can be overdetermined but consistent. Its rank determines whether the coordinates are unique. A numerical least-squares solution should be checked by substituting back into every monomial equation and original constraint, rather than silently accepting inconsistent rounded data.</p>
+<p>The classical <strong>degree of difficulty</strong> count is $N-n-1$ for $N$ monomial terms and $n$ variables. It estimates how many free dual weights remain after normalization and exponent balance when those equations have full independent rank. The actual affine dimension is $N-\operatorname{rank}M$, where $M$ stacks the normalization row and exponent-balance rows, before nonnegativity restrictions. Counting equations is not a substitute for checking independence and feasibility.</p>
+<p>A positive degree of difficulty does not mean the primal has multiple optima. The one-variable function $x+1/x+1$ has three terms, one variable and count one, yet its unique minimum is at $x=1$. The extra constant creates a free dual parameter before optimization; maximizing the dual still selects its optimum.</p>
+<p>A negative count also does not make the optimization problem invalid. The two-variable function $x+1/x$ has two terms and count minus one, yet it is minimized at $x=1$ with arbitrary positive $y$. The variable $y$ does not appear. Redundant coordinates make the raw count misleading. The logarithmic convex formulation handles the problem without a special difficulty-count exception.</p>
+<p>Even a zero count does not guarantee an attained primal solution: feasibility of the resulting nonnegative dual weights, rank and primal recovery all matter. In this edition the count describes a feature of the classical dual calculation, rather than serving as a theorem about uniqueness of every GP design.</p>
+<h2 id="5-constraints-add-dual-groups-and-multipliers-0019">5. Constraints add dual groups and multipliers <a href="https://www.youtube.com/watch?v=q3m_ECTUTtY&amp;t=19s">00:19</a></h2>
+<p>Write objective terms as $U_{0j}=c_{0j}x^{a_{0j}}$ and terms of constraint $k$ as $U_{kj}=c_{kj}x^{a_{kj}}$, with $f_k=\sum_jU_{kj}\le1$. Introduce nonnegative weights $\delta_{kj}$ and group sums $\lambda_k=\sum_j\delta_{kj}$ for $k\ge1$. Normalize only the objective group: $\sum_j\delta_{0j}=1$.</p>
+<p>Weighted arithmetic–geometric mean applied separately to each group gives</p>
+<p>$$f_0\ge\prod_j\left(\frac{U_{0j}}{\delta_{0j}}\right)^{\delta_{0j}},
+\qquad
+f_k^{\lambda_k}\ge\prod_j\left(\frac{\lambda_kU_{kj}}{\delta_{kj}}\right)^{\delta_{kj}}.$$</p>
+<p>Since every feasible $f_k\le1$, the product $f_0\prod_k f_k^{\lambda_k}$ is at most $f_0$. Combining the lower bounds and imposing total exponent balance $\sum_{k,j}a_{kj}\delta_{kj}=0$ yields</p>
+<p>$$f_0(x)\ge D(\delta)=
+\left[\prod_{k,j}\left(\frac{c_{kj}}{\delta_{kj}}\right)^{\delta_{kj}}\right]
+\left[\prod_{k=1}^m\lambda_k^{\lambda_k}\right].$$</p>
+<p>This is a feasible-design lower bound for ordinary GP inequalities. Its log form is numerically preferable to multiplying many large or small factors. Inactive groups can have $\lambda_k=0$ and zero term weights, interpreted by limits. Equality with a feasible primal objective supplies a certificate; more general strong-duality statements require the usual regularity conditions of the convex transformed problem.</p>
+<p>Impose $x\le1/2$ in the running model, written $2x\le1$. For any fixed $x$, minimizing $y+1/(xy)$ gives $y=1/\sqrt x$, by differentiation or arithmetic–geometric mean. The reduced objective is $\psi(x)=x+2/\sqrt x$. Its derivative is $1-x^{-3/2}$, negative for $x&lt;1$. Therefore the constrained minimum uses $x_*=1/2$, $y_*=\sqrt2$, with value $f_*=1/2+2\sqrt2$.</p>
+<p>Let $v=f_*$. Objective weights are $\delta_1=(1/2)/v$ and $\delta_2=\delta_3=\sqrt2/v$. The constraint has one term and weight $\lambda=\delta_3-\delta_1&gt;0$. Its exponent is $(1,0)$, so total balance is $(\delta_1-\delta_3+\lambda,\delta_2-\delta_3)=(0,0)$. The logarithmic dual value reduces to $-\sum_{j=1}^3\delta_j\log\delta_j+\lambda\log2$. The lab verifies that exponentiating it equals $v$, independently certifying the constrained design.</p>
+<h2 id="6-reversed-posynomial-inequalities-change-the-problem-class-3630">6. Reversed posynomial inequalities change the problem class <a href="https://www.youtube.com/watch?v=q3m_ECTUTtY&amp;t=2190s">36:30</a></h2>
+<p>A lower bound on a monomial is harmless: $x^{-1}y^2\ge3$ becomes $3xy^{-2}\le1$. A lower bound on a posynomial sum is different. The set $x+y\ge2$ becomes $e^u+e^v\ge2$ in logarithmic coordinates. It need not be convex.</p>
+<p>Take positive designs $(x,y)=(2,1/4)$ and $(1/4,2)$. Both satisfy the inequality. Their midpoint in log coordinates maps to their componentwise geometric mean $(\sqrt{1/2},\sqrt{1/2})$, whose sum is $\sqrt2&lt;2$. The transformed midpoint is infeasible. Thus the log-coordinate feasible set is nonconvex, even though every coefficient is positive.</p>
+<p>Lecture 36 develops sign-based algebra for mixed inequality directions. Those generalizations must not inherit ordinary GP's convex global guarantee merely because a sign is inserted in a dual expression. A proposed generalized dual needs its own weak-duality proof and qualifications; stationary multiplier equations alone cannot replace them. The safe practice is to test whether each reversed constraint is monomial-reducible and otherwise identify the model as outside standard GP.</p>
+<p>Similarly, a posynomial equality such as $x+y=1$ is not an allowed monomial equality. Its logarithmic equality is a curved surface rather than an affine subspace. A model may admit another exact reformulation, but that requires an argument. Maximizing a general posynomial is also not equivalent to standard GP by taking its reciprocal, because a reciprocal of a sum is not generally a posynomial.</p>
+<p>The <a href="labs/ch14.py">laboratory</a> solves the running problem in logarithmic coordinates, checks both analytic optima, and constructs the constrained dual certificate. A direct midpoint test verifies the reversed-inequality counterexample. The script accepts no external data, performs no file or network operations and checks numerical answers against independently derived values. It is an illustrative implementation; stable general solvers should use log-sum-exp and complete feasibility/residual checks for large models.</p>
+<h2 id="six-worked-problems">Six worked problems</h2>
+<h3 id="exercise-1-classify-an-expression">Exercise 1 — Classify an expression</h3>
+<p>Which expressions are posynomials on $x,y&gt;0$: $3x^{-1/2}y^2$, $x+y-1$, and $(x+y)/\sqrt{xy}$?</p>
+<details>
+<summary>Worked solution</summary>
+<p>The first is a monomial with positive coefficient three and real exponents. The second has a negative constant coefficient, so it is not a posynomial in the stated form. The third expands to $x^{1/2}y^{-1/2}+x^{-1/2}y^{1/2}$, a sum of two positive monomials. Division by the denominator is permitted because $\sqrt{xy}$ is a monomial.</p>
+</details>
+<h3 id="exercise-2-transform-a-constraint">Exercise 2 — Transform a constraint</h3>
+<p>Put $x^2+y\le\sqrt x$ into standard GP and logarithmic form.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Divide by the positive monomial $\sqrt x$ to obtain $x^{3/2}+yx^{-1/2}\le1$. With $u=\log x,v=\log y$, the inequality is $\log(e^{3u/2}+e^{v-u/2})\le0$. Its left side is log-sum-exp of affine functions, hence convex by the Hessian argument. Dividing by a positive quantity preserves the inequality direction.</p>
+</details>
+<h3 id="exercise-3-construct-the-unconstrained-certificate">Exercise 3 — Construct the unconstrained certificate</h3>
+<p>Derive the dual lower bound for $x+y+1/(xy)$.</p>
+<details>
+<summary>Worked solution</summary>
+<p>Exponent balance gives $\delta_1-\delta_3=0$ and $\delta_2-\delta_3=0$. Normalization fixes each to $1/3$. Weighted arithmetic–geometric mean then gives $f\ge\prod_j(1/(1/3))^{1/3}=3$. Equality requires $3x=3y=3/(xy)$, hence $x=y$ and $x^3=1$. The positive solution is $(1,1)$ and it attains the bound.</p>
+</details>
+<h3 id="exercise-4-recover-the-constrained-optimum">Exercise 4 — Recover the constrained optimum</h3>
+<p>Solve the same problem under $x\le1/2$ without a numerical optimizer.</p>
+<details>
+<summary>Worked solution</summary>
+<p>At fixed $x$, $y+1/(xy)\ge2/\sqrt x$, with equality at $y=1/\sqrt x$. The remaining function $x+2x^{-1/2}$ decreases on $(0,1/2]$ because its derivative is $1-x^{-3/2}&lt;0$. Therefore $x=1/2,y=\sqrt2$ and value $1/2+2\sqrt2$. This derivation checks the full positive domain and does not assume a stationary point exists in the constrained interior.</p>
+</details>
+<h3 id="exercise-5-interpret-a-difficulty-count">Exercise 5 — Interpret a difficulty count</h3>
+<p>Why does $x+1/x+1$ disprove the claim that positive degree of difficulty implies multiple primal optima?</p>
+<details>
+<summary>Worked solution</summary>
+<p>There are three terms and one variable, so the count is $3-1-1=1$. Yet $x+1/x\ge2$ for $x&gt;0$, with equality only at $x=1$. Adding one gives a unique minimum three. The count concerns freedom in the dual equality system before optimization, not the number of optimal primal designs.</p>
+</details>
+<h3 id="exercise-6-diagnose-a-reversed-sum">Exercise 6 — Diagnose a reversed sum</h3>
+<p>Can the convex-GP guarantee be applied directly to $x+y\ge2$?</p>
+<details>
+<summary>Worked solution</summary>
+<p>No. The two feasible designs $(2,.25)$ and $(.25,2)$ have log midpoint mapping to $(\sqrt{.5},\sqrt{.5})$. Its sum is $\sqrt2&lt;2$, so the log-transformed feasible set is nonconvex. Inverting the whole sum produces $1/(x+y)\le1/2$, whose reciprocal-sum expression is not a posynomial. A different reformulation or a nonconvex method needs its own justification.</p>
+</details>
+<h2 id="sources-and-evidence">Sources and evidence</h2>
+<p>Lectures 35–36 supply posynomials, exponent balance, normalization, arithmetic–geometric mean duals, primal recovery and constrained examples. The logarithmic Hessian proof and the difficulty-count and reversed-inequality counterexamples are original clarifications. The standard-form boundary is checked against the linked primary GP tutorial. Caption inconsistencies in powers, zeros and uniqueness wording are not copied into theorem statements.</p><details class="lab"><summary>Executable chapter laboratory</summary><p><a href="labs/ch14.py">Download Python source</a>. Run in a fresh interpreter; see requirements.txt.</p><div class="codewrap"><button class="copybtn" type="button" aria-label="Copy lab source">Copy</button><pre><code class="language-python">&quot;&quot;&quot;Geometric programming: primal solution and independent dual certificate.&quot;&quot;&quot;
+import json
+
+import numpy as np
+from scipy.optimize import minimize
+
+
+def main():
+    # min x + y + 1/(x*y), x,y&gt;0, with x&lt;=1/2 in the constrained case.
+    def objective(z):
+        x, y = np.exp(z)
+        return x + y + 1 / (x * y)
+
+    free = minimize(objective, [1., -1.], method=&#x27;BFGS&#x27;,
+                    options={&#x27;gtol&#x27;: 1e-7})
+    assert np.allclose(np.exp(free.x), [1, 1], atol=1e-6)
+    assert np.isclose(free.fun, 3)
+    constrained = minimize(objective, [-1., 0.], method=&#x27;SLSQP&#x27;,
+                           constraints=[dict(type=&#x27;ineq&#x27;, fun=lambda z:
+                                             -np.log(2) - z[0])],
+                           options={&#x27;ftol&#x27;: 1e-12})
+    assert constrained.success
+    x, y = np.exp(constrained.x)
+    value = .5 + 2 * np.sqrt(2)
+    assert np.allclose([x, y], [.5, np.sqrt(2)], atol=1e-6)
+    assert np.isclose(constrained.fun, value)
+    delta = np.array([.5, np.sqrt(2), np.sqrt(2)]) / value
+    multiplier = delta[2] - delta[0]
+    # Exponent balance: [1,0], [0,1], [-1,-1], [1,0].
+    exponents = np.array([[1., 0.], [0., 1.], [-1., -1.], [1., 0.]])
+    all_delta = np.r_[delta, multiplier]
+    assert np.allclose(exponents.T @ all_delta, 0)
+    log_dual = -np.sum(delta * np.log(delta)) + multiplier * np.log(2)
+    assert np.isclose(np.exp(log_dual), value)
+    assert np.isclose(delta.sum(), 1)
+    # A posynomial superlevel set need not be convex in log coordinates.
+    a, b = np.log([2., .25]), np.log([.25, 2.])
+    midpoint = (a + b) / 2
+    assert np.exp(a).sum() &gt;= 2 and np.exp(b).sum() &gt;= 2
+    assert np.exp(midpoint).sum() &lt; 2
+    print(json.dumps(dict(unconstrained_point=np.exp(free.x).tolist(),
+                          unconstrained_value=float(free.fun),
+                          constrained_point=[float(x), float(y)],
+                          constrained_value=value, dual_weights=delta.tolist(),
+                          constraint_weight=float(multiplier),
+                          dual_value=float(np.exp(log_dual)))))
+
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+</code></pre></div></details></article><div class="footer"><a rel="prev" href="ch13.html">← Separable programming and controlled linear approximations</a><a rel="next" href="ch15.html">Dynamic programming: state, recursion, and resource allocation →</a></div></main></div></body></html>

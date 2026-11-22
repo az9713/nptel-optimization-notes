@@ -1,0 +1,6 @@
+{
+  "title": "Multiple objectives, AHP, and TOPSIS",
+  "lectures": [39, 40],
+  "objectives": ["Separate dominance from preference", "Choose among scalarization, goals, lexicographic and epsilon constraints", "Derive consistent AHP priorities and diagnose inconsistency", "Implement TOPSIS with explicit directions, normalization and sensitivity"],
+  "prerequisites": "Vector inequalities, convexity, eigenvectors, linear programming, and Euclidean distance."
+}

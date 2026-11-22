@@ -1,0 +1,219 @@
+{
+  "reviewer": "linear_discrete (independent of network_classical chapter author)",
+  "scope": [
+    "chapters/ch06–10.md: full scientific and pedagogical review including all 30 worked solutions",
+    "chapters/ch06–10.json: full metadata inspection",
+    "labs/ch06–10.py: full code inspection; no duplicate post-review execution batch",
+    "validation/source-read-06–10.json: ledger comparison to manifest digests/endpoints and 26 independent bounded caption samples"
+  ],
+  "report": "validation/review-network.md",
+  "findings_fixed": [
+    {
+      "files": [
+        "chapters/ch07.md"
+      ],
+      "finding": "Approximation-ratio reference pointed to a whole course rather than the relevant definition",
+      "resolution": "Replaced course locator with verified MIT lecture17 PDF,page1; distinguished general ratio definition from the metric-tour proof developed in the chapter"
+    }
+  ],
+  "remaining_findings": [],
+  "source_fidelity": {
+    "independent_caption_samples": [
+      {
+        "lecture": 16,
+        "start_seconds": 621,
+        "end_seconds": 645
+      },
+      {
+        "lecture": 16,
+        "start_seconds": 1477,
+        "end_seconds": 1501
+      },
+      {
+        "lecture": 17,
+        "start_seconds": 485,
+        "end_seconds": 509
+      },
+      {
+        "lecture": 17,
+        "start_seconds": 1442,
+        "end_seconds": 1466
+      },
+      {
+        "lecture": 18,
+        "start_seconds": 159,
+        "end_seconds": 183
+      },
+      {
+        "lecture": 18,
+        "start_seconds": 946,
+        "end_seconds": 970
+      },
+      {
+        "lecture": 19,
+        "start_seconds": 1513,
+        "end_seconds": 1537
+      },
+      {
+        "lecture": 19,
+        "start_seconds": 1920,
+        "end_seconds": 1944
+      },
+      {
+        "lecture": 20,
+        "start_seconds": 381,
+        "end_seconds": 405
+      },
+      {
+        "lecture": 20,
+        "start_seconds": 2960,
+        "end_seconds": 2984
+      },
+      {
+        "lecture": 21,
+        "start_seconds": 1223,
+        "end_seconds": 1247
+      },
+      {
+        "lecture": 21,
+        "start_seconds": 1575,
+        "end_seconds": 1599
+      },
+      {
+        "lecture": 22,
+        "start_seconds": 762,
+        "end_seconds": 786
+      },
+      {
+        "lecture": 22,
+        "start_seconds": 2560,
+        "end_seconds": 2584
+      },
+      {
+        "lecture": 23,
+        "start_seconds": 1471,
+        "end_seconds": 1495
+      },
+      {
+        "lecture": 23,
+        "start_seconds": 2206,
+        "end_seconds": 2230
+      },
+      {
+        "lecture": 24,
+        "start_seconds": 1337,
+        "end_seconds": 1361
+      },
+      {
+        "lecture": 24,
+        "start_seconds": 2401,
+        "end_seconds": 2425
+      },
+      {
+        "lecture": 25,
+        "start_seconds": 1012,
+        "end_seconds": 1036
+      },
+      {
+        "lecture": 25,
+        "start_seconds": 1422,
+        "end_seconds": 1446
+      },
+      {
+        "lecture": 26,
+        "start_seconds": 798,
+        "end_seconds": 822
+      },
+      {
+        "lecture": 26,
+        "start_seconds": 2387,
+        "end_seconds": 2411
+      },
+      {
+        "lecture": 27,
+        "start_seconds": 496,
+        "end_seconds": 520
+      },
+      {
+        "lecture": 27,
+        "start_seconds": 2897,
+        "end_seconds": 2921
+      },
+      {
+        "lecture": 28,
+        "start_seconds": 196,
+        "end_seconds": 220
+      },
+      {
+        "lecture": 28,
+        "start_seconds": 2184,
+        "end_seconds": 2208
+      }
+    ],
+    "author_ledgers_checked": true,
+    "manifest_digest_and_endpoint_mismatches": [],
+    "independent_full_caption_reread": false,
+    "independent_audio_review": false,
+    "independent_comprehensive_board_review": false
+  },
+  "primary_reference_checks": [
+    {
+      "url": "https://stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "location": "section3.1.4,printedp71;section5.5.3,printedpp243–244",
+      "outcome": "Verified Hessian characterization, strict convexity qualification, and convex KKT sufficiency/Slater conditions"
+    },
+    {
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize_scalar.html",
+      "location": "Parameters bracket/bounds; Notes",
+      "outcome": "Verified finite-bounds versus expanding-bracket distinction and local minimization scope"
+    },
+    {
+      "url": "https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/DijkstraSP.html",
+      "outcome": "Direct retrieval403; indexed primary-source contract confirms nonnegative weights and heap complexity"
+    },
+    {
+      "url": "https://algs4.cs.princeton.edu/44sp/index.php",
+      "outcome": "Direct retrieval403; indexed primary-source text confirms DAG path and critical-path scheduling treatment"
+    },
+    {
+      "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/a4a7f356ba3e65a00ad2bdcfed6e0f35_MIT6_046JS15_lec17.pdf",
+      "location": "page1",
+      "outcome": "Verified general approximation-ratio definition before citation repair"
+    }
+  ],
+  "author_reported_lab_execution": {
+    "independently_reproduced_by_this_reviewer": false,
+    "reported_exit_codes": {
+      "10": 0,
+      "06": 0,
+      "07": 0,
+      "08": 0,
+      "09": 0
+    },
+    "outputs": {
+      "10": "golden10reductions,11evaluations,width0.056914331,midpoint1.298233859;dichotomy3reductions,6evaluations,width0.125875",
+      "06": "PERT probability0.889664319",
+      "07": "shortest4;assignment4;connectedtour20;Euclideanoptimum8.472135955",
+      "08": "calibrationoptimum(0.5,0.5)",
+      "09": "inequality(1,2),value2,multiplier2;equality(2,2,4),value24"
+    }
+  },
+  "execution_boundary": "All mathematical models and lab code inspected; central arithmetic independently checked. No claim of a duplicate post-review lab run. Root final sequential execution or CI remains required.",
+  "accepted_files": {
+    "chapters/ch06.md": "6845cf67704d8298265e120bc31843b0284039304b1b788e621d7fde215750b7",
+    "chapters/ch06.json": "7aaa6cbf8b34d3485b47e6be64f3a1f65c29c2a46d1e4e48e0fc885829750863",
+    "labs/ch06.py": "5d9b88a8c11c4927bfaaf62871752e2545e391a50d7c8074dbcba6fb6b11f0c7",
+    "chapters/ch07.md": "562caa0c9df63c3a488d7b6ec7ec5f541dd6acba123f9fc6d5b9fc9ec7b5e278",
+    "chapters/ch07.json": "596bcaf0d20a34eff06be9f51fd4d81d3f8ef27aeda3e87ba57bb215546e2a36",
+    "labs/ch07.py": "c6811c6030d273e5d451584ce9fdc31bcb7373d8c5812df86cb3899a9172059b",
+    "chapters/ch08.md": "ecd52c7250c54eff55b54982c07f4268fdb10a8f9596da31bb5a073801e19aff",
+    "chapters/ch08.json": "b6f77f60af9acf50b20cbbe8ddd60f1a146fab386455c790d5edc5e1dd04c5bb",
+    "labs/ch08.py": "a4688b555bd2d7c4b7ca6301b7c133cb4538298a59cad53cda0e1824f2e50017",
+    "chapters/ch09.md": "958422cc9a86ce16be46f78680865b642980f3d1e5904177c5e953830cce4a4e",
+    "chapters/ch09.json": "0c4dc023d2de2d960cf17f2a83baec5b33428f4d5417cf714b3bf637b7b9a4bf",
+    "labs/ch09.py": "7d318380a7141804ae41064fc8774b08cf0ce68d700b0a68ef00f597722cc1da",
+    "chapters/ch10.md": "044446bfa9688b7c1bfb3858196264bf00bc7a0d858387e316fd19c709d47507",
+    "chapters/ch10.json": "e2c4545bc473fb8f7ce4f21fbb2bee85aa7450429bf8414e379564d987751ed3",
+    "labs/ch10.py": "a45a5e12762bff6af159b7fe5645d4df380b0de69b76f49619cd16174a343f3c"
+  }
+}

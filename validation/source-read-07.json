@@ -1,0 +1,81 @@
+{
+  "chapter": 7,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 19,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        15.38,
+        3689.35
+      ],
+      "transcript_sha256": "60adae14f9af9b92bfe4c3c26809bba3ba66165cf264643ea318f86cc5e3ddbe",
+      "topics": [
+        {
+          "start": 49,
+          "topic": "Graph terminology"
+        },
+        {
+          "start": 560,
+          "topic": "Adjacency representation"
+        },
+        {
+          "start": 1128,
+          "topic": "Single-source and all-pairs questions"
+        },
+        {
+          "start": 1513,
+          "topic": "Initialization and relaxation"
+        },
+        {
+          "start": 1920,
+          "topic": "Dijkstra algorithm"
+        },
+        {
+          "start": 2308,
+          "topic": "Worked shortest-path trace"
+        }
+      ]
+    },
+    {
+      "lecture": 20,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.35,
+        3748.16
+      ],
+      "transcript_sha256": "73705113e3b754d099a68c17ffcdc8b48cec610401aba6b268c08b2e6951c0d8",
+      "topics": [
+        {
+          "start": 84,
+          "topic": "Complexity terminology"
+        },
+        {
+          "start": 381,
+          "topic": "Binary tour variables and assignment model"
+        },
+        {
+          "start": 1330,
+          "topic": "Assignment-based solution and connectivity check"
+        },
+        {
+          "start": 1568,
+          "topic": "Worked assignment cases"
+        },
+        {
+          "start": 2960,
+          "topic": "MST preorder approximation"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Tentative labels may improve repeatedly before settling",
+    "A shortest-path tree is not an all-pairs distance oracle",
+    "Binary assignment constraints permit subtours",
+    "NP-hardness does not prove absence of polynomial algorithms",
+    "Doubled-tree bound requires metric assumptions"
+  ],
+  "visual_audit": "not performed by chapter author",
+  "audio_audit": "not performed"
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Modeling decisions and the geometry of linear programming",
+  "lectures": [1, 2, 3],
+  "objectives": ["Translate resource, coverage, and balance requirements into a linear model", "Distinguish affine geometry, convexity, feasibility, and optimality", "Derive the connection between vertices and basic feasible solutions", "Check a small linear program by enumeration and an independent solver"],
+  "prerequisites": "Vectors, matrix multiplication, elementary linear algebra; convexity is developed here."
+}

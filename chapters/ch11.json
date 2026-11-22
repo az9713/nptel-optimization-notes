@@ -1,0 +1,6 @@
+{
+  "title": "Interpolation, direct search, and gradient descent",
+  "lectures": [29, 30, 31],
+  "objectives": ["Construct quadratic and cubic local models", "Trace a nonlinear simplex update", "Derive exact line search for a positive definite quadratic", "Diagnose misleading stopping tests and finite differences"],
+  "prerequisites": "One-variable minimization, gradients, Hessians, positive definite matrices, and Chapter 10 bracketing."
+}

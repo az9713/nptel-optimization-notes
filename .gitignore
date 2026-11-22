@@ -1,0 +1,11 @@
+work/
+__pycache__/
+*.pyc
+*.mp4
+*.webm
+*.m4a
+*.wav
+*.part
+.venv/
+node_modules/
+README.txt

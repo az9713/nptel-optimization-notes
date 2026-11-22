@@ -1,0 +1,6 @@
+{
+  "title": "Geometric programming: positive models and dual certificates",
+  "lectures": [35, 36],
+  "objectives": ["Recognize monomials and posynomials on a positive domain", "Derive the logarithmic convex transformation", "Construct arithmetic–geometric mean dual bounds", "Distinguish ordinary GP from reversed-posynomial generalizations"],
+  "prerequisites": "Logarithms, convexity, Lagrange multipliers, and weak duality."
+}

@@ -1,0 +1,68 @@
+{
+  "chapter": 13,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 34,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.97,
+        3562.98
+      ],
+      "transcript_sha256": "ce9f2bd12f06a5a17f074b08eff74f5649bc4e0abf6f502720fdda3e676dc338",
+      "topics": [
+        {
+          "start": 17,
+          "topic": "Additive separability"
+        },
+        {
+          "start": 349,
+          "topic": "Recognition and coordinate transformation"
+        },
+        {
+          "start": 600,
+          "topic": "Breakpoint partition"
+        },
+        {
+          "start": 740,
+          "topic": "Convex weights"
+        },
+        {
+          "start": 1032,
+          "topic": "Adjacency restriction"
+        },
+        {
+          "start": 1134,
+          "topic": "Function interpolation"
+        },
+        {
+          "start": 1580,
+          "topic": "Separable LP"
+        },
+        {
+          "start": 2108,
+          "topic": "Incremental forms"
+        },
+        {
+          "start": 2794,
+          "topic": "Numerical separable example"
+        },
+        {
+          "start": 3175,
+          "topic": "Restricted basis entry"
+        },
+        {
+          "start": 3398,
+          "topic": "Recover original decisions"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Adjacency is imposed and does not follow from convex weight equations",
+    "At most one incremental segment is partially filled, rather than at most one positive increment",
+    "Recomputed coarse example differs from ambiguous caption tableau arithmetic"
+  ],
+  "visual_audit": "not performed by chapter author; any root visual checks recorded separately",
+  "audio_audit": "not performed"
+}

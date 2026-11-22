@@ -1,0 +1,140 @@
+{
+  "chapter": 10,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 25,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        19.22,
+        3275.4
+      ],
+      "transcript_sha256": "4365802579a314fd860d378652cc0d772977d6262c055ff16a62339ccdcc9811",
+      "topics": [
+        {
+          "start": 325,
+          "topic": "General iterative search"
+        },
+        {
+          "start": 1012,
+          "topic": "Unimodality assumption"
+        },
+        {
+          "start": 1422,
+          "topic": "Interval elimination"
+        },
+        {
+          "start": 1751,
+          "topic": "Fixed and accelerated unrestricted search"
+        },
+        {
+          "start": 2987,
+          "topic": "Exhaustive search"
+        }
+      ]
+    },
+    {
+      "lecture": 26,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.93,
+        3413.51
+      ],
+      "transcript_sha256": "f96d7c181f8f7b221c3c24891c9531fbeac19762e89a9971b6ed6922a18b79cb",
+      "topics": [
+        {
+          "start": 38,
+          "topic": "Exhaustive search and accuracy"
+        },
+        {
+          "start": 798,
+          "topic": "Dichotomous search"
+        },
+        {
+          "start": 1418,
+          "topic": "Evaluation and width accounting"
+        },
+        {
+          "start": 2387,
+          "topic": "Interval halving"
+        }
+      ]
+    },
+    {
+      "lecture": 27,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        18.039,
+        3401.539
+      ],
+      "transcript_sha256": "340cc6af8ae8c09273459c68b204edd01e8092a0b3e614db0709a1cdee7f9934",
+      "topics": [
+        {
+          "start": 104,
+          "topic": "Fibonacci indexing convention"
+        },
+        {
+          "start": 365,
+          "topic": "Finite horizon"
+        },
+        {
+          "start": 496,
+          "topic": "Initial probe fractions"
+        },
+        {
+          "start": 1000,
+          "topic": "Evaluation reuse"
+        },
+        {
+          "start": 1456,
+          "topic": "Worked minimization"
+        },
+        {
+          "start": 2897,
+          "topic": "Near-coincident terminal probes"
+        }
+      ]
+    },
+    {
+      "lecture": 28,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        18.119,
+        3158.02
+      ],
+      "transcript_sha256": "362956f57c6588a634394184f762facea7d2ba9066eaefd8d48d0fc242c646ab",
+      "topics": [
+        {
+          "start": 196,
+          "topic": "Golden ratio derivation"
+        },
+        {
+          "start": 1160,
+          "topic": "Stopping width"
+        },
+        {
+          "start": 1225,
+          "topic": "Worked golden search"
+        },
+        {
+          "start": 2184,
+          "topic": "Reduction ratio comparison"
+        },
+        {
+          "start": 2793,
+          "topic": "Practice problems"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "Tie elimination uses strict unimodality or an explicit plateau convention",
+    "Parameter-location error differs from relative objective error",
+    "Dichotomous fixed separation imposes a resolution floor",
+    "Iteration counts are separated from oracle evaluation counts",
+    "Fibonacci indexing and coincident terminal probes are explicit",
+    "Rounded fixed-step arithmetic is corrected"
+  ],
+  "visual_audit": "not performed by chapter author",
+  "audio_audit": "not performed"
+}

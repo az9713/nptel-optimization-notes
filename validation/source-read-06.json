@@ -1,0 +1,107 @@
+{
+  "chapter": 6,
+  "method": "Sequential English caption reading in bounded chunks; original derivations and examples",
+  "lectures": [
+    {
+      "lecture": 16,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        17.16,
+        3316.78
+      ],
+      "transcript_sha256": "c1bcfd477f04c2a763a8b3f5f150b9ec8ea0e1f146bf8b680e658606816327ef",
+      "topics": [
+        {
+          "start": 621,
+          "topic": "Network model and resource assumptions"
+        },
+        {
+          "start": 1477,
+          "topic": "Dummy activities"
+        },
+        {
+          "start": 1854,
+          "topic": "Looping, dangling and redundancy"
+        },
+        {
+          "start": 2591,
+          "topic": "Constructing a precedence network"
+        }
+      ]
+    },
+    {
+      "lecture": 17,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        16.69,
+        3372.239
+      ],
+      "transcript_sha256": "4a5aae84494194f5310f1fd59525502c96ef9125165f9c41c4d3378b6137c97e",
+      "topics": [
+        {
+          "start": 485,
+          "topic": "Forward and backward passes"
+        },
+        {
+          "start": 1075,
+          "topic": "Critical activity tests"
+        },
+        {
+          "start": 1442,
+          "topic": "Slack and four float definitions"
+        },
+        {
+          "start": 1834,
+          "topic": "Worked networks"
+        },
+        {
+          "start": 3254,
+          "topic": "Multiple critical paths"
+        }
+      ]
+    },
+    {
+      "lecture": 18,
+      "caption_read": "sequential full track; truncated tool spans recovered",
+      "coverage_seconds": [
+        18.41,
+        3540.939
+      ],
+      "transcript_sha256": "3b2c3dcef4cfff97dda67e26c73756c4c4117cebf3e1b3dfd8829b136b287c0f",
+      "topics": [
+        {
+          "start": 159,
+          "topic": "Three estimates and PERT moments"
+        },
+        {
+          "start": 842,
+          "topic": "PERT algorithm"
+        },
+        {
+          "start": 946,
+          "topic": "Crashing and cost tradeoffs"
+        },
+        {
+          "start": 1571,
+          "topic": "Schedule probability approximation"
+        },
+        {
+          "start": 1752,
+          "topic": "Worked PERT example"
+        },
+        {
+          "start": 2747,
+          "topic": "Crashing example"
+        }
+      ]
+    }
+  ],
+  "repairs": [
+    "CPM/PERT are not distinguished by activity-on-node versus activity-on-arrow representation",
+    "Expected value is not generally a median",
+    "Independent-path normal PERT approximation is not an exact project completion distribution",
+    "Multiple binding paths require coordinated crashing"
+  ],
+  "visual_audit": "not performed by chapter author",
+  "audio_audit": "not performed"
+}

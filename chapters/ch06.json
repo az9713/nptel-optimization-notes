@@ -1,0 +1,11 @@
+{
+  "title": "Project networks, critical paths, and uncertain deadlines",
+  "lectures": [16, 17, 18],
+  "objectives": [
+    "Translate precedence statements into a valid project network",
+    "Derive earliest and latest event times and distinguish activity floats",
+    "Use PERT estimates without confusing a path approximation with a project guarantee",
+    "Analyze how crashing changes the set of binding paths"
+  ],
+  "prerequisites": "Directed graphs, elementary probability, and the LP modeling conventions of chapters 1–3."
+}

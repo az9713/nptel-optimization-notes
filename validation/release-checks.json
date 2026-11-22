@@ -1,0 +1,36 @@
+{
+  "status": "pass",
+  "independent_review_receipts": [
+    "course-review.json",
+    "nonlinear-review.json",
+    "review-linear.json",
+    "review-network.json"
+  ],
+  "accepted_file_count": 72,
+  "source_free_byte_identical": {
+    "ch01.html": true,
+    "ch02.html": true,
+    "ch03.html": true,
+    "ch04.html": true,
+    "ch05.html": true,
+    "ch06.html": true,
+    "ch07.html": true,
+    "ch08.html": true,
+    "ch09.html": true,
+    "ch10.html": true,
+    "ch11.html": true,
+    "ch12.html": true,
+    "ch13.html": true,
+    "ch14.html": true,
+    "ch15.html": true,
+    "ch16.html": true,
+    "index.html": true,
+    "numerical-lab.html": true,
+    "references.html": true,
+    "source-map.html": true,
+    "study-guide.html": true,
+    "book.json": true
+  },
+  "errors": [],
+  "scope": "Receipt freshness and reproducibility, not new scientific review."
+}

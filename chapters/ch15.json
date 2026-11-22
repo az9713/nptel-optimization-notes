@@ -1,0 +1,6 @@
+{
+  "title": "Dynamic programming: state, recursion, and resource allocation",
+  "lectures": [37, 38],
+  "objectives": ["Define a sufficient state and a Bellman recursion", "Solve and reconstruct an integer resource allocation", "Derive continuous additive and multiplicative recursions", "Separate uncertain inputs from sequential information arrival"],
+  "prerequisites": "Integer programming, elementary probability, single-variable calculus, and shortest paths."
+}
